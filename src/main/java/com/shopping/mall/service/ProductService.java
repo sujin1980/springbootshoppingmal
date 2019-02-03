@@ -35,6 +35,7 @@ public interface ProductService {
 	
 	Product findOneByName(String name);
 	
+	List<Product> findProductListByTypeId(int id);
     /**
      * 查询所有
      * @return

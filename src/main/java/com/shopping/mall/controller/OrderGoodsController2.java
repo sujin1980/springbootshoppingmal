@@ -54,7 +54,7 @@ public class OrderGoodsController2 {
 
 
 	private void addProduct(HttpServletRequest request, int productId) {
-		System.out.println("开始添加1");
+		//System.out.println("开始添加1");
 
         ShoppingMallOrder order =(ShoppingMallOrder) request.getSession().getAttribute("clientorder");   
         OrderGoods  orderGoods = orderGoodsService.findOrderGoodsById(order.getId(), productId);
@@ -62,20 +62,10 @@ public class OrderGoodsController2 {
     		orderGoods.setGoodsNumber(orderGoods.getGoodsNumber() + 1);
     		orderGoods.setGoodsFee(orderGoods.getPrice().multiply(new BigDecimal(orderGoods.getGoodsNumber())));
     		orderGoodsService.updateOrderGoods(orderGoods);
+    	}else {
+    		Product product = productService.findProductById(productId);
+    		orderGoodsService.addGoodsToOrder(order, product);
     	}
-    	 
-    	Product product = productService.findProductById(productId);
-  
-    	OrderGoods  orderGoods2 = new OrderGoods();
-    	orderGoods2.setOrderId(order.getId());
-    	orderGoods2.setGoodsId(product.getId());
-    	orderGoods2.setGoodsName(product.getName());
-    	orderGoods2.setGoodsNumber(1);
-    	orderGoods2.setPrice(product.getPrice());
-    	orderGoods2.setPicture(product.getIcon());
-    	orderGoods2.setGoodsFee(product.getPrice());
-    	
-    	orderGoodsService.addOrderGoods(orderGoods2);
 	}
 
     @RequestMapping(value ="/ordergoods/addProducToOrder", method = { RequestMethod.POST })

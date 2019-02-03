@@ -68,5 +68,7 @@ a:hover{color:#00a4ac;text-decoration:none;}
 #id{
 	color: #DC143C; 
 }
-}
 
+#linknav{height:140px;}
+#linknav ul{text-align:center;list-style-type:none;}
+#linknav ul li{display:inline;list-style-type:none;}

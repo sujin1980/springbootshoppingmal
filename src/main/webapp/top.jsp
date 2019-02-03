@@ -177,18 +177,14 @@ $(document).ready(function (){
 		 menuLevel1HtmlBody +=  userFunction.name;
 		 menuLevel1HtmlBody += '</b></a></li>';
 	} 
-	
     //刷新表格数据
 	$("#menuLevel1").html(menuLevel1HtmlBody);
     $("#menuLevel2").html(menuLevel2HtmlBody);
 	
-    
+  
 	$('#Top .Toolbar1 .CentreBox .Menu .List1 li').mouseenter(function () {
         var index = $(this).parent().children().index(this);
         $(this).parent().children().each(function () {
-        	
-        	
-        	
             if ($(this).hasClass('Select')) {
                 $(this).removeClass('Select');
             }

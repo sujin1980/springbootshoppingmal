@@ -128,29 +128,33 @@ public class ClientController2 {
 //        System.out.println("password: " + password);
 //        System.out.println("rememberMe: " + rememberMe);
 //        
-//    }
     @RequestMapping(value ="/client/add2", method = { RequestMethod.POST })
-    public String add(HttpServletRequest request, @RequestBody String idlistJson) throws Exception{  
+    public String add(HttpServletRequest request, @RequestBody String idlistJson){  
         System.out.println(idlistJson);  
         
         List<String> jsonStrlist = Arrays.asList(idlistJson.split("&"));
         ShoppingMallClient client = new ShoppingMallClient();
-        for(String jsonStr: jsonStrlist) {
-        	if((jsonStr.substring(0, jsonStr.indexOf("=")).equals("name") )){
-        		client.setName(URLDecoder.decode(jsonStr.substring(jsonStr.indexOf("=") + 1, jsonStr.length()), "UTF-8"));
-        	}else if((jsonStr.substring(0, jsonStr.indexOf("=")).equals("telephone") )){
-        		client.setTelephone(URLDecoder.decode(jsonStr.substring(jsonStr.indexOf("=") + 1, jsonStr.length()), "UTF-8"));
-        	}else if((jsonStr.substring(0, jsonStr.indexOf("=")).equals("address") )){
-        		client.setAddress(URLDecoder.decode(jsonStr.substring(jsonStr.indexOf("=") + 1, jsonStr.length()), "UTF-8"));
-        	}else if((jsonStr.substring(0, jsonStr.indexOf("=")).equals("weixin") )){
-        		client.setWeixin(URLDecoder.decode(jsonStr.substring(jsonStr.indexOf("=") + 1, jsonStr.length()), "UTF-8"));
-        	}else if((jsonStr.substring(0, jsonStr.indexOf("=")).equals("qq") )){
-        		client.setQq(URLDecoder.decode(jsonStr.substring(jsonStr.indexOf("=") + 1, jsonStr.length()), "UTF-8"));
-        	}else if((jsonStr.substring(0, jsonStr.indexOf("=")).equals("remarks") )){
-        		client.setRemarks(URLDecoder.decode(jsonStr.substring(jsonStr.indexOf("=") + 1, jsonStr.length()), "UTF-8"));
-        	}
-        	
-        }
+//        for(String jsonStr: jsonStrlist) {
+//        	if((jsonStr.substring(0, jsonStr.indexOf("=")).equals("name") )){
+//        		try {
+//					client.setName(URLDecoder.decode(jsonStr.substring(jsonStr.indexOf("=") + 1, jsonStr.length()), "UTF-8"));
+//				} catch (UnsupportedEncodingException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+//        	}else if((jsonStr.substring(0, jsonStr.indexOf("=")).equals("telephone") )){
+//        		client.setTelephone(URLDecoder.decode(jsonStr.substring(jsonStr.indexOf("=") + 1, jsonStr.length()), "UTF-8"));
+//        	}else if((jsonStr.substring(0, jsonStr.indexOf("=")).equals("address") )){
+//        		client.setAddress(URLDecoder.decode(jsonStr.substring(jsonStr.indexOf("=") + 1, jsonStr.length()), "UTF-8"));
+//        	}else if((jsonStr.substring(0, jsonStr.indexOf("=")).equals("weixin") )){
+//        		client.setWeixin(URLDecoder.decode(jsonStr.substring(jsonStr.indexOf("=") + 1, jsonStr.length()), "UTF-8"));
+//        	}else if((jsonStr.substring(0, jsonStr.indexOf("=")).equals("qq") )){
+//        		client.setQq(URLDecoder.decode(jsonStr.substring(jsonStr.indexOf("=") + 1, jsonStr.length()), "UTF-8"));
+//        	}else if((jsonStr.substring(0, jsonStr.indexOf("=")).equals("remarks") )){
+//        		client.setRemarks(URLDecoder.decode(jsonStr.substring(jsonStr.indexOf("=") + 1, jsonStr.length()), "UTF-8"));
+//        	}
+//        	
+//        }
         
         System.out.println(client);
         clientService.addClient(client);

@@ -4,8 +4,12 @@
 <mapper namespace="com.shopping.mall.dao.ProductDao">
     <resultMap id="ProductBaseResultMap" type="com.shopping.mall.model.Product" >
         <id column="id" property="id" jdbcType="INTEGER" />
-        <result column="name" property="name" jdbcType="VARCHAR" />
+        <result column="name"    property="name"    jdbcType="VARCHAR" />
         <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+        <result column="status"  property="status"  jdbcType="VARCHAR" />
+        <result column="icon"    property="icon"    jdbcType="VARCHAR" />
+        <result column="begintime" property="beginTime" jdbcType="VARCHAR" />
+        <result column="endtime"   property="endTime"   jdbcType="VARCHAR" />
         <association column="typeid" property="productType" javaType="com.shopping.mall.model.ProductType" select="com.shopping.mall.dao.ProductTypeDao.findOne">
 		</association>
     </resultMap>
@@ -23,7 +27,13 @@
                price = #{price,jdbcType=DECIMAL}, icon = #{icon,jdbcType=VARCHAR},
                remarks = #{remarks,jdbcType=VARCHAR}
          where id = #{id,jdbcType=INTEGER}
-
+	</select>
+	
+	<select id="findProductListByTypeId" parameterType="java.lang.Integer" resultMap="ProductBaseResultMap">
+		select p.id as id, p.name as name, p.remarks as remarks, 
+		    p.status as status, p.icon as icon, p.begintime as begintime,
+		    p.endtime as endtime, p.typeid as typeid
+		from product p,  producttype t where p.typeid = t.id and t.id = #{typeid}
 	</select>
 	
 	<select id="findOneByName" parameterType="java.lang.String" resultMap="ProductBaseResultMap">

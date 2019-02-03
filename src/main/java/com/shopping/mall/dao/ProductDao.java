@@ -26,4 +26,6 @@ public interface ProductDao {
 	public List<Product> findAll();
 	
 	public void deleteProducts(@Param("idList") List<String> idList);
+	
+	public List<Product> findProductListByTypeId(int typeid);
 }

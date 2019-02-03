@@ -1,6 +1,7 @@
 package com.shopping.mall.model;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class ProductType implements Serializable {
     /**
@@ -11,6 +12,7 @@ public class ProductType implements Serializable {
     private String name;
     private String remarks;
     private ProductCategory productCategory;
+    private List<Product>  productList;
     
 	public int getId() {
 		return id;
@@ -40,6 +42,14 @@ public class ProductType implements Serializable {
 		this.productCategory = productCategory;
 	}
 
+	public List<Product> getProductList() {
+		return productList;
+	}
+
+	public void setProductList(List<Product> productList) {
+		this.productList = productList;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -47,6 +57,7 @@ public class ProductType implements Serializable {
 		result = prime * result + id;
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + ((productCategory == null) ? 0 : productCategory.hashCode());
+		result = prime * result + ((productList == null) ? 0 : productList.hashCode());
 		result = prime * result + ((remarks == null) ? 0 : remarks.hashCode());
 		return result;
 	}
@@ -72,6 +83,11 @@ public class ProductType implements Serializable {
 				return false;
 		} else if (!productCategory.equals(other.productCategory))
 			return false;
+		if (productList == null) {
+			if (other.productList != null)
+				return false;
+		} else if (!productList.equals(other.productList))
+			return false;
 		if (remarks == null) {
 			if (other.remarks != null)
 				return false;
@@ -83,8 +99,7 @@ public class ProductType implements Serializable {
 	@Override
 	public String toString() {
 		return "ProductType [id=" + id + ", name=" + name + ", remarks=" + remarks + ", productCategory="
-				+ productCategory + "]";
+				+ productCategory + ", productList=" + productList + "]";
 	}
-	
 	
 }

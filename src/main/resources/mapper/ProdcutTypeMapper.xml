@@ -21,6 +21,12 @@
 		from producttype t, productcategory c where t.categoryid = c.id and c.id = #{id}
 	</select>
 	
+    <select id="findProductTypeListByCategoryName" parameterType="java.lang.String" resultMap="ProductTypeBaseResultMap">
+		select *
+		from producttype t, productcategory c where t.categoryid = c.id and c.name = #{name}
+	</select>
+	
+    
     
 	<select id="save" parameterType="com.shopping.mall.model.ProductType">
 		insert into producttype(id, name, remarks)

@@ -17,4 +17,6 @@ public interface ProductTypeDao {
 	public List<ProductType> findAll();
 	
 	public List<ProductType> findProductTypeListByCategoryId(int id);
+
+	public List<ProductType> findProductTypeListByCategoryName(String name);
 }

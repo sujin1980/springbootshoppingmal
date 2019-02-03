@@ -70,4 +70,9 @@ public class ProductTypeServiceImpl implements ProductTypeService{
 		return productTypeDao.findProductTypeListByCategoryId(id);
 	}
 
+	@Override
+	public List<ProductType> findProductTypeListByCategoryName(String name) {
+		// TODO Auto-generated method stub
+		return productTypeDao.findProductTypeListByCategoryName(name);
+	}
 }

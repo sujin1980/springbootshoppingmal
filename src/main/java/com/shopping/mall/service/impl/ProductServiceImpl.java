@@ -75,4 +75,10 @@ public class ProductServiceImpl implements ProductService{
 		// TODO Auto-generated method stub
 		return false;
 	}
+	
+	@Override
+	public List<Product> findProductListByTypeId(int typeid){
+		return productDao.findProductListByTypeId(typeid);
+	}
+	
 }
