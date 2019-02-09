@@ -240,7 +240,7 @@ public class OrderController2 {
     }
 
     @RequestMapping("/order/toDelete2")
-    public String delete(int id) {
+    public String delete(long id) {
         orderService.deleteOrder(id);
         return "redirect:/order/list2";
     }

@@ -12,17 +12,17 @@ import com.shopping.mall.model.ShoppingMallClient;
 @Mapper
 public interface ClientDao {
 	
-    public void save(ShoppingMallClient product);
+	public void save(ShoppingMallClient product);
 	
     public void add(ShoppingMallClient product);
     
-	public void delete(int id);
+    public void delete(int id);
 	
-	public ShoppingMallClient findOne(int id);
+    public ShoppingMallClient findOne(int id);
 	
-	public ShoppingMallClient findOneByName(String name);
+    public ShoppingMallClient findOneByName(String name);
 	
-	public List<ShoppingMallClient> findAll();
+    public List<ShoppingMallClient> findAll();
 	
 	public void deleteClients(@Param("idList") List<String> idList);
 }
