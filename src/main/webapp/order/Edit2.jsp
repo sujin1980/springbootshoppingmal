@@ -17,14 +17,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
-     <link rel="stylesheet" type="text/css" href="common/css/style.css" />
-    
+	<link rel="stylesheet" type="text/css" href="common/easyui/themes/default/easyui.css"/>
+	<link rel="stylesheet" type="text/css" href="common/easyui/themes/icon.css" />
+	<link rel="stylesheet" href="../plugins/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../plugins/adminLTE/css/AdminLTE.css">
+    <link rel="stylesheet" href="../plugins/adminLTE/css/skins/_all-skins.min.css">
+    <link rel="stylesheet" href="../css/style.css">
 	
-    <script type="text/javascript" src="common/easyui/jquery.min.js"></script>
-    <link href="common/easyui/themes/icon.css" rel="stylesheet" />
-    <link href="common/easyui/themes/default/easyui.css" rel="stylesheet" />
-    <script type="text/javascript" src="common/easyui/jquery.easyui.min.js"></script>
-    <script type="text/javascript" src="common/easyui/jquery.easyui.mobile.js"></script>
+	<script type="text/javascript" src="common/js/jquery.js"></script>
+	<script type="text/javascript" src="common/js/jquery.min.js"></script>
+	<script type="text/javascript" src="common/easyui/jquery.easyui.min.js"></script>
     <script type="text/javascript" src="common/easyui/locale/easyui-lang-zh_CN.js"></script>
     
 
@@ -290,51 +292,47 @@ function checkPaymentTypeField(obj){
 			</div>
 		</div>
 		
-		
-		
-		<div class="container">
-			<div id="tt" class="easyui-tabs" data-options="tabWidth:150,tabHeight:40" style="width:100%;height:800">
-				<div title="<span class='tt-inner'>订单商品列表<br></span>" style="padding:10px">
-					<table class="table table-border table-bordered table-hover table-bg" id="orderlist-table">
-						<thead>
-							<tr class="text-c">
-							    <th style="width: 1%">
-				                    <input id="selall" onclick="allcheck()" type="checkbox"/>
-				                </th>
-								<th style="width: 10%">商品名称</th>
-								<th style="width: 10%">商品单价</th>
-								<th style="width: 10%">商品数量</th>
-								<th style="width: 10%">商品总金额</th>
-								<th style="width: 10%">商品图片</th>
-								<th style="width: 10%">商品描述</th>
-								<th style="width: 10%">操作</th>
+		<div id="tt" class="easyui-tabs" data-options="tabWidth:150,tabHeight:40" style="width:100%;height:800">
+			<div title="<span class='tt-inner'>订单商品列表<br></span>" style="padding:10px">
+				<table class="table table-border table-bordered table-hover table-bg" id="orderlist-table">
+					<thead>
+						<tr class="text-c">
+						    <th style="width: 1%">
+			                    <input id="selall" onclick="allcheck()" type="checkbox"/>
+			                </th>
+							<th style="width: 10%">商品名称</th>
+							<th style="width: 10%">商品单价</th>
+							<th style="width: 10%">商品数量</th>
+							<th style="width: 10%">商品总金额</th>
+							<th style="width: 10%">商品图片</th>
+							<th style="width: 10%">商品描述</th>
+							<th style="width: 10%">操作</th>
+						</tr>
+					</thead>
+					<tbody id= "orderlist" >
+						<c:forEach items="${ ordergoods }" var="ordergood">
+							<tr class="odd gradeX">
+							    <td><input id=${ordergood.goodsId} class="odd gradeX" type="checkbox" name="goodscheckbox" style="visibility: visible" onclick="goodsclickcheck(this)"> </td>
+								<td> ${ordergood.goodsName} </td>
+								<td> ${ordergood.price} </td>
+								<td> ${ordergood.goodsNumber} </td>
+								<td> ${ordergood.goodsFee} </td>
+								<td> ${ordergood.picture} </td>
+								<td> ${ordergood.remarks} </td>
+								<td class="text-center">                                          
+				             	  <a href="<%=basePath%>/product/toEdit2?id=${ordergood.goodsId}">查看</a></button>   
+				             	  <a href="javascript:void(0);" onclick="addGoodsNumber('${ordergood.goodsId}');return false;">增加数量</a> 
+				             	  <a href="javascript:void(0);" onclick="decGoodsNumber('${ordergood.goodsId}');return false;">减少数量</a> 
+				                </td>
 							</tr>
-						</thead>
-						<tbody id= "orderlist" >
-							<c:forEach items="${ ordergoods }" var="ordergood">
-								<tr class="odd gradeX">
-								    <td><input id=${ordergood.goodsId} class="odd gradeX" type="checkbox" name="goodscheckbox" style="visibility: visible" onclick="goodsclickcheck(this)"> </td>
-									<td> ${ordergood.goodsName} </td>
-									<td> ${ordergood.price} </td>
-									<td> ${ordergood.goodsNumber} </td>
-									<td> ${ordergood.goodsFee} </td>
-									<td> ${ordergood.picture} </td>
-									<td> ${ordergood.remarks} </td>
-									<td class="text-center">                                          
-					             	  <a href="<%=basePath%>/product/toEdit2?id=${ordergood.goodsId}">查看</a></button>   
-					             	  <a href="javascript:void(0);" onclick="addGoodsNumber('${ordergood.goodsId}');return false;">增加数量</a> 
-					             	  <a href="javascript:void(0);" onclick="decGoodsNumber('${ordergood.goodsId}');return false;">减少数量</a> 
-					                </td>
-								</tr>
-							</c:forEach>				
-					   </tbody>
-					</table>
-					<span><div class="easyui-pagination" data-options="total:20" id="pp" style="width:80%;margin-left:40px;"></div></span>
-				</div>
+						</c:forEach>				
+				   </tbody>
+				</table>
+				<span><div class="easyui-pagination" data-options="total:20" id="pp" style="width:80%;margin-left:40px;"></div></span>
 			</div>
 		</div>
 		
-		<div class="tools">
+		<div class="tools" style="padding:10px">
 			<ul class="toolbar">
 				<input name="" type="button" onclick="addRow();" class="scbtn" value="新增商品"/></li>
 				<input name="" type="button" onclick="deleteRows();" class="scbtn" value="删除商品"/></li>

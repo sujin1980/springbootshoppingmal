@@ -16,21 +16,23 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
-     <link rel="stylesheet" type="text/css" href="common/css/style.css" />
-    <link rel="stylesheet" type="text/css" href="common/easyui/themes/default/easyui.css"/>
-    <link rel="stylesheet" type="text/css" href="common/easyui/themes/icon.css" />
-    
+	<link rel="stylesheet" type="text/css" href="common/easyui/themes/default/easyui.css"/>
+	<link rel="stylesheet" type="text/css" href="common/easyui/themes/icon.css" />
+	<link rel="stylesheet" href="../plugins/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../plugins/adminLTE/css/AdminLTE.css">
+    <link rel="stylesheet" href="../plugins/adminLTE/css/skins/_all-skins.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+	
 	<script type="text/javascript" src="common/js/jquery.js"></script>
 	<script type="text/javascript" src="common/js/jquery.min.js"></script>
-    <script type="text/javascript" src="common/easyui/jquery.easyui.min.js"></script>
+	<script type="text/javascript" src="common/easyui/jquery.easyui.min.js"></script>
     <script type="text/javascript" src="common/easyui/locale/easyui-lang-zh_CN.js"></script>
     <script src="../static/jquery-3.3.1.min.js" type="text/javascript"></script>
-	
-<script src="../static/jquery-3.3.1.min.js" type="text/javascript"></script>
+
 <script type="text/javascript">
 
 $(document).ready(function () {
-	$("#imgfileupsel").change(function() {
+	/*$("#imgfileupsel").change(function() {
         var $file = $(this);
         var fileObj = $file[0];
         var windowURL = window.URL || window.webkitURL;
@@ -47,7 +49,7 @@ $(document).ready(function () {
 	        //imgObj.filters.item("DXImageTransform.Microsoft.AlphaImageLoader").src = dataURL;
 	        imgObj.src = dataURL;
         }
-    });
+    });*/
 
 	initField(${product.productType.productCategory.id});
 	
@@ -101,6 +103,7 @@ var checkField = function (val)
 	getTypeList(parseInt(strid));	
 }
 
+/*
 function uploadimage(fileData) {
     var formData = new FormData();
     formData.append('file', $('#imgfileupsel')[0].files[0]);
@@ -133,7 +136,7 @@ function canceluploadimage(fileData) {
     window.URL.revokeObjectURL(obj.src); 
     return;
 }
-
+*/
 
 
 
@@ -187,15 +190,6 @@ function canceluploadimage(fileData) {
 			       </td>
 			       <br />
 			       
-			       <td> 
-				       <span class="">
-				       	  <span>上传</span>   
-			              <input type="file"  id="imgfileupsel" title="选择图片"  accept="image/gif">
-				       </span>
-			       </td>
-			       
-				   <td> <button type="button" class="btn btn-default" title="上传" onclick="uploadimage()"><i class="fa fa-trash-o"></i>上传</button></td> 
-				  
 			   </tr>
 		   <div>	 
 		   <br></br>

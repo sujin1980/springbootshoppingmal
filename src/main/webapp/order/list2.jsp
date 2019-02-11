@@ -16,9 +16,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 	<!-- Tell the browser to be responsive to screen width -->
 	<meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
-	 <link rel="stylesheet" type="text/css" href="common/css/style.css" />
 	<link rel="stylesheet" type="text/css" href="common/easyui/themes/default/easyui.css"/>
 	<link rel="stylesheet" type="text/css" href="common/easyui/themes/icon.css" />
+	<link rel="stylesheet" href="../plugins/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../plugins/adminLTE/css/AdminLTE.css">
+    <link rel="stylesheet" href="../plugins/adminLTE/css/skins/_all-skins.min.css">
+    <link rel="stylesheet" href="../css/style.css">
 	
 	<script type="text/javascript" src="common/js/jquery.js"></script>
 	<script type="text/javascript" src="common/js/jquery.min.js"></script>
@@ -164,77 +167,56 @@ function  editRow(obj){
 		</ul>
 	</div>
 	
-	<div class="container">
 	<div id="tt" class="easyui-tabs" data-options="tabWidth:150,tabHeight:40" style="width:100%;height:800">
-	<div title="<span class='tt-inner'>订单列表<br></span>" style="padding:10px">
-		<table class="table table-border table-bordered table-hover table-bg">
-			<thead>
-				<tr class="text-c">
-				    <th style="width: 1%">
-	                    <input id="selall" onclick="allcheck()" type="checkbox"/>
-	                </th>
-	                <th style="width: 8%">订单号</th>
-					<th style="width: 8%">金额</th>
-					<th style="width: 8%">支付类型</th>
-					<th style="width: 8%">状态</th>
-					<th style="width: 8%">付款时间</th>
-					<th style="width: 8%">发货时间</th>
-					<th style="width: 8%">交易完成时间</th>
-					<th style="width: 8%">买家名称</th>
-					<th style="width: 8%">中文名称</th>
-					<th style="width: 8%">买家联系方式</th>
-					<th style="width: 8%">买家地址</th>
-					<th style="width: 8%">描述</th>
-					<th style="width: 8%">操作</th>
-				</tr>
-			</thead>
-			<tbody id="orderlist" >
-				<c:forEach items="${ orders }" var="order">
-					<tr class="odd gradeX">
-					    <td><input id=${order.id} class="odd gradeX" type="checkbox" name="ordercheckbox" style="visibility: visible" onclick="ordersclickcheck(this)"> </td>
-					    <td> ${order.id} </td>
-						<td> ${order.payment} </td>
-						<td> ${order.paymentType} </td>
-						<td> ${order.status} </td>
-						<td> ${order.paymentTime} </td>
-						<td> ${order.consignTime} </td>
-						<td> ${order.endTime} </td>
-						<td> ${order.clientName} </td>
-						<td> ${order.clientChineseName} </td>
-						<td> ${order.receiverMobile} </td>
-						<td> ${order.receiverAreaName} </td>
-						<td> ${order.remarks} </td>
-						<td class="text-center">                                          
-		             	  <a href="<%=basePath%>/order/toEdit2?id=${order.id}">查看</a></button>   
-		                </td>
+		<div title="<span class='tt-inner'>订单列表<br></span>" style="padding:10px">
+			<table class="table table-border table-bordered table-hover table-bg">
+				<thead>
+					<tr class="text-c">
+					    <th style="width: 1%">
+		                    <input id="selall" onclick="allcheck()" type="checkbox"/>
+		                </th>
+		                <th style="width: 8%">订单号</th>
+						<th style="width: 8%">金额</th>
+						<th style="width: 8%">支付类型</th>
+						<th style="width: 8%">状态</th>
+						<th style="width: 8%">付款时间</th>
+						<th style="width: 8%">发货时间</th>
+						<th style="width: 8%">交易完成时间</th>
+						<th style="width: 8%">买家名称</th>
+						<th style="width: 8%">中文名称</th>
+						<th style="width: 8%">买家联系方式</th>
+						<th style="width: 8%">买家地址</th>
+						<th style="width: 8%">描述</th>
+						<th style="width: 8%">操作</th>
 					</tr>
-				</c:forEach>				
-		   </tbody>
-		</table>
-		<span><div class="easyui-pagination" data-options="total:20" id="pp" style="width:80%;margin-left:40px;"></div></span>
-	</div>
-	</div>
+				</thead>
+				<tbody id="orderlist" >
+					<c:forEach items="${ orders }" var="order">
+						<tr class="odd gradeX">
+						    <td><input id=${order.id} class="odd gradeX" type="checkbox" name="ordercheckbox" style="visibility: visible" onclick="ordersclickcheck(this)"> </td>
+						    <td> ${order.id} </td>
+							<td> ${order.payment} </td>
+							<td> ${order.paymentType} </td>
+							<td> ${order.status} </td>
+							<td> ${order.paymentTime} </td>
+							<td> ${order.consignTime} </td>
+							<td> ${order.endTime} </td>
+							<td> ${order.clientName} </td>
+							<td> ${order.clientChineseName} </td>
+							<td> ${order.receiverMobile} </td>
+							<td> ${order.receiverAreaName} </td>
+							<td> ${order.remarks} </td>
+							<td class="text-center">                                          
+			             	  <a href="<%=basePath%>/order/toEdit2?id=${order.id}">查看</a></button>   
+			                </td>
+						</tr>
+					</c:forEach>				
+			   </tbody>
+			</table>
+			<span><div class="easyui-pagination" data-options="total:20" id="pp" style="width:80%;margin-left:40px;"></div></span>
+		</div>
 	</div>
 	
-	
-	<div id="dlg-buttons">
-	<input name="" type="button"  class="sure"     id="saveOrUpdateConfirm"  value="确定" />&nbsp;
-	<input name="" type="button"  class="cancel"   onclick="javascript:$('#dlg').dialog('close')" value="取消" />
-	</div>
-	<div class="tip" id="deleteNoticeTipDiv">
-	<div class="tiptop"><span>删除公告</span><a id="tiptopA"></a></div>
-	  	<div class="tipinfo">
-	        <span><img src="common/images/ticon.png" /></span>
-	        <div class="tipright">
-	        <p>是否确认对信息的删除？</p>
-	        <cite>如果是请点击确定按钮 ，否则请点取消。</cite>
-	    </div>
-	</div>
-	<div class="tipbtn">
-	    <input name="" type="button"  id="deleteNoticeSure"  class="sure" value="确定" />&nbsp;
-	    <input name="" type="button"  id="deleteNoticeCancel" class="cancel" value="取消" />
-	</div>
-	</div>
 </body>
 
 </html>

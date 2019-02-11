@@ -16,9 +16,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 	<!-- Tell the browser to be responsive to screen width -->
 	<meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
-	 <link rel="stylesheet" type="text/css" href="common/css/style.css" />
 	<link rel="stylesheet" type="text/css" href="common/easyui/themes/default/easyui.css"/>
 	<link rel="stylesheet" type="text/css" href="common/easyui/themes/icon.css" />
+	<link rel="stylesheet" href="../plugins/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../plugins/adminLTE/css/AdminLTE.css">
+    <link rel="stylesheet" href="../plugins/adminLTE/css/skins/_all-skins.min.css">
+    <link rel="stylesheet" href="../css/style.css">
 	
 	<script type="text/javascript" src="common/js/jquery.js"></script>
 	<script type="text/javascript" src="common/js/jquery.min.js"></script>
@@ -190,47 +193,46 @@ function client_confirm(obj)
 		</ul>
 	</div>
 	
-	<div class="container">
+	
 	<div id="tt" class="easyui-tabs" data-options="tabWidth:150,tabHeight:40" style="width:100%;height:800">
-	<div title="<span class='tt-inner'>商家列表<br></span>" style="padding:10px">
-		<table class="table table-border table-bordered table-hover table-bg">
-			<thead>
-				<tr class="text-c">
-					 <th style="width: 1%">
-		                 <input id="selall" onclick="allcheck()" type="checkbox"/>
-		             </th>
-					<th style="width: 10%">名称</th>
-					<th style="width: 10%">中文名称</th>
-					<th style="width: 10%">电话</th>
-					<th style="width: 15%">地址</th>
-					<th style="width: 10%">微信联系方式</th>
-					<th style="width: 10%">QQ</th>
-					<th style="width: 25%">描述</th>
-					<th style="width: 10%">操作</th>
-				</tr>
-			</thead>
-			<tbody id="clientlist">
-				<c:forEach items="${ clients }" var="client">
-					<tr class="odd gradeX">
-					    <td><input id=${client.id} class="odd gradeX" type="checkbox" name="clientcheckbox" style="visibility: visible" onclick="clientsclickcheck(this)"> </td>
-						<td> ${client.name} </td>
-						<td> ${client.chineseName} </td>
-						<td> ${client.telephone} </td>
-						<td> ${client.address} </td>
-						<td> ${client.weixin} </td>
-						<td> ${client.qq} </td>
-						<td> ${client.remarks} </td>
-						<td class="text-center">                                          
-						  <a href="<%=basePath%>/client/toOrder2?id=${client.id}">查看订单</a>
-		             	  <a href="javascript:void(0);" onclick="client_confirm(${client.id})">创建订单</a>
-		              </td>
+		<div title="<span class='tt-inner'>商家列表<br></span>" style="padding:10px">
+			<table class="table table-border table-bordered table-hover table-bg">
+				<thead>
+					<tr class="text-c">
+						 <th style="width: 1%">
+			                 <input id="selall" onclick="allcheck()" type="checkbox"/>
+			             </th>
+						<th style="width: 10%">名称</th>
+						<th style="width: 10%">中文名称</th>
+						<th style="width: 10%">电话</th>
+						<th style="width: 15%">地址</th>
+						<th style="width: 10%">微信联系方式</th>
+						<th style="width: 10%">QQ</th>
+						<th style="width: 25%">描述</th>
+						<th style="width: 10%">操作</th>
 					</tr>
-				</c:forEach>				
-		   </tbody>
-		</table>
-		<span><div class="easyui-pagination" data-options="total:20" id="pp" style="width:80%;margin-left:40px;"></div></span>
-	</div>
-	</div>
+				</thead>
+				<tbody id="clientlist">
+					<c:forEach items="${ clients }" var="client">
+						<tr class="odd gradeX">
+						    <td><input id=${client.id} class="odd gradeX" type="checkbox" name="clientcheckbox" style="visibility: visible" onclick="clientsclickcheck(this)"> </td>
+							<td> ${client.name} </td>
+							<td> ${client.chineseName} </td>
+							<td> ${client.telephone} </td>
+							<td> ${client.address} </td>
+							<td> ${client.weixin} </td>
+							<td> ${client.qq} </td>
+							<td> ${client.remarks} </td>
+							<td class="text-center">                                          
+							  <a href="<%=basePath%>/client/toOrder2?id=${client.id}">查看订单</a>
+			             	  <a href="javascript:void(0);" onclick="client_confirm(${client.id})">创建订单</a>
+			              </td>
+						</tr>
+					</c:forEach>				
+			   </tbody>
+			</table>
+			<span><div class="easyui-pagination" data-options="total:20" id="pp" style="width:80%;margin-left:40px;"></div></span>
+		</div>
 	</div>
 	
 </body>
