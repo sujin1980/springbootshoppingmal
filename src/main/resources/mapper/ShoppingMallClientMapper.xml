@@ -18,6 +18,10 @@
 		SELECT * FROM client
 	</select>
 	
+	<select id="findClientById" parameterType="java.lang.Integer" resultMap="ClientBaseResultMap">
+		SELECT * FROM client c where  c.id=#{id}
+	</select>
+	
 	<select id="findOneByName" parameterType="java.lang.String" resultMap="ClientBaseResultMap">
 		SELECT * FROM client c where  c.name=#{name}
 	</select>

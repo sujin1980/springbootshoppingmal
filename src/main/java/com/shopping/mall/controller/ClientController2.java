@@ -42,14 +42,7 @@ public class ClientController2 {
     public String hello(Model model) {
         return "redirect:/client/list2";
     }
-	
-//    @RequestMapping("/client/list2")
-//    public String list(Model model) {
-//    	System.out.println("Thymeleaf查询所有");
-//        List<Client> clients=clientService.findAll();
-//        model.addAttribute("clients", clients);
-//        return "client/list2";
-//    }
+
     @RequestMapping("/client/list2")
     @ResponseBody
     public  List<ShoppingMallClient> list(HttpServletRequest request) {
@@ -117,16 +110,14 @@ public class ClientController2 {
         return clientList;
     }  
     
-    
-    
-    
-//  //直接省略注解
-//    @RequestMapping("/jsontest.do")
-//    public void test(User user,String username,String password,Boolean rememberMe){
-//        System.out.println(user);
-//        System.out.println("username: " + username);
-//        System.out.println("password: " + password);
-//        System.out.println("rememberMe: " + rememberMe);
+    @RequestMapping(value ="/client/getClientById", method = { RequestMethod.POST })
+    @ResponseBody
+    public ShoppingMallClient getClientById(HttpServletRequest request, @RequestParam Integer id) throws Exception{  
+      
+    	System.out.println("id = " + id + "=========================================");
+    	ShoppingMallClient client = clientService.findClientById(Integer.valueOf(id));
+        return client;
+    } 
 //        
     @RequestMapping(value ="/client/add2", method = { RequestMethod.POST })
     public String add(HttpServletRequest request, @RequestBody String idlistJson){  
@@ -134,27 +125,7 @@ public class ClientController2 {
         
         List<String> jsonStrlist = Arrays.asList(idlistJson.split("&"));
         ShoppingMallClient client = new ShoppingMallClient();
-//        for(String jsonStr: jsonStrlist) {
-//        	if((jsonStr.substring(0, jsonStr.indexOf("=")).equals("name") )){
-//        		try {
-//					client.setName(URLDecoder.decode(jsonStr.substring(jsonStr.indexOf("=") + 1, jsonStr.length()), "UTF-8"));
-//				} catch (UnsupportedEncodingException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				}
-//        	}else if((jsonStr.substring(0, jsonStr.indexOf("=")).equals("telephone") )){
-//        		client.setTelephone(URLDecoder.decode(jsonStr.substring(jsonStr.indexOf("=") + 1, jsonStr.length()), "UTF-8"));
-//        	}else if((jsonStr.substring(0, jsonStr.indexOf("=")).equals("address") )){
-//        		client.setAddress(URLDecoder.decode(jsonStr.substring(jsonStr.indexOf("=") + 1, jsonStr.length()), "UTF-8"));
-//        	}else if((jsonStr.substring(0, jsonStr.indexOf("=")).equals("weixin") )){
-//        		client.setWeixin(URLDecoder.decode(jsonStr.substring(jsonStr.indexOf("=") + 1, jsonStr.length()), "UTF-8"));
-//        	}else if((jsonStr.substring(0, jsonStr.indexOf("=")).equals("qq") )){
-//        		client.setQq(URLDecoder.decode(jsonStr.substring(jsonStr.indexOf("=") + 1, jsonStr.length()), "UTF-8"));
-//        	}else if((jsonStr.substring(0, jsonStr.indexOf("=")).equals("remarks") )){
-//        		client.setRemarks(URLDecoder.decode(jsonStr.substring(jsonStr.indexOf("=") + 1, jsonStr.length()), "UTF-8"));
-//        	}
-//        	
-//        }
+
         
         System.out.println(client);
         clientService.addClient(client);

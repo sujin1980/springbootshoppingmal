@@ -29,21 +29,101 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script type="text/javascript" src="common/easyui/locale/easyui-lang-zh_CN.js"></script>
 <script>
 
+var orderList = new Array();
+var client = new Object();
 $(document).ready(function(){
-	$(".btn1").click(function(){
-		$("p").slideToggle();
-	});
 	
-	var textstr = "";
-	if(('${clientName}' != null )&& ('${clientName}' != '')){
-		textstr = textstr + '${clientName}' + '/';
-		if(( '${clientPhone}' != null) && ('${clientPhone}' != '')){
-			textstr = textstr + '${clientPhone}';
+	var clientId = null;
+	if(window.location.href.indexOf("?") > 0 ){
+		var equalPos = window.location.href.indexOf("=");
+		if(equalPos > 0){
+			clientId = window.location.href.substr(equalPos + 1);
 		}
 	}
-	document.getElementById("title").value= textstr;
-	document.getElementById("title").style.color = '#708090';
+	
+	alert("clientId = " + clientId);
+	
+	if(clientId != null) {
+		initClientOrderInfoList(clientId);
+	}else{
+		initAllOrderTable();
+	}
+	
+	$('#pp').pagination({
+		onSelectPage:function(pageNumber, pageSize){
+			updateOrderTable(orderList, pageNumber, pageSize);
+		}
+	});
 });
+
+function initAllOrderTable(){
+	$.ajax({
+    	dataType: "json",  
+        type: "POST",
+		url : '/order/list2.do',
+		success : function(data) {
+			 //alert("ok");
+			 if (data == null) {  
+			     alert("没有商品数据！");
+			     return;
+		     }
+			 updateOrderList(data); 
+		},
+		error : function(XMLHttpRequest, textStatus, errorThrown) {
+			 alert("fail");
+		}
+	});
+}
+
+function initClientOrderInfoList(clientId){
+	$.ajax({
+    	dataType: "json",  
+        type: "POST",
+		data: {
+			"clientId": clientId
+		},
+		url : '/order/getOrderListByClientId.do',
+		success : function(data) {
+			 if (data == null){
+				 alert("该商家没有订单");
+				 return;
+			 } 
+			 updateOrderList(data);
+		},
+		error : function(XMLHttpRequest, textStatus, errorThrown) {
+			alert("fail");
+		}
+	});
+	
+	alert("商家信息 clientID = " + clientId)
+	$.ajax({
+    	dataType: "json",  
+        type: "POST",
+		data: {
+			"clientId": clientId
+		},
+		url : '/client/getClientById.do',
+		success : function(data) {
+			if (data == null){
+				alert("该商家没有信息");
+				return;
+			}
+			client = data;
+			var textstr = "";
+			if(client.name != null ){
+				textstr = textstr + client.name + '/';
+				if(client.telephone != null) {
+					textstr = textstr + client.telephone;
+				}
+			}
+			document.getElementById("title").value= textstr;
+			document.getElementById("title").style.color = '#708090';
+		},
+		error : function(XMLHttpRequest, textStatus, errorThrown) {
+			alert("fail");
+		}
+	});
+}
 
 function addRow(){
 	window.open("/order/toAdd2");
@@ -58,8 +138,6 @@ function deleteRows(){
         	idlist[i] = che[i].id;
         }
     }  
-    
-  
     $.ajax({
     	dataType: "json",  
         type: "POST",
@@ -77,6 +155,48 @@ function deleteRows(){
     
 }
 
+function updateOrderList(data){
+	orderList.length = 0;
+	orderList = data.slice(0);
+	
+	updateOrderTable(orderList, 1, 10);
+}
+
+function updateOrderTable(orderList, pageNo, pageSize){
+	 if(orderList == null){
+		 return;
+	 }
+	 
+	 $("orderlist").html("");
+	 var tbodyhtmlod = '';
+
+	 for(var i= (pageNo - 1)*pageSize; (i< pageNo*pageSize) && (i < orderList.length); i++){
+		 tbodyhtmlod += '<tr class="odd gradeX">';
+		  tbodyhtmlod += '<td> <input id=' + orderList[i].id + 'class="odd gradeX" type="checkbox" name="ordercheckbox" '
+		      + 'style="visibility: visible" onclick="ordersclickcheck(this)"> </td>';
+		  tbodyhtmlod += '<td> ' + orderList[i].id   + '</td>';
+		  tbodyhtmlod += '<td> ' + orderList[i].clientName + '</td>';
+		  tbodyhtmlod += '<td> ' + orderList[i].clientChineseName + '</td>';
+		  tbodyhtmlod += '<td> ' + orderList[i].status + '</td>';
+		  tbodyhtmlod += '<td> ' + orderList[i].paymentTime + '</td>';
+		  tbodyhtmlod += '<td> ' + orderList[i].consignTime   + '</td>';
+		  tbodyhtmlod += '<td> ' + orderList[i].receiverMobile   + '</td>';
+		  tbodyhtmlod += '<td> ' + orderList[i].receiverAreaName + '</td>';
+		  tbodyhtmlod += '<td ' + 'class="text-center">' +                                           
+		      '<a href="<%=basePath%>/order/toEdit2?id=' + orderList[i].id + '">查看订单</a>';
+		  tbodyhtmlod += '<a href="<%=basePath%>/order/toEdit2?id=' + orderList[i].id + '">修改订单</a> </td> </tr>';
+	 }
+
+	 console.log(tbodyhtmlod);
+	 $("#orderlist").html(tbodyhtmlod);
+	 
+	 $('#pp').pagination({
+		 total:orderList.length,
+		 pageSize:10,
+		 pageNumber:pageNo,
+	});
+}
+
 function getOrderByClienteName(){	
 	$.ajax({
     	dataType: "json",  
@@ -86,33 +206,11 @@ function getOrderByClienteName(){
 		},
 		url : '/order/getOrderListByClientName.do',
 		success : function(data) {
-			 alert("ok");
-			 
-			 if (data != null) {  
-				 //var obj=document.getElementById('productlist');
-				 $("orderlist").html("");
-				 var tbodyhtmlod = '';
-			
-				 for(var i= 0; i< data.length; i++){
-					 tbodyhtmlod += '<tr class="odd gradeX">';
-					  tbodyhtmlod += '<td> <input id=' + data[i].id + 'class="odd gradeX" type="checkbox" name="ordercheckbox" '
-					      + 'style="visibility: visible" onclick="ordersclickcheck(this)"> </td>';
-					  tbodyhtmlod += '<td> ' + data[i].id   + '</td>';
-					  tbodyhtmlod += '<td> ' + data[i].clientName + '</td>';
-					  tbodyhtmlod += '<td> ' + data[i].clientChineseName + '</td>';
-					  tbodyhtmlod += '<td> ' + data[i].status + '</td>';
-					  tbodyhtmlod += '<td> ' + data[i].paymentTime + '</td>';
-					  tbodyhtmlod += '<td> ' + data[i].consignTime   + '</td>';
-					  tbodyhtmlod += '<td> ' + data[i].receiverMobile   + '</td>';
-					  tbodyhtmlod += '<td> ' + data[i].receiverAreaName + '</td>';
-					  tbodyhtmlod += '<td ' + 'class="text-center">' +                                           
-					      '<a href="<%=basePath%>/order/toEdit2?id=' + data[i].id + '">查看订单</a>';
-					  tbodyhtmlod += '<a href="<%=basePath%>/order/toEdit2?id=' + data[i].id + '">修改订单</a> </td> </tr>';
-				 }
-
-				 console.log(tbodyhtmlod);
-				 $("#orderlist").html(tbodyhtmlod);
-		   }
+			 if (data == null){
+				 alert("该商家没有订单");
+				 return;
+			 } 
+			 updateOrderList(data);
 		},
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
 			alert("fail");
@@ -201,23 +299,7 @@ function  editRow(obj){
 					</tr>
 				</thead>
 				<tbody id = "orderlist" >
-					<c:forEach items="${ orders }" var="order">
-						<tr class="odd gradeX">
-						    <td><input id=${order.id} class="odd gradeX" type="checkbox" name="ordercheckbox" style="visibility: visible" onclick="ordersclickcheck(this)"> </td>
-							<td> ${order.id} </td>
-							<td> ${order.clientName} </td>
-							<td> ${order.clientChineseName} </td>
-							<td> ${order.status} </td>
-							<td> ${order.paymentTime} </td>
-							<td> ${order.consignTime} </td>
-							<td> ${order.receiverMobile} </td>
-							<td> ${order.receiverAreaName} </td>
-							<td class="text-center">                                          
-			             	  <a href="<%=basePath%>/order/toEdit2?id=${order.id}">查看订单</a> 
-			             	  <a href="<%=basePath%>/order/toEdit2?id=${order.id}">修改订单</a>
-			                </td>
-						</tr>
-					</c:forEach>				
+									
 			   </tbody>
 			</table>
 			<span><div class="easyui-pagination" data-options="total:20" id="pp" style="width:80%;margin-left:40px;"></div></span>

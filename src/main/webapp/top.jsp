@@ -50,7 +50,7 @@ $(document).ready(function (){
 			},
 			{
 			    name: "商家订单",
-			    url: "client/alltoOrder2.do",
+			    url: "client/order2.jsp",
 			}
 			
 		];

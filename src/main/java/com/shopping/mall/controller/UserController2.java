@@ -34,8 +34,6 @@ import com.shopping.mall.service.UserService;
 
 @Controller
 public class UserController2 {
-	//private static Logger logger = Logger.getLogger(UserController.class);
-	private static Logger logger = Logger.getLogger(UserController2.class);
 	
 	@Autowired
 	private UserService userService;
@@ -52,7 +50,7 @@ public class UserController2 {
          if((user!= null) && user.getPassword().equals(password)) {
         	 HttpSession session = request.getSession();
  			 session.setAttribute("loginUser", user);
- 			 logger.info("登录成功====================================");
+ 			 //logger.info("登录成功====================================");
 			 return "OK";
 		 }
 		 return "FAIL";

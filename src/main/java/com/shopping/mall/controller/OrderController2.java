@@ -78,6 +78,15 @@ public class OrderController2 {
         return  orderService.findOrderListByClientName(clientName);
     } 
     
+    @RequestMapping(value ="/order/getOrderListByClientId", method = { RequestMethod.POST })
+    @ResponseBody
+    public List<ShoppingMallOrder> getOrderListByClientId(HttpServletRequest request, @RequestParam String clientId) throws Exception{  
+    	if((clientId == null) || (clientId.trim().length() == 0)) {
+    		return orderService.findAll();
+    	}
+        
+        return  orderService.findOrderListByClientId(Integer.valueOf(clientId));
+    } 
     
     @RequestMapping(value ="/order/add2", method = { RequestMethod.POST })
     public String add(HttpServletRequest request, @RequestBody String idlistJson) throws Exception{  
@@ -168,35 +177,7 @@ public class OrderController2 {
         }
     }
     
-//    @RequestMapping("/order/modify")
-//    @ResponseBody
-//    public String modify(HttpServletRequest request, @RequestParam String orderId, 
-//    		@RequestParam String status, @RequestParam String paymentType, 
-//    		@RequestParam String payment, @RequestParam String paymentTime,
-//    		@RequestParam String consignTime, @RequestParam String endTime, 
-//    		@RequestParam String clientChineseName, @RequestParam String receiverMobile, 
-//    		@RequestParam String receiverAreaName) {
-//    	System.out.println("[" + LineNo.getFileName() + "]" + LineNo.getLineNumber() +  "=====");
-//    	
-//        try {
-//	        ShoppingMallOrder  order = orderService.findOrderById(Long.valueOf(orderId));
-//	        order.setStatus(status);
-//	        order.setPayment(new BigDecimal(payment));
-//	        order.setPaymentType(paymentType);
-//	        order.setPaymentTime(paymentTime);
-//	        order.setPaymentTime(consignTime);
-//	        order.setPaymentTime(endTime);
-//	        order.setClientChineseName(clientChineseName);
-//	        order.setReceiverMobile(receiverMobile);
-//	        order.setReceiverAreaName(receiverAreaName);
-//	        
-//	        orderService.updateOrder(order);
-//	        return "OK";
-//        }catch(Exception e) {
-//        	System.out.println("修改订单失败");
-//        	return "FAIL";
-//        }
-//    }
+
 
     @RequestMapping("/order/toEdit2")
     public String toEdit(HttpServletRequest request, Model model,Long id) {

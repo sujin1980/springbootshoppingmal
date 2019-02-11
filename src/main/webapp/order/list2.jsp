@@ -64,8 +64,8 @@ function updateOrderList(data){
 	orderList.length = 0;
 	orderList = data.slice(0);
 	
-	console.log(data);
-	console.log(orderList);
+	//console.log(data);
+	//console.log(orderList);
 	updateOrderTable(orderList, 1, 10);
 }
 

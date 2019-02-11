@@ -38,7 +38,7 @@
 	
 	<select id="findOrderListByClientId" parameterType="java.lang.Integer" resultMap="OrderBaseResultMap">
 		SELECT order_id, payment, status, create_time, payment_time, consign_time, 
-		receiver_mobile, receiver_area_name,  client_id, client_name
+		receiver_mobile, receiver_area_name,  client_id, client_name, client_chinesename
 		 FROM t_order t where t.client_id  = #{id,jdbcType=INTEGER}
 	</select>
 	
