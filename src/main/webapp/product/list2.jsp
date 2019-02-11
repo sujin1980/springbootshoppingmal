@@ -4,6 +4,7 @@ String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>  
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%> 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 	<head>
@@ -26,8 +27,27 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script type="text/javascript" src="common/js/jquery.js"></script>
 	<script type="text/javascript" src="common/js/jquery.min.js"></script>
 	<script type="text/javascript" src="common/easyui/jquery.easyui.min.js"></script>
+	<script type="text/javascript" src="common/easyui/locale/easyui-lang-zh_CN.js"></script>
 	
 <script type="text/javascript">
+
+var goodsList = new Array();
+$(function(){
+	
+	
+	$('#pp').pagination({
+		 total:20,
+		 pageSize:10,
+		 pageNumber:0,
+	});
+	
+
+	
+	
+	
+});
+
+
 function addRow(){
 	//window.open("/product/toAdd2");
 	window.location.href = "/product/toAdd2";
@@ -271,7 +291,7 @@ function addProducToOrder(productid){
 				</c:forEach>				
 		   </tbody>
 		</table>
-		<span><div class="easyui-pagination" data-options="total:20" id="pp" style="width:80%;margin-left:40px;"></div></span>
+		<span><div class="easyui-pagination" id="pp" style="width:80%;margin-left:40px;"></div></span>
 	</div>
 	    
 	</div>

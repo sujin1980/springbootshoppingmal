@@ -2,6 +2,8 @@ package com.shopping.mall.service;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.shopping.mall.model.Product;
 
 public interface ProductService {
@@ -42,6 +44,7 @@ public interface ProductService {
      */
 	List<Product> findAll();
 	
+	List<Product> findList(int pageNo, int pageSize);
 	
 	boolean deleteProducts(List<String> listid);
 }

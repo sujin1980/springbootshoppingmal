@@ -25,6 +25,8 @@ public interface ProductDao {
 	
 	public List<Product> findAll();
 	
+	public List<Product> findList(@Param("pageNo") int pageNo, @Param("pageSize") int pageSize);
+	
 	public void deleteProducts(@Param("idList") List<String> idList);
 	
 	public List<Product> findProductListByTypeId(int typeid);

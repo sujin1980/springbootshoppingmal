@@ -13,8 +13,17 @@
         <association column="typeid" property="productType" javaType="com.shopping.mall.model.ProductType" select="com.shopping.mall.dao.ProductTypeDao.findOne">
 		</association>
     </resultMap>
-	<select id="findAll" resultMap="ProductBaseResultMap">
+	<select id="findList" parameterType="java.lang.Integer" resultMap="ProductBaseResultMap">
 		SELECT * FROM product
+		<if test="pageNo != null and pageSize != null ">
+			<![CDATA[
+			 limit ${(pageNo-1)*pageSize},${pageSize}
+			]]>
+		</if>
+	</select>
+	
+	<select id="findAll" resultMap="ProductBaseResultMap">
+		SELECT * FROM product  
 	</select>
 	
 	<select id="add" parameterType="com.shopping.mall.model.Product">

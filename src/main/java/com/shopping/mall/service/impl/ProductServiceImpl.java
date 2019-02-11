@@ -80,5 +80,11 @@ public class ProductServiceImpl implements ProductService{
 	public List<Product> findProductListByTypeId(int typeid){
 		return productDao.findProductListByTypeId(typeid);
 	}
+
+	@Override
+	public List<Product> findList(int pageNo, int pageSize) {
+		// TODO Auto-generated method stub
+		return productDao.findList(pageNo, pageSize);
+	}
 	
 }
