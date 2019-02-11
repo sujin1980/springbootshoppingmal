@@ -29,15 +29,15 @@ $(document).ready(function (){
 		[
 			{
 			    name: "一级分类",
-			    url: "productcategory/list2.do",
+			    url: "productcategory/list2.jsp",
 			},
 			{
 			    name: "二级分类",
-			    url: "producttpe/list2.do",
+			    url: "producttpe/list2.jsp",
 			},
 			{
 			    name: "商品",
-			    url: "product/list2.do",
+			    url: "product/list2.jsp",
 			}
 			
 		];
@@ -46,7 +46,7 @@ $(document).ready(function (){
 		[
 			{
 			    name: "商家",
-			    url: "client/list2.do",
+			    url: "client/list2.jsp",
 			},
 			{
 			    name: "商家订单",
@@ -72,7 +72,7 @@ $(document).ready(function (){
 		[
 			{
 			    name: "订单管理",
-			    url: "order/list2.do",
+			    url: "order/list2.jsp",
 			}
 			
 		];

@@ -27,6 +27,7 @@ import com.alibaba.fastjson.JSONArray;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 import com.shopping.mall.model.OrderGoods;
+import com.shopping.mall.model.Product;
 import com.shopping.mall.model.ShoppingMallClient;
 import com.shopping.mall.model.ShoppingMallOrder;
 import com.shopping.mall.service.ClientService;
@@ -53,11 +54,11 @@ public class OrderController2 {
     }
 	
     @RequestMapping("/order/list2")
-    public String list(Model model) {
+    @ResponseBody
+    public List<ShoppingMallOrder> list(HttpServletRequest request) {
     	System.out.println("Thymeleaf查询所有");
         List<ShoppingMallOrder> orders=orderService.findAll();
-        model.addAttribute("orders", orders);
-        return "order/list2";
+        return orders;
     } 
     
     @RequestMapping("/order/toAdd2")

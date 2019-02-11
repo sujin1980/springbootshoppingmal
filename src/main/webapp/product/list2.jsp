@@ -79,7 +79,6 @@ function updateGoodsTable(goodsList, pageNo, pageSize){
 	 $("productlist").html("");
 	 var tbodyhtmlod = '';
 
-	 	
 	 for(var i= (pageNo - 1)*pageSize; (i< pageNo*pageSize) && (i < goodsList.length); i++){
 		  
 		  
@@ -97,7 +96,7 @@ function updateGoodsTable(goodsList, pageNo, pageSize){
 		  tbodyhtmlod += '<a href="javascript:void(0);"  onclick="addProducToOrder(' + goodsList[i].id + ')">加入订单</a></td> </tr>';
 	 }
 
-	 console.log(tbodyhtmlod);
+	 //console.log(tbodyhtmlod);
 	 $("#productlist").html(tbodyhtmlod);
 	 $('#pp').pagination({
 		 total:goodsList.length,

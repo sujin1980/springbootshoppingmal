@@ -133,13 +133,14 @@ function editRow(){
 		success : function(data) {
 			 alert("更改订单基本信息成功！");
 			 //window.reloation.ref = "order/Edit2.jsp";
+			 window.location.href = "client/list2。jsp";
 		},
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
-			 alert("fail=========");
+			 alert("fail");
 		}
 	});
 	
-	window.location.href = "/client/list2";
+	
 }
 
 function decGoodsNumber(goodsId){

@@ -51,11 +51,11 @@ public class ClientController2 {
 //        return "client/list2";
 //    }
     @RequestMapping("/client/list2")
-    public String list(Model model) {
+    @ResponseBody
+    public  List<ShoppingMallClient> list(HttpServletRequest request) {
     	System.out.println("Thymeleaf查询所有");
         List<ShoppingMallClient> clients=clientService.findAll();
-        model.addAttribute("clients", clients);
-        return "client/list2";
+        return clients;
     }
 
     @RequestMapping("/client/toOrder2")

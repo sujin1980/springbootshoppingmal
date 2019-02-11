@@ -26,7 +26,88 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script type="text/javascript" src="common/js/jquery.js"></script>
 	<script type="text/javascript" src="common/js/jquery.min.js"></script>
 	<script type="text/javascript" src="common/easyui/jquery.easyui.min.js"></script>
+	<script type="text/javascript" src="common/easyui/locale/easyui-lang-zh_CN.js"></script>
 <script>
+
+var orderList = new Array();
+
+$(function(){	
+	initOrderTable();
+	
+	$('#pp').pagination({
+		onSelectPage:function(pageNumber, pageSize){
+			updateOrderTable(orderList, pageNumber, pageSize);
+		}
+	});
+});
+
+function initOrderTable(){
+	$.ajax({
+    	dataType: "json",  
+        type: "POST",
+		url : '/order/list2.do',
+		success : function(data) {
+			 //alert("ok");
+			 if (data == null) {  
+			     alert("没有商品数据！");
+			     return;
+		     }
+			 updateOrderList(data); 
+		},
+		error : function(XMLHttpRequest, textStatus, errorThrown) {
+			 alert("fail");
+		}
+	});
+}
+
+function updateOrderList(data){
+	orderList.length = 0;
+	orderList = data.slice(0);
+	
+	console.log(data);
+	console.log(orderList);
+	updateOrderTable(orderList, 1, 10);
+}
+
+function updateOrderTable(orderList, pageNo, pageSize){
+	 if(orderList == null){
+		 return;
+	 }
+	 
+	 $("orderlist").html("");
+	 var tbodyhtmlod = '';
+
+	 for(var i= (pageNo - 1)*pageSize; (i< pageNo*pageSize) && (i < orderList.length); i++){
+		 tbodyhtmlod += '<tr class="odd gradeX">';
+		  tbodyhtmlod += '<td> <input id=' + orderList[i].id + 'class="odd gradeX" type="checkbox" name="ordercheckbox" '
+		      + 'style="visibility: visible" onclick="ordersclickcheck(this)"> </td>';
+		  tbodyhtmlod += '<td> ' + orderList[i].id   + '</td>';
+		  tbodyhtmlod += '<td> ' + orderList[i].payment + '</td>';
+		  tbodyhtmlod += '<td> ' + orderList[i].paymentType + '</td>';
+		  tbodyhtmlod += '<td> ' + orderList[i].status + '</td>';
+		  tbodyhtmlod += '<td> ' + orderList[i].paymentTime   + '</td>';
+		  tbodyhtmlod += '<td> ' + orderList[i].consignTime   + '</td>';
+		  tbodyhtmlod += '<td> ' + orderList[i].endTime + '</td>';
+		  tbodyhtmlod += '<td> ' + orderList[i].clientName   + '</td>';
+		  tbodyhtmlod += '<td> ' + orderList[i].clientChineseName   + '</td>';
+		  tbodyhtmlod += '<td> ' + orderList[i].receiverMobile   + '</td>';
+		  tbodyhtmlod += '<td> ' + orderList[i].receiverAreaName + '</td>';
+		  tbodyhtmlod += '<td> ' + orderList[i].remarks + '</td>';
+		  tbodyhtmlod += '<td ' + 'class="text-center">' +                                           
+		      '<a href="<%=basePath%>/order/toEdit2?id=' + orderList[i].id + '">查看</a> </td> </tr>';
+	 }
+	 
+	 //console.log(tbodyhtmlod);
+	 $("#orderlist").html(tbodyhtmlod);
+	 //window.location.reload();
+	 
+	 $('#pp').pagination({
+		 total:orderList.length,
+		 pageSize:10,
+		 pageNumber:pageNo,
+	});
+}
+
 function addRow(){
 	window.open("/order/toAdd2");
 }
@@ -44,31 +125,7 @@ function getOrderById(){
 			 alert("ok");
 			 
 			 if (data != null) { 
-				 $("orderlist").html("");
-				 var tbodyhtmlod = '';
-			
-				 for(var i= 0; i< data.length; i++){
-					 tbodyhtmlod += '<tr class="odd gradeX">';
-					  tbodyhtmlod += '<td> <input id=' + data[i].id + 'class="odd gradeX" type="checkbox" name="ordercheckbox" '
-					      + 'style="visibility: visible" onclick="ordersclickcheck(this)"> </td>';
-					  tbodyhtmlod += '<td> ' + data[i].id   + '</td>';
-					  tbodyhtmlod += '<td> ' + data[i].payment + '</td>';
-					  tbodyhtmlod += '<td> ' + data[i].paymentType + '</td>';
-					  tbodyhtmlod += '<td> ' + data[i].status + '</td>';
-					  tbodyhtmlod += '<td> ' + data[i].paymentTime   + '</td>';
-					  tbodyhtmlod += '<td> ' + data[i].consignTime   + '</td>';
-					  tbodyhtmlod += '<td> ' + data[i].endTime + '</td>';
-					  tbodyhtmlod += '<td> ' + data[i].clientName   + '</td>';
-					  tbodyhtmlod += '<td> ' + data[i].clientChineseName   + '</td>';
-					  tbodyhtmlod += '<td> ' + data[i].receiverMobile   + '</td>';
-					  tbodyhtmlod += '<td> ' + data[i].receiverAreaName + '</td>';
-					  tbodyhtmlod += '<td> ' + data[i].remarks + '</td>';
-					  tbodyhtmlod += '<td ' + 'class="text-center">' +                                           
-					      '<a href="<%=basePath%>/order/toEdit2?id=' + data[i].id + '">查看</a> </td> </tr>';
-				 }
-				 console.log(tbodyhtmlod);
-				 $("#orderlist").html(tbodyhtmlod);
-				 window.location.reload();
+				 updateOrderTable(data);
 			 }
 			 
 		},
@@ -88,8 +145,6 @@ function deleteRows(){
         	idlist[i] = che[i].id;
         }
     }  
-    
-  
     $.ajax({
     	dataType: "json",  
         type: "POST",
@@ -128,11 +183,7 @@ function allcheck() {
     }
 }
      
-function  editRow(obj){
-    var i = 1;
-	alert(i);
-	return;	 
-}
+
 
  </script>
  
@@ -191,26 +242,7 @@ function  editRow(obj){
 					</tr>
 				</thead>
 				<tbody id="orderlist" >
-					<c:forEach items="${ orders }" var="order">
-						<tr class="odd gradeX">
-						    <td><input id=${order.id} class="odd gradeX" type="checkbox" name="ordercheckbox" style="visibility: visible" onclick="ordersclickcheck(this)"> </td>
-						    <td> ${order.id} </td>
-							<td> ${order.payment} </td>
-							<td> ${order.paymentType} </td>
-							<td> ${order.status} </td>
-							<td> ${order.paymentTime} </td>
-							<td> ${order.consignTime} </td>
-							<td> ${order.endTime} </td>
-							<td> ${order.clientName} </td>
-							<td> ${order.clientChineseName} </td>
-							<td> ${order.receiverMobile} </td>
-							<td> ${order.receiverAreaName} </td>
-							<td> ${order.remarks} </td>
-							<td class="text-center">                                          
-			             	  <a href="<%=basePath%>/order/toEdit2?id=${order.id}">查看</a></button>   
-			                </td>
-						</tr>
-					</c:forEach>				
+								
 			   </tbody>
 			</table>
 			<span><div class="easyui-pagination" data-options="total:20" id="pp" style="width:80%;margin-left:40px;"></div></span>

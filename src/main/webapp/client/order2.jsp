@@ -26,6 +26,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script type="text/javascript" src="common/js/jquery.js"></script>
 	<script type="text/javascript" src="common/js/jquery.min.js"></script>
 	<script type="text/javascript" src="common/easyui/jquery.easyui.min.js"></script>
+	<script type="text/javascript" src="common/easyui/locale/easyui-lang-zh_CN.js"></script>
 <script>
 
 $(document).ready(function(){

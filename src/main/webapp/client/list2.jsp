@@ -26,7 +26,82 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script type="text/javascript" src="common/js/jquery.js"></script>
 	<script type="text/javascript" src="common/js/jquery.min.js"></script>
 	<script type="text/javascript" src="common/easyui/jquery.easyui.min.js"></script>
+	<script type="text/javascript" src="common/easyui/locale/easyui-lang-zh_CN.js"></script>
 <script>
+
+var clientList = new Array();
+
+$(function(){	
+	initClientTable();
+	
+	$('#pp').pagination({
+		onSelectPage:function(pageNumber, pageSize){
+			updateClientTable(clientList, pageNumber, pageSize);
+		}
+	});
+});
+
+function initClientTable(){
+	$.ajax({
+    	dataType: "json",  
+        type: "POST",
+		url : '/client/list2.do',
+		success : function(data) {
+			 //alert("ok");
+			 if (data == null) {  
+			     alert("没有商家数据！");
+			     return;
+		     }
+			 updateClientList(data); 
+		},
+		error : function(XMLHttpRequest, textStatus, errorThrown) {
+			 alert("fail");
+		}
+	});
+}
+
+function updateClientList(data){
+	clientList.length = 0;
+	clientList = data.slice(0);
+	
+	console.log(data);
+	console.log(clientList);
+	updateClientTable(clientList, 1, 10);
+}
+
+function updateClientTable(clientList, pageNo, pageSize){
+	 if(clientList == null){
+		 return;
+	 }
+	 
+	 $("clientlist").html("");
+	 var tbodyhtmlod = '';
+
+	 for(var i= (pageNo - 1)*pageSize; (i< pageNo*pageSize) && (i < clientList.length); i++){
+		 tbodyhtmlod += '<tr class="odd gradeX">';
+		  tbodyhtmlod += '<td> <input id=' + clientList[i].id + 'class="odd gradeX" type="checkbox" name="goodscheckbox" '
+		      + 'style="visibility: visible" onclick="goodsclickcheck(this)"> </td>';
+		  tbodyhtmlod += '<td class="tdcenter" > ' + clientList[i].name + '</td>';
+		  tbodyhtmlod += '<td class="tdcenter"> ' + clientList[i].chineseName + '</td>';
+		  tbodyhtmlod += '<td class="tdcenter"> ' + clientList[i].telephone + '</td>';
+		  tbodyhtmlod += '<td class="tdcenter"> ' + clientList[i].address + '</td>';
+		  tbodyhtmlod += '<td class="tdcenter"> ' + clientList[i].weixin   + '</td>';
+		  tbodyhtmlod += '<td class="tdcenter"> ' + clientList[i].qq   + '</td>';
+		  tbodyhtmlod += '<td class="tdcenter"> ' + clientList[i].remarks + '</td>';
+		  tbodyhtmlod += '<td ' + 'class="text-center">' +                                           
+		      '<a href="<%=basePath%>/client/toOrder2?id=' + clientList[i].id + '">查看订单</a> ';
+		  tbodyhtmlod += ' <a href="javascript:void(0);"' + ' onclick="client_confirm(' + clientList[i].id + ')">创建订单</a> </td> </tr>';
+	 }
+
+	 console.log(tbodyhtmlod);
+	 $("#clientlist").html(tbodyhtmlod);
+	 $('#pp').pagination({
+		 total:clientList.length,
+		 pageSize:10,
+		 pageNumber:pageNo,
+	});
+}
+
 function addRow(){
 	//window.open("/client/toAdd2");
 	window.location.href = "/client/toAdd2";
@@ -96,28 +171,7 @@ function getClientByName(){
 			 alert("ok");
 			 if (data != null) {  
 				 //var obj=document.getElementById('productlist');
-				 $("clientlist").html("");
-				 var tbodyhtmlod = '';
-			
-				 for(var i= 0; i< data.length; i++){
-					 tbodyhtmlod += '<tr class="odd gradeX">';
-					  tbodyhtmlod += '<td> <input id=' + data[i].id + 'class="odd gradeX" type="checkbox" name="goodscheckbox" '
-					      + 'style="visibility: visible" onclick="goodsclickcheck(this)"> </td>';
-					  tbodyhtmlod += '<td class="tdcenter" > ' + data[i].name + '</td>';
-					  tbodyhtmlod += '<td class="tdcenter"> ' + data[i].chineseName + '</td>';
-					  tbodyhtmlod += '<td class="tdcenter"> ' + data[i].telephone + '</td>';
-					  tbodyhtmlod += '<td class="tdcenter"> ' + data[i].address + '</td>';
-					  tbodyhtmlod += '<td class="tdcenter"> ' + data[i].weixin   + '</td>';
-					  tbodyhtmlod += '<td class="tdcenter"> ' + data[i].qq   + '</td>';
-					  tbodyhtmlod += '<td class="tdcenter"> ' + data[i].remarks + '</td>';
-					  tbodyhtmlod += '<td ' + 'class="text-center">' +                                           
-					      '<a href="<%=basePath%>/product/toEdit2?id=' + data[i].id + '">查看订单</a> ';
-					  tbodyhtmlod += ' <a href="<%=basePath%>/client/toOrder2?id'
-						  + data[i].id + ' onclick="client_confirm(' + data[i].id + ')">创建订单</a> </td> </tr>';
-				 }
-
-				 console.log(tbodyhtmlod);
-				 $("#clientlist").html(tbodyhtmlod);
+				 
 		   }
 		},
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
@@ -213,22 +267,7 @@ function client_confirm(obj)
 					</tr>
 				</thead>
 				<tbody id="clientlist">
-					<c:forEach items="${ clients }" var="client">
-						<tr class="odd gradeX">
-						    <td><input id=${client.id} class="odd gradeX" type="checkbox" name="clientcheckbox" style="visibility: visible" onclick="clientsclickcheck(this)"> </td>
-							<td> ${client.name} </td>
-							<td> ${client.chineseName} </td>
-							<td> ${client.telephone} </td>
-							<td> ${client.address} </td>
-							<td> ${client.weixin} </td>
-							<td> ${client.qq} </td>
-							<td> ${client.remarks} </td>
-							<td class="text-center">                                          
-							  <a href="<%=basePath%>/client/toOrder2?id=${client.id}">查看订单</a>
-			             	  <a href="javascript:void(0);" onclick="client_confirm(${client.id})">创建订单</a>
-			              </td>
-						</tr>
-					</c:forEach>				
+									
 			   </tbody>
 			</table>
 			<span><div class="easyui-pagination" data-options="total:20" id="pp" style="width:80%;margin-left:40px;"></div></span>
