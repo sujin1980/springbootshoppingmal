@@ -32,44 +32,139 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 <script type="text/javascript">
 
+var orderList = new Array();
 
 $(document).ready(function(){
 	var _body = window.parent;
 	var _iframe1 = _body.document.getElementById('topFrame');
 	_iframe1.contentWindow.location.reload(true);
 	
-	initOrderStatusSel();
-	initPaymentTypeSel();
-	initOrderDateTimeInfo();
+	var orderId = null;
+	if(window.location.href.indexOf("?") > 0 ){
+		var equalPos = window.location.href.indexOf("=");
+		if(equalPos > 0){
+			orderId = window.location.href.substr(equalPos + 1);
+		}
+	}
+	
+	//alert("orderId = " + orderId);
+	initOrderTable(orderId);
+
+	$('#pp').pagination({
+		onSelectPage:function(pageNumber, pageSize){
+			updateOrderTable(orderList, pageNumber, pageSize);
+		}
+	});
 });
 
-function initOrderDateTimeInfo(){
+function initOrderTable(orderId){
+	$.ajax({
+    	dataType: "json",  
+        type: "POST",
+        data:{
+        	"orderId": orderId
+        },
+		url : '/ordergoods/getOrderGoodsListByOrderId.do',
+		success : function(data) {
+			 //alert("ok");
+			 if (data == null) {  
+			     alert("没有商品数据！");
+			     return;
+		     }
+			 updateOrderList(data); 
+		},
+		error : function(XMLHttpRequest, textStatus, errorThrown) {
+			 alert("fail");
+		}
+	});
+	
+	$.ajax({
+    	dataType: "json",  
+        type: "POST",
+        data:{
+        	"id": orderId
+        },
+		url : '/order/toEdit2.do',
+		success : function(data) {
+			 //alert("ok");
+			 if (data == null) {  
+			     alert("没有商品数据！");
+			     return;
+		     }
+			 updateOrderInfo(data); 
+		},
+		error : function(XMLHttpRequest, textStatus, errorThrown) {
+			 alert("fail");
+		}
+	});
+}
+
+function updateOrderList(data){
+	orderList.length = 0;
+	orderList = data.slice(0);
+	
+	//console.log(data);
+	//console.log(orderList);
+	updateOrderTable(orderList, 1, 10);
+}
+
+function updateOrderTable(orderList, pageNo, pageSize){
+	$("orderlist").html("");
+	var tbodyhtmlod = '';
+
+	for(var i= (pageNo - 1)*pageSize; (i< pageNo*pageSize) && (i < orderList.length); i++){
+		 tbodyhtmlod += '<tr class="odd gradeX">';
+		  tbodyhtmlod += '<td> <input id=' + orderList[i].goodsId + 'class="odd gradeX" type="checkbox" name="goodscheckbox" '
+		      + 'style="visibility: visible" onclick="goodsclickcheck(this)"> </td>';
+		  tbodyhtmlod += '<td> ' + orderList[i].goodsName   + '</td>';
+		  tbodyhtmlod += '<td> ' + orderList[i].price + '</td>';
+		  tbodyhtmlod += '<td> ' + orderList[i].goodsNumber + '</td>';
+		  tbodyhtmlod += '<td> ' + orderList[i].goodsFee + '</td>';
+		  tbodyhtmlod += '<td> ' + orderList[i].picture   + '</td>';
+		  tbodyhtmlod += '<td> ' + orderList[i].remarks + '</td>';
+		  tbodyhtmlod += '<td ' + 'class="text-center">' +                                           
+		      '<a href="<%=basePath%>/product/toEdit2?id=' + orderList[i].goodsId + '">查看</a> ';
+		  tbodyhtmlod += '<a href="javascript:void(0);" onclick="addGoodsNumber('+ orderList[i].goodsId + ');return false;">增加数量</a>'; 	  
+		  tbodyhtmlod += '<a href="javascript:void(0);" onclick="decGoodsNumber('+ orderList[i].goodsId + ');return false;">减少数量</a></td> </tr>';
+	 }
+
+	 console.log(tbodyhtmlod);
+	 $("#orderlist").html(tbodyhtmlod);
+	 
+	 $('#pp').pagination({
+		 total:orderList.length,
+		 pageSize:10,
+		 pageNumber:pageNo,
+	});
+}
+
+function updateOrderDateTimeInfo(data){
 	var myDate = new Date().toLocaleString();
 	
 	if('${order.paymentTime}'.indexOf("未") >= 0){
 		$('#paymentTime').datetimebox('setValue', myDate);
 	}else{
-		$('#paymentTime').datetimebox('setValue', '${order.paymentTime}');
+		$('#paymentTime').datetimebox('setValue', data.paymentTime);
 	}
 	
 	if('${order.consignTime}'.indexOf("未") >= 0){
 		$('#consignTime').datetimebox('setValue', myDate);
 	}else{
-		$('#consignTime').datetimebox('setValue', '${order.consignTime}');
+		$('#consignTime').datetimebox('setValue', data.consignTime);
 	}
 	
 	if('${order.endTime}'.indexOf("未") >= 0){
 		$('#endTime').datetimebox('setValue', myDate);
 	}else{
-		$('#endTime').datetimebox('setValue', '${order.endTime}');
+		$('#endTime').datetimebox('setValue', data.endTime);
 	}
 }
 
 function addRow(){
-	window.location.href = "/product/list2";
+	window.location.href = "/product/list2.jsp";
 }
 
-function initOrderStatusSel(){
+function updateOrderStatusSel(data){
 	var obj = document.getElementById('orderStatus');
 	obj.options.length=0;
 	
@@ -84,13 +179,29 @@ function initOrderStatusSel(){
 	obj.options.add(new Option("待评价"   , 9));
 	
 	for(i = 0; i < obj.length; i++){
-		if(obj[i].text == '${order.status}'){
+		if(obj[i].text == data.status){
 			obj[i].selected = true;
 		}
 	}
 }
 
-function initPaymentTypeSel(){
+function updateOrderInfo(data){
+	$("#orderId").textbox("setValue", data.id);
+	$("#payment").textbox("setValue", data.payment);
+	$("#clientName").textbox("setValue", data.clientName);
+	$("#clientChineseName").textbox("setValue", data.clientChineseName);
+	$("#receiverMobile").textbox("setValue", data.receiverMobile);
+	$("#receiverAreaName").textbox("setValue", data.receiverAreaName);
+
+	updateOrderDateTimeInfo(data);
+	
+	updateOrderStatusSel(data);
+	updatePaymentTypeSel(data);
+	return;
+}
+
+
+function updatePaymentTypeSel(data){
 	var obj = document.getElementById('paymentType');
 	obj.options.length=0;
 	
@@ -98,7 +209,7 @@ function initPaymentTypeSel(){
 	obj.options.add(new Option("货到付款" , 2));
 	
 	for(i = 0; i < obj.length; i++){
-		if(obj[i].text == '${order.paymentType}'){
+		if(obj[i].text == data.paymentType){
 			obj[i].selected = true;
 		}
 	}
@@ -113,7 +224,6 @@ function editRow(){
 		return;
 	}
 	
-	//alert("付款时间是" +  $('#paymentTime').datetimebox('getValue'));
 	$.ajax({
 		type: "POST",
 	    async: true,
@@ -133,7 +243,7 @@ function editRow(){
 		success : function(data) {
 			 alert("更改订单基本信息成功！");
 			 //window.reloation.ref = "order/Edit2.jsp";
-			 window.location.href = "client/list2。jsp";
+			 window.location.href = "client/list2.jsp";
 		},
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
 			 alert("fail");
@@ -158,7 +268,7 @@ function decGoodsNumber(goodsId){
 		success : function(data) {
 			 //alert("ok");
 			 if (data != null) {  
-				 modifygoodstable(data);
+				 updateOrderList(data);
 		   }
 		},
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
@@ -167,29 +277,7 @@ function decGoodsNumber(goodsId){
 	});
 }
 
-function modifygoodstable(data){
-	$("orderlist").html("");
-	var tbodyhtmlod = '';
 
-	 for(var i= 0; i< data.length; i++){
-		 tbodyhtmlod += '<tr class="odd gradeX">';
-		  tbodyhtmlod += '<td> <input id=' + data[i].goodsId + 'class="odd gradeX" type="checkbox" name="goodscheckbox" '
-		      + 'style="visibility: visible" onclick="goodsclickcheck(this)"> </td>';
-		  tbodyhtmlod += '<td> ' + data[i].goodsName   + '</td>';
-		  tbodyhtmlod += '<td> ' + data[i].price + '</td>';
-		  tbodyhtmlod += '<td> ' + data[i].goodsNumber + '</td>';
-		  tbodyhtmlod += '<td> ' + data[i].goodsFee + '</td>';
-		  tbodyhtmlod += '<td> ' + data[i].picture   + '</td>';
-		  tbodyhtmlod += '<td> ' + data[i].remarks + '</td>';
-		  tbodyhtmlod += '<td ' + 'class="text-center">' +                                           
-		      '<a href="<%=basePath%>/product/toEdit2?id=' + data[i].id + '">查看</a> ';
-		  tbodyhtmlod += '<a href="javascript:void(0);" onclick="addGoodsNumber('+ data[i].goodsId + ');return false;">增加数量</a>'; 	  
-		  tbodyhtmlod += '<a href="javascript:void(0);" onclick="decGoodsNumber('+ data[i].goodsId + ');return false;">减少数量</a></td> </tr>';
-	 }
-
-	 console.log(tbodyhtmlod);
-	 $("#orderlist").html(tbodyhtmlod);
-}
 function addGoodsNumber(goodsId){
 	alert("goodsId = " + goodsId);
 	$.ajax({
@@ -205,7 +293,7 @@ function addGoodsNumber(goodsId){
 		success : function(data) {
 			 alert("ok");
 			 if (data != null) {  
-				 modifygoodstable(data);
+				 updateOrderList(data);
 		   }
 		},
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
@@ -262,9 +350,9 @@ function checkPaymentTypeField(obj){
 		   <br></br>
 	
 		   <label for="payment">金额&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label><input class="easyui-textbox" editable="false" id="payment" name="payment" value = "${order.payment}"><br></br>
-		   <label for="paymentTime">付款时间&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label><input class="easyui-datetimebox" id="paymentTime" name="paymentTime"  value="" data-options="required:true" style="width:160px"><br></br>
-		   <label for="consignTime">发货时间&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label><input class="easyui-datetimebox" id="consignTime" name="consignTime" value="" data-options="required:true" style="width:160px"><br></br>
-		   <label for="endTime">完成时间&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label><input class="easyui-datetimebox" id="endTime" name="endTime" value="" data-options="required:true" style="width:160px"><br></br>
+		   <label for="paymentTime">付款时间&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label><input class="easyui-datetimebox" id="paymentTime" name="paymentTime"  value="" data-options="required:true" style="width:180px"><br></br>
+		   <label for="consignTime">发货时间&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label><input class="easyui-datetimebox" id="consignTime" name="consignTime" value="" data-options="required:true" style="width:180px"><br></br>
+		   <label for="endTime">完成时间&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label><input class="easyui-datetimebox" id="endTime" name="endTime" value="" data-options="required:true" style="width:180px"><br></br>
 		   <label for="clientName">买家名称&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label><input class="easyui-textbox" id="clientName" editable="false" name="username" value = "${order.clientName}"><br></br>
 		   <label for="clientChineseName">中文名称&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label><input class="easyui-textbox" id="clientChineseName" name="clientChineseName" value = "${order.clientChineseName}"><br></br>
 		   <label for="receiverMobile">联系方式&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label><input class="easyui-textbox" id="receiverMobile" name="receiverMobile" value = "${order.receiverMobile}"><br></br>
@@ -311,22 +399,7 @@ function checkPaymentTypeField(obj){
 						</tr>
 					</thead>
 					<tbody id= "orderlist" >
-						<c:forEach items="${ ordergoods }" var="ordergood">
-							<tr class="odd gradeX">
-							    <td><input id=${ordergood.goodsId} class="odd gradeX" type="checkbox" name="goodscheckbox" style="visibility: visible" onclick="goodsclickcheck(this)"> </td>
-								<td> ${ordergood.goodsName} </td>
-								<td> ${ordergood.price} </td>
-								<td> ${ordergood.goodsNumber} </td>
-								<td> ${ordergood.goodsFee} </td>
-								<td> ${ordergood.picture} </td>
-								<td> ${ordergood.remarks} </td>
-								<td class="text-center">                                          
-				             	  <a href="<%=basePath%>/product/toEdit2?id=${ordergood.goodsId}">查看</a></button>   
-				             	  <a href="javascript:void(0);" onclick="addGoodsNumber('${ordergood.goodsId}');return false;">增加数量</a> 
-				             	  <a href="javascript:void(0);" onclick="decGoodsNumber('${ordergood.goodsId}');return false;">减少数量</a> 
-				                </td>
-							</tr>
-						</c:forEach>				
+									
 				   </tbody>
 				</table>
 				<span><div class="easyui-pagination" data-options="total:20" id="pp" style="width:80%;margin-left:40px;"></div></span>

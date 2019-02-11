@@ -183,8 +183,8 @@ function updateOrderTable(orderList, pageNo, pageSize){
 		  tbodyhtmlod += '<td> ' + orderList[i].receiverMobile   + '</td>';
 		  tbodyhtmlod += '<td> ' + orderList[i].receiverAreaName + '</td>';
 		  tbodyhtmlod += '<td ' + 'class="text-center">' +                                           
-		      '<a href="<%=basePath%>/order/toEdit2?id=' + orderList[i].id + '">查看订单</a>';
-		  tbodyhtmlod += '<a href="<%=basePath%>/order/toEdit2?id=' + orderList[i].id + '">修改订单</a> </td> </tr>';
+		      '<a href="<%=basePath%>/order/Edit2.jsp?id=' + orderList[i].id + '">查看订单</a>';
+		  tbodyhtmlod += '<a href="<%=basePath%>/order/Edit2.jsp?id=' + orderList[i].id + '">修改订单</a> </td> </tr>';
 	 }
 
 	 console.log(tbodyhtmlod);

@@ -122,12 +122,9 @@ $(document).ready(function (){
        	
        	info = '[' + '${sessionScope.clientorder.clientName}' + '][' 
        	   + '${sessionScope.clientorder.id}' +  '][' + '${sessionScope.clientorder.status}' + ']';
-       	//document.getElementById("orderinfo").innerHTML = info;
-       	//var label=document.getElementById("orderinfo");
-       	//label.innerText=info;
-        document.getElementById("orderinfo").innerHTML= '<a href="<%=basePath%>order/toEdit2?id='
+
+        document.getElementById("orderinfo").innerHTML= '<a href="<%=basePath%>order/Edit2.jsp?id='
         	+ '${sessionScope.clientorder.id}' + '" target="rightFrame">' + info + '</a>';
-        //document.getElementById("orderinfo").href= '<%=basePath%>order/toEdit2?id=' +'${sessionScope.clientorder.id}';
     }
        
     

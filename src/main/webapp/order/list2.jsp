@@ -94,7 +94,7 @@ function updateOrderTable(orderList, pageNo, pageSize){
 		  tbodyhtmlod += '<td> ' + orderList[i].receiverAreaName + '</td>';
 		  tbodyhtmlod += '<td> ' + orderList[i].remarks + '</td>';
 		  tbodyhtmlod += '<td ' + 'class="text-center">' +                                           
-		      '<a href="<%=basePath%>/order/toEdit2?id=' + orderList[i].id + '">查看</a> </td> </tr>';
+		      '<a href="<%=basePath%>/order/Edit2.jsp?id=' + orderList[i].id + '">查看</a> </td> </tr>';
 	 }
 	 
 	 //console.log(tbodyhtmlod);

@@ -180,17 +180,13 @@ public class OrderController2 {
 
 
     @RequestMapping("/order/toEdit2")
-    public String toEdit(HttpServletRequest request, Model model,Long id) {
+    @ResponseBody
+    public ShoppingMallOrder toEdit(HttpServletRequest request, @RequestParam String id) {
     	System.out.println("开始编辑");
         
-        ShoppingMallOrder  order = orderService.findOrderById(id);
-        model.addAttribute("order", order);
-        
-        List<OrderGoods>   orderGoodsList = orderGoodsService.findOrderGoodsListByOrderId(id);
-        model.addAttribute("ordergoods", orderGoodsList);
-        
+        ShoppingMallOrder  order = orderService.findOrderById(Long.valueOf(id));
         request.getSession().setAttribute("clientorder", order);
-        return "order/Edit2";
+        return order;
     }
     
     @RequestMapping(value ="/order/getOrderById", method = { RequestMethod.POST })
@@ -207,19 +203,6 @@ public class OrderController2 {
     } 
     
     
-
-    @RequestMapping("/order/edit2")
-    public String edit(HttpServletRequest request, @RequestBody String idlistJson) throws UnsupportedEncodingException {
-    	List<String> jsonStrlist = Arrays.asList(idlistJson.split("&"));
-        ShoppingMallOrder order = new ShoppingMallOrder();
-        for(String jsonStr: jsonStrlist) {
-
-        	
-        }
-        System.out.println(order);
-        orderService.updateOrder(order);
-        return "redirect:/order/list2";
-    }
 
     @RequestMapping("/order/toDelete2")
     public String delete(long id) {

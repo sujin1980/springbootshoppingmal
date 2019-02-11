@@ -25,6 +25,7 @@ import com.shopping.mall.model.ShoppingMallOrder;
 import com.shopping.mall.model.OrderGoods;
 import com.shopping.mall.model.Product;
 import com.shopping.mall.service.OrderGoodsService;
+import com.shopping.mall.service.OrderService;
 import com.shopping.mall.service.ProductService;
 
 @Controller
@@ -33,6 +34,9 @@ public class OrderGoodsController2 {
 	
 	@Autowired
 	private OrderGoodsService orderGoodsService;
+	
+	@Autowired
+	private OrderService orderService;
 	
 	@Autowired
 	private ProductService productService;
@@ -152,13 +156,13 @@ public class OrderGoodsController2 {
         return "redirect:/ordergoods/list2";
     }
     
-    @RequestMapping(value = "/ordergoods/getTypeListByCategoryId", method = { RequestMethod.POST })
+    @RequestMapping(value = "/ordergoods/getOrderGoodsListByOrderId", method = { RequestMethod.POST })
     @ResponseBody
-    public List<OrderGoods>  getTypeListByCategoryId(HttpServletRequest request, @RequestBody String str){
-    	String strid = str.substring(0, str.indexOf("="));
+    public List<OrderGoods>  getOrderGoodsListByOrderId(HttpServletRequest request, @RequestParam String orderId){
+
+    	ShoppingMallOrder  order = orderService.findOrderById(Long.valueOf(orderId)); 
+    	List<OrderGoods> orderGoodsList = orderGoodsService.findOrderGoodsListByOrderId(Long.valueOf(orderId));  
     	
-    	List<OrderGoods> orderGoodsList = orderGoodsService.findOrderGoodsListByOrderId(Integer.valueOf(strid));  
-    	//request.get
     	return  orderGoodsList;
     }  
     
