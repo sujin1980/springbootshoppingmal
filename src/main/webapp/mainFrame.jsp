@@ -55,7 +55,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     	<iframe src="left.jsp" height="100%" scrolling="No" name="leftFrame" noresize="noresize" id="leftFrame" title="leftFrame"></iframe>
     </div>-->
     <div data-options="region:'center',split:false,border:true" style="padding:5px;height:590px;z-index:1">
-    	<iframe src="product/list2.do" height="100%" width = "100%" scrolling="No" name="rightFrame" id="rightFrame" title="rightFrame"></iframe>
+    	<iframe src="product/list2.jsp" height="100%" width = "100%" scrolling="No" name="rightFrame" id="rightFrame" title="rightFrame"></iframe>
     </div>
 </body>
 </html>

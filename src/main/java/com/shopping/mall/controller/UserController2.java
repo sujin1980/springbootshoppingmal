@@ -52,7 +52,7 @@ public class UserController2 {
          if((user!= null) && user.getPassword().equals(password)) {
         	 HttpSession session = request.getSession();
  			 session.setAttribute("loginUser", user);
- 			logger.info("登录成功================================================================");
+ 			 logger.info("登录成功====================================");
 			 return "OK";
 		 }
 		 return "FAIL";

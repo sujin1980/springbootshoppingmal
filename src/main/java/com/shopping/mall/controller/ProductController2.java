@@ -10,6 +10,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,7 +27,7 @@ import com.shopping.mall.service.ProductTypeService;
 
 @Controller
 public class ProductController2 {
-	//private static Logger logger = Logger.getLogger(ProductController.class);
+	private static Logger logger = Logger.getLogger(ProductController2.class);
 	
 	@Autowired
 	private ProductService productService;
@@ -46,12 +47,12 @@ public class ProductController2 {
 //        model.addAttribute("products", products);
 //        return "product/list2";
 //    }
+	
     @RequestMapping("/product/list2")
-    public String list(Model model) {
-    	System.out.println("Thymeleaf查询所有");
-        List<Product> products=productService.findAll();
-        model.addAttribute("products", products);
-        return "product/list2";
+    @ResponseBody
+    public List<Product> list(HttpServletRequest request, Model model) {
+        List<Product> products = productService.findAll();
+        return products;
     }
 
 

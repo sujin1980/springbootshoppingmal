@@ -32,21 +32,110 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script type="text/javascript">
 
 var goodsList = new Array();
-$(function(){
-	
+
+$(function(){	
+	initGoodsTable();
 	
 	$('#pp').pagination({
-		 total:20,
-		 pageSize:10,
-		 pageNumber:0,
+		onSelectPage:function(pageNumber, pageSize){
+			updateGoodsTable(goodsList, pageNumber, pageSize);
+		}
 	});
-	
-
-	
-	
-	
 });
 
+function initGoodsTable(){
+	$.ajax({
+    	dataType: "json",  
+        type: "POST",
+		url : '/product/list2.do',
+		success : function(data) {
+			 //alert("ok");
+			 if (data == null) {  
+			     alert("没有商品数据！");
+			     return;
+		     }
+			 updateGoodsList(data); 
+		},
+		error : function(XMLHttpRequest, textStatus, errorThrown) {
+			 alert("fail");
+		}
+	});
+}
+
+function updateGoodsList(data){
+	goodsList.length = 0;
+	goodsList = data.slice(0);
+	
+	console.log(data);
+	console.log(goodsList);
+	updateGoodsTable(goodsList, 1, 10);
+}
+
+function updateGoodsTable(goodsList, pageNo, pageSize){
+	 if(goodsList == null){
+		 return;
+	 }
+	
+	 $("productlist").html("");
+	 var tbodyhtmlod = '';
+
+	 	
+	 for(var i= (pageNo - 1)*pageSize; (i< pageNo*pageSize) && (i < goodsList.length); i++){
+		  
+		  
+		  tbodyhtmlod += '<tr class="odd gradeX">';
+		  tbodyhtmlod += '<td> <input id=' + goodsList[i].id + 'class="odd gradeX" type="checkbox" name="goodscheckbox" '
+		      + 'style="visibility: visible" onclick="goodsclickcheck(this)"> </td>';
+		  tbodyhtmlod += '<td> ' + goodsList[i].id   + '</td>';
+		  tbodyhtmlod += '<td> ' + goodsList[i].name + '</td>';
+		  tbodyhtmlod += '<td> ' + goodsList[i].productType.name + '</td>';
+		  tbodyhtmlod += '<td> ' + goodsList[i].productType.productCategory.name + '</td>';
+		  tbodyhtmlod += '<td> ' + goodsList[i].price   + '</td>';
+		  tbodyhtmlod += '<td> ' + goodsList[i].remarks + '</td>';
+		  tbodyhtmlod += '<td ' + 'class="text-center">' +                                           
+		      '<a href="<%=basePath%>/product/toEdit2?id=' + goodsList[i].id + '">查看</a> ';
+		  tbodyhtmlod += '<a href="javascript:void(0);"  onclick="addProducToOrder(' + goodsList[i].id + ')">加入订单</a></td> </tr>';
+	 }
+
+	 console.log(tbodyhtmlod);
+	 $("#productlist").html(tbodyhtmlod);
+	 $('#pp').pagination({
+		 total:goodsList.length,
+		 pageSize:10,
+		 pageNumber:pageNo,
+	});
+}
+
+function getProductByName(){
+	var strid = ""; 
+	
+	var val = $("#name").val();
+	if(val.indexOf("=") > 0){
+		strid = val.substring(0, val.indexOf("="));
+	}else{
+		strid = val;
+	}
+	
+	$.ajax({
+   	dataType: "json",  
+       type: "POST",
+		data: {
+			"name": strid
+		},
+		url : '/product/getproductbyname.do',
+		success : function(data) {
+			 alert("ok");
+			 if (data != null) {  
+				 updateGoodsList(data); 
+		   }
+		},
+		error : function(XMLHttpRequest, textStatus, errorThrown) {
+			 alert("fail");
+		}
+	});
+	
+	return;
+}
 
 function addRow(){
 	//window.open("/product/toAdd2");
@@ -110,88 +199,8 @@ function allcheck() {
         allche.checked = false;
     }
 }
-     
-function  editRow(obj){
-    var i = 1;
-	alert(i);
-	return;	 
-}
 
-function getDataRow(h){ 
-	   var row = document.getElementById('productlist'); //创建行 
-	   var idCell = document.createElement('td'); //创建第一列id 
-	   idCell.innerHTML = h.id; //填充数据 
-	   row.appendChild(idCell); //加入行 ，下面类似 
-	   var nameCell = document.createElement('td');//创建第二列name 
-	   nameCell.innerHTML = h.name; 
-	   row.appendChild(nameCell); 
-	   var jobCell = document.createElement('td');//创建第三列job 
-	   jobCell.innerHTML = h.job; 
-	   row.appendChild(jobCell); 
-	   //到这里，json中的数据已经添加到表格中，下面为每行末尾添加删除按钮 
-	   var delCell = document.createElement('td');//创建第四列，操作列 
-	   row.appendChild(delCell); 
-	   var btnDel = document.createElement('input'); //创建一个input控件 
-	   btnDel.setAttribute('type','button'); //type="button" 
-	   btnDel.setAttribute('value','删除');  
-	   //删除操作 
-	   btnDel.onclick=
-	   delCell.appendChild(btnDel); //把删除按钮加入td，别忘了 
-	   return row; //返回tr数据   
-	}   
-	
-function getProductByName(){
-	var strid = ""; 
-	
-	var val = $("#name").val();
-	if(val.indexOf("=") > 0){
-		strid = val.substring(0, val.indexOf("="));
-	}else{
-		strid = val;
-	}
-	
-	$.ajax({
-    	dataType: "json",  
-        type: "POST",
-		data: {
-			"name": strid
-		},
-		url : '/product/getproductbyname.do',
-		success : function(data) {
-			 alert("ok");
-			 if (data != null) {  
-				 //var obj=document.getElementById('productlist');
-				 $("productlist").html("");
-				 var tbodyhtmlod = '';
-			
-				 for(var i= 0; i< data.length; i++){
-					  
-					  
-					  tbodyhtmlod += '<tr class="odd gradeX">';
-					  tbodyhtmlod += '<td> <input id=' + data[i].id + 'class="odd gradeX" type="checkbox" name="goodscheckbox" '
-					      + 'style="visibility: visible" onclick="goodsclickcheck(this)"> </td>';
-					  tbodyhtmlod += '<td> ' + data[i].id   + '</td>';
-					  tbodyhtmlod += '<td> ' + data[i].name + '</td>';
-					  tbodyhtmlod += '<td> ' + data[i].productType.name + '</td>';
-					  tbodyhtmlod += '<td> ' + data[i].productType.productCategory.name + '</td>';
-					  tbodyhtmlod += '<td> ' + data[i].price   + '</td>';
-					  tbodyhtmlod += '<td> ' + data[i].remarks + '</td>';
-					  tbodyhtmlod += '<td ' + 'class="text-center">' +                                           
-					      '<a href="<%=basePath%>/product/toEdit2?id=' + data[i].id + '">查看</a> ';
-					  tbodyhtmlod += '<a href="javascript:void(0);"  onclick="addProducToOrder(' + data[i].id + ')">加入订单</a></td> </tr>';
-				 }
 
-				 console.log(tbodyhtmlod);
-				 $("#productlist").html(tbodyhtmlod);
-		   }
-		},
-		error : function(XMLHttpRequest, textStatus, errorThrown) {
-			 alert("fail");
-		}
-	});
-	
-	return;
-}
 
 function addProducToOrder(productid){
 	if(('${sessionScope.clientorder.clientName}' == '') || ('${sessionScope.clientorder.id}' == '')
@@ -273,22 +282,7 @@ function addProducToOrder(productid){
 				</tr>
 			</thead>
 			<tbody id="productlist">
-				<c:forEach items="${ products }" var="product">
-					<tr  class="odd gradeX">
-					    <td><input id=${product.id} class="odd gradeX" type="checkbox" name="goodscheckbox" style="visibility: visible" onclick="goodsclickcheck(this)"> </td>
-						<td> ${product.id} </td>
-						<td> ${product.name} </td>
-						<td> ${product.productType.name} </td>
-						<td> ${product.productType.productCategory.name} </td>
-						<td> ${product.price} </td>
-						<td> ${product.remarks} </td>
-						<td class="text-center">                                          
-		             	   <a href="<%=basePath%>product/toEdit2?id=${product.id}">查看</a>  
-		             	   <a href="javascript:void(0);" onclick="addProducToOrder(${product.id})">加入订单</a>
-		              </td>
-		                 
-					</tr>
-				</c:forEach>				
+								
 		   </tbody>
 		</table>
 		<span><div class="easyui-pagination" id="pp" style="width:80%;margin-left:40px;"></div></span>
