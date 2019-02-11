@@ -194,7 +194,7 @@ function updateOrderInfo(data){
 	$("#receiverAreaName").textbox("setValue", data.receiverAreaName);
 
 	updateOrderDateTimeInfo(data);
-	
+//
 	updateOrderStatusSel(data);
 	updatePaymentTypeSel(data);
 	return;
