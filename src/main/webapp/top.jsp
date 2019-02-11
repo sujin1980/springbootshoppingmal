@@ -23,8 +23,6 @@ $(document).ready(function (){
 	
 	var homepageId = "${sessionScope.loginUser.name}"; //用户个人主页
 	 
-	//var functionListJson='${sessionScope.functionList}'; //用户功能菜单	
-	//var functionList=JSON.parse(functionListJson);
 	var productchildrenList =
 		[
 			{
@@ -169,7 +167,7 @@ $(document).ready(function (){
 		 }
 		 else
 		 {
-			 menuLevel1HtmlBody += '<li><a href="'+userFunction.url+'" target="rightFrame"><b>';
+			 menuLevel1HtmlBody += '<li><a href="javascript:void(0);" target="rightFrame"><b>';
 		 }
 		 menuLevel1HtmlBody +=  userFunction.name;
 		 menuLevel1HtmlBody += '</b></a></li>';
@@ -178,7 +176,8 @@ $(document).ready(function (){
 	$("#menuLevel1").html(menuLevel1HtmlBody);
     $("#menuLevel2").html(menuLevel2HtmlBody);
 	
-  
+    console.log("menuLevel1HtmlBody = " + menuLevel1HtmlBody);
+    console.log("menuLevel2HtmlBody = " + menuLevel2HtmlBody);
 	$('#Top .Toolbar1 .CentreBox .Menu .List1 li').mouseenter(function () {
         var index = $(this).parent().children().index(this);
         $(this).parent().children().each(function () {

@@ -47,7 +47,6 @@ $(document).ready(function(){
 		}
 	}
 	
-	//alert("orderId = " + orderId);
 	initOrderTable(orderId);
 
 	$('#pp').pagination({
@@ -218,7 +217,6 @@ function updatePaymentTypeSel(data){
 function editRow(){
 	var tableNum = $("#orderlist tr").length;
 	
-	//alert(tableNum);
 	if($("#orderlist tr").length == 0){
 		alert("此订单下没有添加商品，请先添加商品");
 		return;
