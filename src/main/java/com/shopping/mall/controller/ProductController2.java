@@ -10,6 +10,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,8 +26,11 @@ import com.shopping.mall.model.ProductType;
 import com.shopping.mall.service.ProductService;
 import com.shopping.mall.service.ProductTypeService;
 
+
+
 @Controller
 public class ProductController2 {
+	private static Logger LOGGER = LoggerFactory.getLogger(ProductController2.class);
 	
 	@Autowired
 	private ProductService productService;
@@ -38,21 +43,17 @@ public class ProductController2 {
         return "redirect:/product/list2";
     }
 	
-//    @RequestMapping("/product/list2")
-//    public String list(Model model) {
-//    	System.out.println("Thymeleaf查询所有");
-//        List<Product> products=productService.findAll();
-//        model.addAttribute("products", products);
-//        return "product/list2";
-//    }
-	
     @RequestMapping("/product/list2")
     @ResponseBody
     public List<Product> list(HttpServletRequest request, Model model) {
-        List<Product> products = productService.findAll();
-        return products;
+        try {
+	    	List<Product> products = productService.findAll();
+	    	return products;
+        }catch(Exception e) {
+        	LOGGER.error(e.toString());
+        	return null;
+        }
     }
-
 
     @RequestMapping(value = "/product/deleteProducts", method = { RequestMethod.POST })
     @ResponseBody
@@ -61,10 +62,8 @@ public class ProductController2 {
         List<String> jsonStrlist = Arrays.asList(idlistJson.split("&"));
         List<String>  idlist = new ArrayList<String>();
         for(String jsonStr: jsonStrlist) {
-        	
         	Integer.valueOf(jsonStr.substring(jsonStr.indexOf("=") + 1, jsonStr.length()));
         	idlist.add(jsonStr.substring(jsonStr.indexOf("=") + 1, jsonStr.length()));
-        	
         }
         System.out.println(idlist);
         productService.deleteProducts(idlist);

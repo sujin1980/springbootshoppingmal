@@ -23,7 +23,7 @@
 	</select>
 	
 	<select id="findAll" resultMap="ProductBaseResultMap">
-		SELECT * FROM product  
+		SELECT * FROM product 
 	</select>
 	
 	<select id="add" parameterType="com.shopping.mall.model.Product">
