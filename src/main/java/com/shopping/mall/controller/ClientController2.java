@@ -97,16 +97,22 @@ public class ClientController2 {
     @RequestMapping(value ="/client/findClientByName", method = { RequestMethod.POST })
     @ResponseBody
     public List<ShoppingMallClient> findClientByName(HttpServletRequest request, @RequestParam String name) throws Exception{  
-      
+    	String clientName = name;
+    	
+    	if((clientName == null) || (clientName.trim().length() == 0)) {
+        	return clientService.findAll();
+        }
         
+    	clientName = clientName.trim();
     	List<ShoppingMallClient> clientList = new ArrayList<>();
-		if(name.length() == 0) {
-			clientList = clientService.findAll();
-		}else {
-	        //System.out.println(name);
-	        clientList.add(clientService.findOneByName(name));
-		}
-        
+	
+    	ShoppingMallClient client = clientService.findOneByName(name);
+    	
+    	if(client == null) {
+    		return null;
+    	}
+	    
+    	clientList.add(clientService.findOneByName(name));
         return clientList;
     }  
     

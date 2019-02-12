@@ -49,7 +49,6 @@ function initGoodsTable(){
         type: "POST",
 		url : '/product/list2.do',
 		success : function(data) {
-			 //alert("ok");
 			 if (data == null) {  
 			     alert("没有商品数据！");
 			     return;
@@ -123,7 +122,6 @@ function getProductByName(){
 		},
 		url : '/product/getproductbyname.do',
 		success : function(data) {
-			 alert("ok");
 			 if (data != null) {  
 				 updateGoodsList(data); 
 		   }
@@ -157,7 +155,6 @@ function deleteRows(){
 		data: idlist,
 		url : '/product/deleteProducts.do',
 		success : function(data) {
-			 alert("ok");
 			 if (data != null) {
 				 window.location.reload();
 			 }
@@ -208,7 +205,6 @@ function addProducToOrder(productid){
 		},
 		url : '/ordergoods/addProducToOrder.do',
 		success : function(data) {
-			 alert("ok");
 			 
 		},
 		error : function(XMLHttpRequest, textStatus, errorThrown) {

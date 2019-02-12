@@ -108,8 +108,7 @@ var getTypeList = function (val)
 			"id" : JSON.stringify(val)
 		},
 		url : 'producttype/getTypeListByCategoryStrId.do',	
-		success : function(data) {
-			//alert("ok");			
+		success : function(data) {		
 			if (data != null) {
 				var obj=document.getElementById('producttypesel');
 				obj.options.length=0;

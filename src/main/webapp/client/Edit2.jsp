@@ -60,7 +60,7 @@ var getTypeList = function (val)
 		},
 		url : 'producttype/getTypeListByCategoryStrId.do',	
 		success : function(data) {
-			alert("ok");			
+						
 			if (data != null) {
 				var obj=document.getElementById('producttypesel');
 				obj.options.length=0;
@@ -111,7 +111,7 @@ var uploadimage = function (fileData) {
 		url: "file/upload.do",
 		success : function(data) {
 			$("#icon").val = data;
-			alert("ok");		
+					
 		},
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
 			alert("checkField fail");

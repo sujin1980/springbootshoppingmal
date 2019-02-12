@@ -65,7 +65,6 @@ function initOrderTable(orderId){
         },
 		url : '/ordergoods/getOrderGoodsListByOrderId.do',
 		success : function(data) {
-			 //alert("ok");
 			 if (data == null) {  
 			     alert("没有商品数据！");
 			     return;
@@ -85,7 +84,6 @@ function initOrderTable(orderId){
         },
 		url : '/order/toEdit2.do',
 		success : function(data) {
-			 //alert("ok");
 			 if (data == null) {  
 			     alert("没有商品数据！");
 			     return;
@@ -264,7 +262,6 @@ function decGoodsNumber(goodsId){
 	    dataType : 'json',
 		url : '/ordergoods/modifyGoodsNumber.do',
 		success : function(data) {
-			 //alert("ok");
 			 if (data != null) {  
 				 updateOrderList(data);
 		   }
@@ -289,7 +286,6 @@ function addGoodsNumber(goodsId){
 	    dataType : 'json',
 		url : '/ordergoods/modifyGoodsNumber.do',
 		success : function(data) {
-			 alert("ok");
 			 if (data != null) {  
 				 updateOrderList(data);
 		   }

@@ -62,8 +62,8 @@ function initAllOrderTable(){
         type: "POST",
 		url : '/order/list2.do',
 		success : function(data) {
-			 //alert("ok");
-			 if (data == null) {  
+		
+			 if ((data == null) || (data.length == 0)) { 
 			     alert("没有商品数据！");
 			     return;
 		     }
@@ -84,7 +84,7 @@ function initClientOrderInfoList(clientId){
 		},
 		url : '/order/getOrderListByClientId.do',
 		success : function(data) {
-			 if (data == null){
+			if ((data == null) || (data.length == 0)) { 
 				 alert("该商家没有订单");
 				 return;
 			 } 
@@ -144,7 +144,7 @@ function deleteRows(){
 		data: idlist,
 		url : '/order/deleteOrders.do',
 		success : function(data) {
-			 alert("ok");
+			
 			 window.location.reload();
 		},
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
@@ -198,6 +198,7 @@ function updateOrderTable(orderList, pageNo, pageSize){
 }
 
 function getOrderByClienteName(){	
+	alert("clientName = " + $("#title").val());
 	$.ajax({
     	dataType: "json",  
         type: "POST",

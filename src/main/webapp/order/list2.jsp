@@ -47,7 +47,7 @@ function initOrderTable(){
         type: "POST",
 		url : '/order/list2.do',
 		success : function(data) {
-			 //alert("ok");
+			 //
 			 if (data == null) {  
 			     alert("没有商品数据！");
 			     return;
@@ -113,19 +113,19 @@ function addRow(){
 }
 
 function getOrderById(){
- 
+    alert("orderid = " + $("#orderid").val());
 	$.ajax({
     	dataType: "json",  
         type: "POST",
 		data: {
-		   "id":  $("title").val()
+		   "id":  $("#orderid").val()
 		},
 		url : '/order/getOrderById.do',
 		success : function(data) {
-			 alert("ok");
+			 
 			 
 			 if (data != null) { 
-				 updateOrderTable(data);
+				 updateOrderList(data);
 			 }
 			 
 		},
@@ -151,7 +151,7 @@ function deleteRows(){
 		data: idlist,
 		url : '/order/deleteOrders.do',
 		success : function(data) {
-			 alert("ok");
+			 
 			 window.location.reload();
 		},
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
@@ -200,7 +200,7 @@ function allcheck() {
 	<div class="rightinfo">
 		<div class="tools">
 		<ul class="seachform">
-		<li><label>订单号</label><input id="title" name="title" type="text" class="scinput" /></li>
+		<li><label>订单号</label><input id="orderid" name="title" type="text" class="scinput" /></li>
 		<li><label>&nbsp;</label><input name="" type="button" onclick="getOrderById();" class="scbtn" value="查询"/></li>
 		</ul>
 		<ul class="toolbar">
@@ -212,7 +212,6 @@ function allcheck() {
 	
 	<div class="tools">
 		<ul class="toolbar">
-			<button type="button" class="btn btn-default" title="新建"  onclick="addRow()"><i class="fa fa-file-o"></i> 新建</button>
 	        <button type="button" class="btn btn-default" title="删除"  onclick="deleteRows()"><i class="fa fa-trash-o"></i> 删除</button>
 	        <button type="button" class="btn btn-default" title="刷新" onclick="window.location.reload();"><i class="fa fa-refresh"></i> 刷新</button>
 		</ul>

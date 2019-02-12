@@ -119,6 +119,9 @@ public class ProductTypeController2 {
     @RequestMapping(value = "/producttype/getTypeByName", method = { RequestMethod.POST })
     @ResponseBody
     public List<ProductType>  getTypeByName(HttpServletRequest request, @RequestParam String name){
+    	if((name == null) || (name.trim().length() == 0)) {
+        	return productTypeService.findAll();
+        }
     	
     	List<ProductType> productTypeList = productTypeService.findProductTypeListByName(name);  
     	//request.get

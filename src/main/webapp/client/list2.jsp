@@ -47,8 +47,8 @@ function initClientTable(){
         type: "POST",
 		url : '/client/list2.do',
 		success : function(data) {
-			 //alert("ok");
-			 if (data == null) {  
+			 //
+			 if ((data == null) || (data.length == 0)) {   
 			     alert("没有商家数据！");
 			     return;
 		     }
@@ -123,9 +123,10 @@ function deleteRows(){
 		data: idlist,
 		url : '/client/deleteClients.do',
 		success : function(data) {
-			 alert("ok");
+			 
 		},
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
+			 alert("fail");
 		}
 	});
 }
@@ -158,7 +159,8 @@ function  editRow(obj){
 }
 
 
-function getClientByName(){			
+function getClientByName(){		
+	alert("client name = " + $("#name").val());
 	$.ajax({
 		type: "POST",
 	    async: true,
@@ -168,13 +170,15 @@ function getClientByName(){
 	    dataType : 'json',
 		url : '/client/findClientByName.do',
 		success : function(data) {
-			 alert("ok");
-			 if (data != null) {  
-				 //var obj=document.getElementById('productlist');
-				 
-		   }
+			 
+			 if ((data == null) || (data.length == 0)) {  
+				 alert("未找到该商家");
+				 return;
+		     }
+			 updateClientList(data);
 		},
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
+			alert("fail");
 		}
 	});
 	

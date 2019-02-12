@@ -56,7 +56,6 @@ function initTypeTable(id){
         },
 		url : '/producttype/getTypeListByCategoryId.do',
 		success : function(data) {
-			 //alert("ok");
 			 if (data == null) {  
 			     alert("没有类型数据！");
 			     return;
@@ -155,6 +154,7 @@ function getTypeByName(){
 	}else{
 		categoryid = "3";
 	}
+	strid = strid.trim();
 	$.ajax({
    	dataType: "json",  
        type: "POST",
@@ -163,7 +163,6 @@ function getTypeByName(){
 		},
 		url : '/producttype/getTypeByName.do',
 		success : function(data) {
-			 alert("ok");
 			 if (data != null) {  
 				 updateTyeList(data, categoryid); 
 		   }
@@ -192,7 +191,6 @@ function deleteRows(){
 		data: idlist,
 		url : '/producttype/deleteProductTypes.do',
 		success : function(data) {
-			 //alert("ok");
 			 if (data != null) {
 				 window.location.reload();
 			}
