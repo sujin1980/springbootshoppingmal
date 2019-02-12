@@ -6,6 +6,8 @@ import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -26,6 +28,7 @@ import com.shopping.mall.model.ShoppingMallOrder;
 import com.shopping.mall.model.Product;
 import com.shopping.mall.service.ClientService;
 import com.shopping.mall.service.OrderService;
+import com.shopping.mall.util.StringUtil;
 
 @Controller
 public class ClientController2 {
@@ -97,22 +100,20 @@ public class ClientController2 {
     @RequestMapping(value ="/client/findClientByName", method = { RequestMethod.POST })
     @ResponseBody
     public List<ShoppingMallClient> findClientByName(HttpServletRequest request, @RequestParam String name) throws Exception{  
-    	String clientName = name;
-    	
-    	if((clientName == null) || (clientName.trim().length() == 0)) {
+    	String clientName = StringUtil.cutTabReturn(name);
+    
+    	if(clientName.length() == 0) {
         	return clientService.findAll();
         }
-        
-    	clientName = clientName.trim();
+    	
     	List<ShoppingMallClient> clientList = new ArrayList<>();
-	
-    	ShoppingMallClient client = clientService.findOneByName(name);
+    	ShoppingMallClient client = clientService.findOneByName(clientName);
     	
     	if(client == null) {
     		return null;
     	}
 	    
-    	clientList.add(clientService.findOneByName(name));
+    	clientList.add(clientService.findOneByName(clientName));
         return clientList;
     }  
     

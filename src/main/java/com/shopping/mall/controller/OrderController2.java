@@ -8,6 +8,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -34,6 +36,7 @@ import com.shopping.mall.service.ClientService;
 import com.shopping.mall.service.OrderGoodsService;
 import com.shopping.mall.service.OrderService;
 import com.shopping.mall.util.LineNo;
+import com.shopping.mall.util.StringUtil;
 
 @Controller
 public class OrderController2 {
@@ -71,21 +74,23 @@ public class OrderController2 {
     @RequestMapping(value ="/order/getOrderListByClientName", method = { RequestMethod.POST })
     @ResponseBody
     public List<ShoppingMallOrder> getOrderListByClientName(HttpServletRequest request, @RequestParam String clientName) throws Exception{  
-    	if((clientName == null) || (clientName.trim().length() == 0)) {
+    	String name = StringUtil.cutTabReturn(clientName);
+    	if(name.length() == 0) {
     		return orderService.findAll();
     	}
         
-        return  orderService.findOrderListByClientName(clientName);
+        return  orderService.findOrderListByClientName(name);
     } 
     
     @RequestMapping(value ="/order/getOrderListByClientId", method = { RequestMethod.POST })
     @ResponseBody
     public List<ShoppingMallOrder> getOrderListByClientId(HttpServletRequest request, @RequestParam String clientId) throws Exception{  
-    	if((clientId == null) || (clientId.trim().length() == 0)) {
+    	String id = StringUtil.cutTabReturn(clientId);
+    	if(id.length() == 0) {
     		return orderService.findAll();
     	}
         
-        return  orderService.findOrderListByClientId(Integer.valueOf(clientId));
+        return  orderService.findOrderListByClientId(Integer.valueOf(id));
     } 
     
     @RequestMapping(value ="/order/add2", method = { RequestMethod.POST })
@@ -191,13 +196,15 @@ public class OrderController2 {
     
     @RequestMapping(value ="/order/getOrderById", method = { RequestMethod.POST })
     @ResponseBody
-    public List<ShoppingMallOrder> getOrderById(HttpServletRequest request, @RequestParam String id) throws Exception{  
-        if((id == null) || (id.trim().length() == 0)) {
+    public List<ShoppingMallOrder> getOrderById(HttpServletRequest request, @RequestParam String id) throws Exception{       	
+     	String clientId = StringUtil.cutTabReturn(id);
+    	if((clientId == null) || (clientId.trim().length() == 0)) {
         	return orderService.findAll();
         }
     	
+    	
     	List<ShoppingMallOrder> orderList = new ArrayList<>();
-    	ShoppingMallOrder order = orderService.findOrderById(Long.valueOf(id));
+    	ShoppingMallOrder order = orderService.findOrderById(Long.valueOf(clientId));
     	orderList.add(order);
         return orderList;
     } 

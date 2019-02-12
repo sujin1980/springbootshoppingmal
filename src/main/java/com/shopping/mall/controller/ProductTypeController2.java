@@ -5,6 +5,8 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -24,6 +26,7 @@ import com.shopping.mall.model.Product;
 import com.shopping.mall.model.ProductCategory;
 import com.shopping.mall.model.ProductType;
 import com.shopping.mall.service.ProductTypeService;
+import com.shopping.mall.util.StringUtil;
 
 @Controller
 public class ProductTypeController2 {
@@ -119,12 +122,12 @@ public class ProductTypeController2 {
     @RequestMapping(value = "/producttype/getTypeByName", method = { RequestMethod.POST })
     @ResponseBody
     public List<ProductType>  getTypeByName(HttpServletRequest request, @RequestParam String name){
-    	if((name == null) || (name.trim().length() == 0)) {
+    	String clientName = StringUtil.cutTabReturn(name);
+    	if(clientName.length() == 0) {
         	return productTypeService.findAll();
         }
     	
-    	List<ProductType> productTypeList = productTypeService.findProductTypeListByName(name);  
-    	//request.get
+    	List<ProductType> productTypeList = productTypeService.findProductTypeListByName(clientName);  
     	return  productTypeList;
     } 
     
