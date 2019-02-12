@@ -19,7 +19,8 @@ public class ProductTypeServiceImpl implements ProductTypeService{
 	public boolean addProductType(ProductType productType) {
 		boolean flag=false;
 		try{
-			productTypeDao.save(productType);
+	
+			productTypeDao.add(productType);
 			flag=true;
 		}catch(Exception e){
 			System.out.println("新增失败!");
@@ -75,4 +76,19 @@ public class ProductTypeServiceImpl implements ProductTypeService{
 		// TODO Auto-generated method stub
 		return productTypeDao.findProductTypeListByCategoryName(name);
 	}
+
+	@Override
+	public boolean deleteProductTypes(List<String> idList) {
+		// TODO Auto-generated method stub
+		productTypeDao.deleteProductTypes(idList);
+		return true;
+	}
+
+	@Override
+	public List<ProductType> findProductTypeListByName(String name) {
+		// TODO Auto-generated method stub
+		return productTypeDao.findProductTypeListByName(name);
+	}
+
+	
 }

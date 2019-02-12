@@ -10,6 +10,7 @@ public class ProductType implements Serializable {
 	private static final long serialVersionUID = 2062626907383957607L;
 	private int id;
     private String name;
+    private String picture;
     private String remarks;
     private ProductCategory productCategory;
     private List<Product>  productList;
@@ -27,6 +28,15 @@ public class ProductType implements Serializable {
 	public void setName(String name) {
 		this.name = name;
 	}
+	
+	public String getPicture() {
+		return picture;
+	}
+
+	public void setPicture(String picture) {
+		this.picture = picture;
+	}
+
 	public String getRemarks() {
 		return remarks;
 	}

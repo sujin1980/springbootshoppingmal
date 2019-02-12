@@ -26,12 +26,8 @@ $(document).ready(function (){
 	var productchildrenList =
 		[
 			{
-			    name: "一级分类",
-			    url: "productcategory/list2.jsp",
-			},
-			{
-			    name: "二级分类",
-			    url: "producttpe/list2.jsp",
+			    name: "商品类别",
+			    url: "producttype/list2.jsp",
 			},
 			{
 			    name: "商品",

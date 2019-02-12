@@ -55,6 +55,7 @@ public class ProductController2 {
 
 
     @RequestMapping(value = "/product/deleteProducts", method = { RequestMethod.POST })
+    @ResponseBody
     public String deleteProducts(HttpServletRequest request, @RequestBody String idlistJson) throws Exception{  
         System.out.println(idlistJson);  
         List<String> jsonStrlist = Arrays.asList(idlistJson.split("&"));
@@ -67,7 +68,7 @@ public class ProductController2 {
         }
         System.out.println(idlist);
         productService.deleteProducts(idlist);
-        return "redirect:/product/list2";
+        return "OK";
     }  
     
     @RequestMapping(value = "/product/getproductbyname", method = { RequestMethod.POST })
@@ -155,31 +156,6 @@ public class ProductController2 {
         }
     } 
 	
-//	@RequestMapping(value ="/product/add2", method = { RequestMethod.POST })
-//    @ResponseBody
-//	public String add(HttpServletRequest request, @RequestParam String name, 
-//    		@RequestParam String typeid, @RequestParam String price,
-//    		@RequestParam String icon, @RequestParam String remarks){  
-//        //System.out.println(idlistJson);  
-//        
-//		try {
-//	        Product product = new Product();
-//	        
-//	        product.setName(name);
-//	        product.setPrice(new BigDecimal(price));
-//	        product.setIcon(icon);
-//	        product.setRemarks(remarks);
-//	        ProductType productType = productTypeService.findProductTypeById(Integer.valueOf(typeid));
-//	        product.setProductType(productType);
-//			product.setTypeid(productType.getId());
-//			
-//	        System.out.println(product);
-//	        productService.addProduct(product);
-//	        return "OK";
-//        }catch(Exception e) {
-//        	return "FAIL";
-//        }
-//    } 
 	
 	
     @RequestMapping("/product/toEdit2")

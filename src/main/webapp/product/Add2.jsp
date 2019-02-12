@@ -245,7 +245,8 @@ function addRow()
 		},
 		url : '/product/add2.do',
 		success : function(data) {			
-			alert("addRow success");
+			//alert("addRow success");
+			window.location.href = "product/list2.jsp"
 		},
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
 			alert("addRow fail");
@@ -278,7 +279,7 @@ function clearForm(){
 				<ul class="placeul">
 				<li><a href="javascript:void(0);">首页</a></li>
 				<li><a href="javascript:void(0);">商品管理</a></li>
-				<li><a href="javascript:void(0);"> 添加商品</a></li>
+				<li><a href="javascript:void(0);">添加商品</a></li>
 				</ul>
 			</div>
 			<br />

@@ -159,18 +159,8 @@ function deleteRows(){
 		success : function(data) {
 			 alert("ok");
 			 if (data != null) {
-				var obj=document.getElementById('producttypesel');
-				obj.options.length=0;
-			    for (var i = 0; i < data.length; i++) {
-			    	obj.options.add(new Option(data[i].name, data[i].id));
-				} 
-			    var obj2 = document.getElementById('productcategorysel' );
-				for(i=0;i<obj2.length;i++){
-				  if(obj2[i].value == 2)
-					  obj2[i].selected = true;
-				}
-			    
-			}
+				 window.location.reload();
+			 }
 		},
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
 		}

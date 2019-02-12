@@ -39,11 +39,7 @@ public class ProductTypeController {
         return "templates/producttype/producttypeAdd";
     }
 
-    @RequestMapping("/producttype/add")
-    public String add(ProductType productType) {
-        productTypeService.addProductType(productType);
-        return "redirect:/producttype/list";
-    }
+
 
     @RequestMapping("/producttype/toEdit")
     public String toEdit(Model model,int id) {

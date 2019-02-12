@@ -310,9 +310,7 @@ function checkPaymentTypeField(obj){
 </script>
   
 <body  class="easyui-layout" style="width:100%;height:100%;">
-     <!--- <div data-options="region:'north',split:false,border:true" style="overflow:hidden;height:90px;z-index:1">
-		<iframe src="top.jsp" width="100%" name="topFrame" scrolling="No" id="topFrame" title="topFrame"></iframe>
-	</div> ---> 
+    
 	<div data-options="region:'west',split:false,border:true" style="width:30%;">
 	    
     	<div class="place">
@@ -320,7 +318,7 @@ function checkPaymentTypeField(obj){
 			<ul class="placeul">
 			<li><a href="javascript:void(0);">首页</a></li>
 			<li><a href="javascript:void(0);">订单管理</a></li>
-			<li><a href="javascript:void(0);">添加商品</a></li>
+			<li><a href="javascript:void(0);">订单修改</a></li>
 			</ul>
 		</div>
 		<br />

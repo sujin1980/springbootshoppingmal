@@ -7,6 +7,7 @@
         <id column="id" property="id" jdbcType="INTEGER" /> 
         <result column="name" property="name" jdbcType="VARCHAR" />
         <result column="remarks" property="remarks" jdbcType="VARCHAR" /> 
+        <result column="picture" property="picture" jdbcType="VARCHAR" />
         <association column="categoryid" property="productCategory" javaType="com.shopping.mall.model.ProductCategory" select="com.shopping.mall.dao.ProductCategoryDao.findOne">
 		</association>
      </resultMap>
@@ -15,18 +16,11 @@
 		select *
 		from producttype
 	</select>
-    
-    <select id="findProductTypeListByCategoryId" parameterType="java.lang.Integer" resultMap="ProductTypeBaseResultMap">
-		select *
-		from producttype t, productcategory c where t.categoryid = c.id and c.id = #{id}
+
+    <select id="add" parameterType="com.shopping.mall.model.ProductType">
+		insert into producttype(name, picture, categoryid, remarks)
+        values (#{name,jdbcType=VARCHAR}, #{picture,jdbcType=VARCHAR}, #{productCategory.id,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR})
 	</select>
-	
-    <select id="findProductTypeListByCategoryName" parameterType="java.lang.String" resultMap="ProductTypeBaseResultMap">
-		select *
-		from producttype t, productcategory c where t.categoryid = c.id and c.name = #{name}
-	</select>
-	
-    
     
 	<select id="save" parameterType="com.shopping.mall.model.ProductType">
 		insert into producttype(id, name, remarks)
@@ -40,11 +34,34 @@
         where id = #{id,jdbcType=INTEGER}
     </delete>	
 		 
+	<select id="findProductTypeListByName" parameterType="java.lang.String" resultMap="ProductTypeBaseResultMap">
+		select *
+		from producttype, productcategory 
+		where producttype.categoryid = productcategory.id and producttype.name=#{name}
+	</select>	 
+		 
 	<select id="findOne" parameterType="java.lang.Integer" resultMap="ProductTypeBaseResultMap">
 		select *
 		from producttype, productcategory 
 		where producttype.categoryid = productcategory.id and producttype.id=#{id}
 	</select>
 	
+	<select id="deleteProductTypes"  parameterType="java.util.List"> 
+		delete from producttype where id in 
+		<foreach collection="idList" index="index" item="id" open="(" separator="," close=")">
+				#{id}
+		</foreach>
+
+	</select>
+	
+	<select id="findProductTypeListByCategoryId" parameterType="java.lang.Integer" resultMap="ProductTypeBaseResultMap">
+		select *
+		from producttype t, productcategory c where t.categoryid = c.id and c.id = #{id}
+	</select>
+	
+    <select id="findProductTypeListByCategoryName" parameterType="java.lang.String" resultMap="ProductTypeBaseResultMap">
+		select *
+		from producttype t, productcategory c where t.categoryid = c.id and c.name = #{name}
+	</select>
 	
 </mapper>
