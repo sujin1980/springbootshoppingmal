@@ -72,25 +72,138 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 var categoryid = null;
 $(document).ready(function () {
-	if(window.location.href.indexOf("?") > 0 ){
-		var equalPos = window.location.href.indexOf("=");
-		if(equalPos > 0){
-			categoryid = window.location.href.substr(equalPos + 1);
-		}
-	}
 	
-	
+	$("#imgfileupsel").change(function() {
+        var $file = $(this);
+        var fileObj = $file[0];
+        var windowURL = window.URL || window.webkitURL;
+        var dataURL;
+        var $img = $("#typeimage");
+        
+        if(fileObj && fileObj.files && fileObj.files[0]){
+	        dataURL = windowURL.createObjectURL(fileObj.files[0]);
+	        $img.attr('src',dataURL);
+        }else{
+	        dataURL = $file.val();
+	        var imgObj = document.getElementById("typeimage");
+	        imgObj.style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale)";
+	        //imgObj.filters.item("DXImageTransform.Microsoft.AlphaImageLoader").src = dataURL;
+	        imgObj.src = dataURL;
+        }
+    });
 	
 });
 
 
+var checkField = function (val)
+{	
+	var strid = null; 
+	if(val.indexOf("=") > 0){
+		strid = val.substring(0, val.indexOf("="));
+	}else{
+		strid = val;
+	}
+	
+	getTypeList(parseInt(strid));	
+}
 
+function uploadimage(fileData) {
+    var formData = new FormData();
+    formData.append('file', $('#imgfileupsel')[0].files[0]);
+    
+    $.ajax({
+		type: "POST",
+		data: formData,
+		processData: false,
+        contentType: false,
+		url: "file/upload.do",
+		success : function(data) {
+		    var $img = $("#typeimage");
+		    $img.attr('src',data); 
+			alert(data);		
+		},
+		error : function(XMLHttpRequest, textStatus, errorThrown) {
+			alert("checkField fail");
+		}
+	});
+}
+
+function canceluploadimage(fileData) {
+	document.getElementById("imgfileupsel").value = "";
+	$("#icon").val = "";
+    $("#typeimage").val = "";
+    $("#typeimage").src = "";
+    
+    var obj = $("#typeimage");
+    $("typeimage").removeAttr("src");
+    window.URL.revokeObjectURL(obj.src); 
+    return;
+}
+
+function isDecimal(item) {
+    var obj = $(item);
+    if (obj.length > 0) {
+        if ($(obj).val() != null && typeof ($(obj).val()) != "undefined") {
+            var str = $(obj).val().toString();
+            if (str != "") {
+                var pattern = '^-?[1-9]\\d*$|^-?0\\.\\d*$|^-?[1-9]\\d*\\.\\d*$';
+                var reg = new RegExp(pattern, 'g');
+                if (reg.test(str)) {
+                    return true;
+                } else {
+                    if (str.match(/[^0-9\.-]/g) != null) {
+                        if (str.match(/[^0-9\.-]/g).length > 0) {
+                            str = str.replace(/[^0-9\.-]/g, '');
+                            $(item).val(str);
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return false;
+}
+
+function editRow()
+{
+	if($("#typeimage").attr('src').indexOf("upload") < 0){
+		//alert($("#typeimage").attr('src'));
+		alert("请先上传商品类型图片！");
+		return;
+	}
+
+	if($("#name").val().trim().length == 0){
+		alert("请输入商品类型名称！");
+		return;
+	}
+
+	alert("categoryid = " + categoryid);
+	$.ajax({
+		type: "POST",
+		data: {
+			"id":   ${producttype.id},
+			"name":   $("#name").val(),
+			"categoryid":  ${categoryid},
+			"picture":   $("#typeimage").attr('src'),
+			"remarks": $("#remarks").val()
+		},
+		url : '/producttype/edit2.do',
+		success : function(data) {			
+			//alert("editRow success");
+			window.location.href = "producttype/list2.jsp";
+		},
+		error : function(XMLHttpRequest, textStatus, errorThrown) {
+			alert("editRow fail");
+			//window.location.replace("https://www.runoob.com");
+		}
+	});
+}
 </script>
   
 <body  class="easyui-layout" style="width:100%;height:100%;">	
-	<div data-options="region:'east',split:false" title="east" style="width:180px;"></div>
-	<div data-options="region:'west',split:false" title="west" style="width:100px;"></div>
-	<div data-options="region:'south',split:false" title="south" style="height:100px;"></div>
+	<div data-options="region:'east',split:false" title="" style="width:180px;"></div>
+	<div data-options="region:'west',split:false" title="" style="width:100px;"></div>
+	<div data-options="region:'south',split:false" title="" style="height:100px;"></div>
     <div data-options="region:'center',split:false,border:true" style="padding:5px;height:590px;z-index:1">
 	    
 			 <div class="place">
@@ -98,7 +211,7 @@ $(document).ready(function () {
 				<ul class="placeul">
 				<li><a href="javascript:void(0);">首页</a></li>
 				<li><a href="javascript:void(0);">商品管理</a></li>
-				<li><a href="javascript:void(0);">查看商品类型</a></li>
+				<li><a href="javascript:void(0);">修改商品类型</a></li>
 				</ul>
 			</div>
 			<br />
@@ -114,14 +227,27 @@ $(document).ready(function () {
 				       <td>
 				      		<img alt="" id="typeimage" src="${producttype.picture}" width="100px" height="100px">	            	 
 				       </td>
-				        
+				       <br />
+				       
+				       <td>
+				       		<a href="javascript:;" class="a-upload">
+				       			<input type="file"  id="imgfileupsel" title="选择图片"  accept="image/gif,image/png"  size="1" >选择图片
+				       		</a> 
+				       </td>
+				       <br />
+					    <td> 
+					   		<button type="button" class="btn btn-default" title="上传" onclick="uploadimage()"><i class="fa fa-trash-o"></i>上传</button>
+			       		</td> 
 				   </tr>
 			   <div>	 
 			   <br></br>
 			   <label for="商品类型介绍">商品类型介绍&nbsp;</label><input class="easyui-textbox" id="remarks" value = "${producttype.remarks}" name="remarks"  style="width:150px;"><br></br>
 			   
 		   </form>
-		       
+		    <div style="text-align:center;padding:5px">
+		    	<a href="javascript:void(0)" class="easyui-linkbutton" onclick="editRow()">确认</a>
+		    	<a href="javascript:void(0)" class="easyui-linkbutton" onclick="clearForm()">取消</a>
+		    </div>	   
 	  </div>
   </div>  	
 </body>

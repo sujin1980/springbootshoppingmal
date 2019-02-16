@@ -19,14 +19,14 @@
 
     <select id="add" parameterType="com.shopping.mall.model.ProductType">
 		insert into producttype(name, picture, categoryid, remarks)
-        values (#{name,jdbcType=VARCHAR}, #{picture,jdbcType=VARCHAR}, #{productCategory.id,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR})
+        values (#{name,jdbcType=VARCHAR}, #{picture,jdbcType=VARCHAR}, #{productCategory.id,jdbcType=INTEGER}, #{remarks,jdbcType=VARCHAR})
 	</select>
     
 	<select id="save" parameterType="com.shopping.mall.model.ProductType">
-		insert into producttype(id, name, remarks)
-        values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR})
-        ON DUPLICATE KEY UPDATE
-        name = VALUES(name), remarks = values(remarks)
+        update producttype set name = #{name,jdbcType=VARCHAR}, picture = #{picture,jdbcType=INTEGER}, 
+               remarks = #{remarks,jdbcType=VARCHAR},
+               categoryid = #{productCategory.id,jdbcType=INTEGER}
+         where id = #{id,jdbcType=INTEGER}
 	</select>
 	
 	<delete id="delete" parameterType="java.lang.Integer" >

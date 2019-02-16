@@ -36,7 +36,6 @@ var typeList = new Array();
 
 var categoryName = "易耗品";
 var categoryid = "4";
-
 $(function(){	
 	initTypeTable("4");
 	
@@ -95,12 +94,15 @@ function updateTyeList(data, categoryid){
 	updateTypeTable(typeList, 1, 10);
 }
 
-function test(){
-	alert("test==========");
-	$('#dlg').dialog({
-        height: "560"
-    }).dialog("open");
+function showPicture(goodsPicture){
+	//alert("goodsPicture===============" + goodsPicture);
+	 $('#dlg').dialog({
+	        height: "560"
+	    }).dialog("open");
+	 
+	 $("#typeimage").attr("src", goodsPicture);
 }
+
 function updateTypeTable(typeList, pageNo, pageSize){
 	 if(typeList == null){
 		 return;
@@ -117,11 +119,11 @@ function updateTypeTable(typeList, pageNo, pageSize){
 		      + 'style="visibility: visible" onclick="typeclickcheck(this)"> </td>';
 		  tbodyhtmlod += '<td> ' + typeList[i].id   + '</td>';
 		  tbodyhtmlod += '<td> ' + typeList[i].name + '</td>';
-		  tbodyhtmlod += '<td> ' + '<a href="javascript:void(0);" onclick="test()" '
+		  tbodyhtmlod += '<td> ' + '<a href="javascript:void(0);" onclick="showPicture(\'' +  typeList[i].picture + '\')" '
 		      + 'class="shopping-client-text" >查看图片</a>'  + '</td>';
 		  tbodyhtmlod += '<td> ' + typeList[i].remarks + '</td>';
 		  tbodyhtmlod += '<td ' + 'class="text-center">' +                                           
-		      '<a href="<%=basePath%>/producttype/toEdit2?id=' + typeList[i].id + '">查看</a> ';
+		      '<a href="<%=basePath%>/producttype/show?id=' + typeList[i].id + '">查看</a> ';
 		  tbodyhtmlod += '<a href="<%=basePath%>/producttype/toEdit2?id=' + typeList[i].id + '">修改</a></td> </tr>';
 	 }
 
@@ -277,34 +279,42 @@ function addRow(){
 	        <button type="button" class="btn btn-default" title="刷新"  onclick="window.location.reload();"><i class="fa fa-refresh"></i> 刷新</button>
 		</ul>
 	</div>
-	
-	<div id="tt" class="easyui-tabs"  data-options="tabWidth:150,tabHeight:40" style="width:100%;height:800">
-	    <div id="typetile" style="padding:10px">
-			<table class="table table-border table-bordered table-hover table-bg">
-			<thead>
-				<tr class="text-c">
-				    <th style="width: 1%">
-	                    <input id="selall" onclick="allcheck()" type="checkbox"/>
-	                </th>
-					<th style="width: 5%">类型ID</th>
-					<th style="width: 15%">名称</th>
-					<th style="width: 15%">图片</th>
-					<th style="width: 10%">描述</th>
-					<th style="width: 10%">明细</th>
-				</tr>
-			</thead>
-			<tbody id="goodstypelist">
-					
-		   </tbody>
-		</table>
-		<span><div class="easyui-pagination" id="pp" style="width:80%;margin-left:40px;"></div></span>
+	<div>
+		<div id="tt" class="easyui-tabs"  data-options="tabWidth:150,tabHeight:40" style="width:100%;height:800">
+		    <div id="typetile" style="padding:10px">
+				<table class="table table-border table-bordered table-hover table-bg">
+				<thead>
+					<tr class="text-c">
+					    <th style="width: 1%">
+		                    <input id="selall" onclick="allcheck()" type="checkbox"/>
+		                </th>
+						<th style="width: 5%">类型ID</th>
+						<th style="width: 15%">名称</th>
+						<th style="width: 15%">图片</th>
+						<th style="width: 10%">描述</th>
+						<th style="width: 10%">明细</th>
+					</tr>
+				</thead>
+				<tbody id="goodstypelist">
+						
+			   </tbody>
+			</table>
+			<span><div class="easyui-pagination" id="pp" style="width:80%;margin-left:40px;"></div></span>
+		</div>
 	</div>
 	
-	
-	<div id="dlg" class="easyui-dialog" title="Basic Dialog" data-options="iconCls:'icon-save'" style="width:400px;height:200px;padding:10px">
-		The dialog content.
+	<div id="dlg" class="easyui-dialog" title="商品类型图片" style="padding:20px 40px; width: 700px; height: 320px;" closed="true" buttons="#dlg-buttons">
+		<label for="图片">图片</label><br></br>
+			<tr>	
+		       <td>
+		      		<img alt="" id="typeimage" src="" width="100px" height="100px">	            	 
+		       </td>
+		        
+		    </tr>
 	</div>
-
+	<div id="dlg-buttons">
+		  <input name="" type="button"  class="cancel"   onclick="javascript:$('#dlg').dialog('close')" value="关闭" />
+	</div>
 </body>
 
 </html>

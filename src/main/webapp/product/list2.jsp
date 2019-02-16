@@ -91,7 +91,8 @@ function updateGoodsTable(goodsList, pageNo, pageSize){
 		  tbodyhtmlod += '<td> ' + goodsList[i].price   + '</td>';
 		  tbodyhtmlod += '<td> ' + goodsList[i].remarks + '</td>';
 		  tbodyhtmlod += '<td ' + 'class="text-center">' +                                           
-		      '<a href="<%=basePath%>/product/toEdit2?id=' + goodsList[i].id + '">查看</a> ';
+		      '<a href="<%=basePath%>/product/show?id=' + goodsList[i].id + '">查看&nbsp;&nbsp;</a> ';
+		  tbodyhtmlod += '<a href="<%=basePath%>/product/toEdit2?id=' + goodsList[i].id + '">修改&nbsp;&nbsp;</a>';    
 		  tbodyhtmlod += '<a href="javascript:void(0);"  onclick="addProducToOrder(' + goodsList[i].id + ')">加入订单</a></td> </tr>';
 	 }
 

@@ -105,6 +105,15 @@ function updateOrderList(data){
 	updateOrderTable(orderList, 1, 10);
 }
 
+function showPicture(goodsPicture){
+	//alert("goodsPicture===============" + goodsPicture);
+	 $('#dlg').dialog({
+	        height: "560"
+	    }).dialog("open");
+	 
+	 $("#typeimage").attr("src", goodsPicture);
+}
+
 function updateOrderTable(orderList, pageNo, pageSize){
 	$("orderlist").html("");
 	var tbodyhtmlod = '';
@@ -117,7 +126,9 @@ function updateOrderTable(orderList, pageNo, pageSize){
 		  tbodyhtmlod += '<td> ' + orderList[i].price + '</td>';
 		  tbodyhtmlod += '<td> ' + orderList[i].goodsNumber + '</td>';
 		  tbodyhtmlod += '<td> ' + orderList[i].goodsFee + '</td>';
-		  tbodyhtmlod += '<td> ' + orderList[i].picture   + '</td>';
+		  tbodyhtmlod += '<td> ' + '<a href="javascript:void(0);" onclick="showPicture(\'' +  orderList[i].picture + '\')" '
+	      + 'class="shopping-client-text" >查看图片</a>'  + '</td>';
+		  
 		  tbodyhtmlod += '<td> ' + orderList[i].remarks + '</td>';
 		  tbodyhtmlod += '<td ' + 'class="text-center">' +                                           
 		      '<a href="<%=basePath%>/product/toEdit2?id=' + orderList[i].goodsId + '">查看</a> ';
@@ -405,7 +416,18 @@ function checkPaymentTypeField(obj){
 				<input name="" type="button" onclick="" class="scbtn" value="确认"/></li>
 			</ul>
 		</div>
-	
+		<div id="dlg" class="easyui-dialog" title="商品图片" style="padding:20px 40px; width: 700px; height: 320px;" closed="true" buttons="#dlg-buttons">
+			<label for="图片">图片</label><br></br>
+				<tr>	
+			       <td>
+			      		<img alt="" id="typeimage" src="" width="100px" height="100px">	            	 
+			       </td>
+			        
+			    </tr>
+		</div>
+		<div id="dlg-buttons">
+			  <input name="" type="button"  class="cancel"   onclick="javascript:$('#dlg').dialog('close')" value="关闭" />
+		</div>
 	</div>
      	
 </body>

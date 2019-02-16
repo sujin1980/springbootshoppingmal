@@ -155,7 +155,13 @@ public class ProductController2 {
         }
     } 
 	
-	
+	@RequestMapping("/product/show")
+    public String show(Model model,int id) {
+    	System.out.println("开始编辑");
+    	Product  product = productService.findProductById(id);
+        model.addAttribute("product", product);
+        return "product/show";
+    }
 	
     @RequestMapping("/product/toEdit2")
     public String toEdit(Model model,int id) {
@@ -163,35 +169,38 @@ public class ProductController2 {
         
         Product  product = productService.findProductById(id);
         model.addAttribute("product", product);
+        //model.addAttribute("categoryid", product.getProductType().getProductCategory().getId());
+        //System.out.println("categoryid = " + product.getProductType().getProductCategory().getId() + "=================");
         return "product/Edit2";
     }
 
-    @RequestMapping("/product/edit2")
-    public String edit(HttpServletRequest request, @RequestBody String idlistJson) throws UnsupportedEncodingException {
-    	List<String> jsonStrlist = Arrays.asList(idlistJson.split("&"));
-        Product product = new Product();
-        for(String jsonStr: jsonStrlist) {
-        	if((jsonStr.substring(0, jsonStr.indexOf("=")).equals("id") )){
-        		product.setId(Integer.valueOf(URLDecoder.decode(jsonStr.substring(jsonStr.indexOf("=") + 1, jsonStr.length()), "UTF-8")));
-        	}else if((jsonStr.substring(0, jsonStr.indexOf("=")).equals("name") )){
-        		product.setName(URLDecoder.decode(jsonStr.substring(jsonStr.indexOf("=") + 1, jsonStr.length()), "UTF-8"));
-        	}else if((jsonStr.substring(0, jsonStr.indexOf("=")).equals("price") )){
-        		product.setPrice(new BigDecimal(jsonStr.substring(jsonStr.indexOf("=") + 1, jsonStr.length())));
-        	}else if((jsonStr.substring(0, jsonStr.indexOf("=")).equals("remarks") )){
-        		product.setRemarks(URLDecoder.decode(jsonStr.substring(jsonStr.indexOf("=") + 1, jsonStr.length()), "UTF-8"));
-        	}else if((jsonStr.substring(0, jsonStr.indexOf("=")).equals("icon") )){
-        		product.setIcon(URLDecoder.decode(jsonStr.substring(jsonStr.indexOf("=") + 1, jsonStr.length()), "UTF-8"));
-        	}else if((jsonStr.substring(0, jsonStr.indexOf("=")).equals("typeid") )){
-        		ProductType productType = productTypeService.findProductTypeById(Integer.valueOf(jsonStr.substring(jsonStr.indexOf("=") + 1, jsonStr.length())));
-        		product.setProductType(productType);
-        		product.setTypeid(productType.getId());
-        	}
-        	
+    @RequestMapping(value ="/product/edit2", method = { RequestMethod.POST })
+    @ResponseBody
+	public String edit(HttpServletRequest request, @RequestParam String id,
+			@RequestParam String name, @RequestParam String typeid, 
+			@RequestParam String price, @RequestParam String icon, 
+			@RequestParam String remarks){  
+        //System.out.println(idlistJson);  
+        
+		try {
+	        Product product = new Product();
+	        product.setId(Integer.valueOf(id));
+	        product.setName(name);
+	        product.setPrice(new BigDecimal(price));
+	        product.setIcon(icon);
+	        product.setRemarks(remarks);
+	        ProductType productType = productTypeService.findProductTypeById(Integer.valueOf(typeid));
+	        product.setProductType(productType);
+			product.setTypeid(productType.getId());
+			
+	        System.out.println(product);
+	        productService.updateProduct(product);
+	        return "OK";
+        }catch(Exception e) {
+        	return "FAIL";
         }
-        System.out.println(product);
-        productService.updateProduct(product);
-        return "redirect:/product/list2";
     }
+    
 
     @RequestMapping("/product/toDelete2")
     public String delete(int id) {

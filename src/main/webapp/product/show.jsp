@@ -29,46 +29,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <script type="text/javascript" src="common/easyui/locale/easyui-lang-zh_CN.js"></script>
     <script src="../static/jquery-3.3.1.min.js" type="text/javascript"></script>
 
-    <style>
-    .a-upload {
-        padding: 4px 10px;
-        width: 100px;
-        height: 25px;
-        line-height: 20px;
-        position: relative;
-        cursor: pointer;
-        color: #FFFFFF;
-        background: #4682B4;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-        overflow: hidden;
-        display: inline-block;
-        *display: inline;
-        *zoom: 1
-    }
-
-    .a-upload  input {
-        position: absolute;
-        font-size: 100px;
-        right: 0;
-        top: 0;
-        opacity: 0;
-        filter: alpha(opacity=0);
-        cursor: pointer
-    }
-
-    .a-upload:hover {
-        color: #444;
-        background: #eee;
-        border-color: #ccc;
-        text-decoration: none
-    }
-    
-</style>
 <script type="text/javascript">
 
 $(document).ready(function () {
-	$("#imgfileupsel").change(function() {
+	/*$("#imgfileupsel").change(function() {
         var $file = $(this);
         var fileObj = $file[0];
         var windowURL = window.URL || window.webkitURL;
@@ -85,16 +49,10 @@ $(document).ready(function () {
 	        //imgObj.filters.item("DXImageTransform.Microsoft.AlphaImageLoader").src = dataURL;
 	        imgObj.src = dataURL;
         }
-    });
-	
-	/*        
-    $('#price').textbox({
-	      onChange: function (newvalue, oldvalue) {
-	    	  checkprice(newvalue);
-	      }
     });*/
-    
-	initField(${categoryid}); 
+
+	initField(${product.productType.productCategory.id});
+	
 });
 
 var getTypeList = function (val)
@@ -144,6 +102,7 @@ var checkField = function (val)
 	getTypeList(parseInt(strid));	
 }
 
+/*
 function uploadimage(fileData) {
     var formData = new FormData();
     formData.append('file', $('#imgfileupsel')[0].files[0]);
@@ -176,85 +135,9 @@ function canceluploadimage(fileData) {
     window.URL.revokeObjectURL(obj.src); 
     return;
 }
+*/
 
-function isDecimal(item) {
-    var obj = $(item);
-    if (obj.length > 0) {
-        if ($(obj).val() != null && typeof ($(obj).val()) != "undefined") {
-            var str = $(obj).val().toString();
-            if (str != "") {
-                var pattern = '^-?[1-9]\\d*$|^-?0\\.\\d*$|^-?[1-9]\\d*\\.\\d*$';
-                var reg = new RegExp(pattern, 'g');
-                if (reg.test(str)) {
-                    return true;
-                } else {
-                    if (str.match(/[^0-9\.-]/g) != null) {
-                        if (str.match(/[^0-9\.-]/g).length > 0) {
-                            str = str.replace(/[^0-9\.-]/g, '');
-                            $(item).val(str);
-                        }
-                    }
-                }
-            }
-        }
-    }
-    return false;
-}
 
-function editRow()
-{
-	if($("#productimg").attr('src').indexOf("upload") < 0){
-		//alert($("#productimg").attr('src'));
-		alert("请先上传商品图片！");
-		return;
-	}
-
-	if($("#name").val().trim().length == 0){
-		alert("请输入商品名称！");
-		return;
-	}
-	
-	var priceval = $("#price").val().trim();
-	if(priceval.length == 0){
-		alert("请输入商品价格！");
-		return;
-	}
-	
-	var r = /^\d{1,18}(.\d{1,2})?$/gi;
-	alert(priceval);
-	if(!r.test(priceval)){
-		alert("输入的商品价格不是有效的数字");
-		return;
-	}
-	
-	$.ajax({
-		type: "POST",
-		data: {
-			"id":     ${product.id}, 
-			"name":   $("#name").val(),
-			"typeid": $("#producttypesel").val(),
-			"price":  $("#price").val(),
-			"icon":   $("#productimg").attr('src'),
-			"remarks": $("#remarks").val()
-		},
-		url : '/product/edit2.do',
-		success : function(data) {			
-			//alert("editRow success");
-			window.location.href = "product/list2.jsp"
-		},
-		error : function(XMLHttpRequest, textStatus, errorThrown) {
-			alert("editRow fail");
-			//window.location.replace("https://www.runoob.com");
-		}
-	});
-}
-
-function submitForm(){
-	$('#ff').form('submit');
-}
-function clearForm(){
-	$('#ff').form('clear');
-}
 
 </script>
   
@@ -273,53 +156,44 @@ function clearForm(){
 				<ul class="placeul">
 				<li><a href="javascript:void(0);">首页</a></li>
 				<li><a href="javascript:void(0);">商品管理</a></li>
-				<li><a href="javascript:void(0);">修改商品</a></li>
+				<li><a href="javascript:void(0);">查看商品</a></li>
 				</ul>
 			</div>
 			<br />
 		<div class="box-body" style="text-align:center; align-items:center; ">	
-			<form id="ff" method="post">	
-			   <input type="text" id="productid" name="productid" hidden="true" editable="false" value = "${product.id}">
-			   <label id="id" for="名称"  >名称&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label> <input class="easyui-textbox" id="name" value = "${product.name}" name="name"><br></br>
-			   <label for="一级分类">一级分类&nbsp;</label>
-			   <select id="productcategorysel" name="dept" style="width:150px;" onchange="checkField(this.value)">
-				   <option value="2">有偿用品</option>
-				   <option value="3">皮草</option>
-				   <option value="4">易耗品</option>
-			   </select>
-			   <br></br>
-			   <label for="二级分类">二级分类&nbsp;</label>
-			   <select id="producttypesel" style="width:150px;">
-			   </select>
-			   <br></br>
-			   <label for="价格">价格&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label><input class="easyui-textbox" id="price" name="price" value = "${product.price}" style="width:150px;"><br></br>
-			   <div>
-			      <label for="图片">图片</label><br></br>
-			      <tr>	
-				       <td>
-				      		<img alt="" id="productimg" src="${product.icon}" width="100px" height="100px">	            	 
-				       </td>
-				       <br />
-				       
-					       <td>
-					       		<a href="javascript:;" class="a-upload">
-					       			<input type="file"  id="imgfileupsel" title="选择图片"  accept="image/gif,image/png"  size="1" >选择图片
-					       		</a> 
-					       </td>
-					       <br />
-						    <td> 
-						   		<button type="button" class="btn btn-default" title="上传" onclick="uploadimage()"><i class="fa fa-trash-o"></i>上传</button>
-				       		</td> 
-				   </tr>
-			   <div>	 
-			   <br></br>
-			   <label for="商品介绍">商品介绍&nbsp;</label><input class="easyui-textbox" id="remarks" name="remarks" value = "${product.remarks}" style="width:150px;"><br></br>
+			<table cellpadding="0" cellspacing="1" border="0">
+			    <tr>    
+			        
+			        <td><input id="userInputCondition" name="userInputCondition" type="text" style="width:200px;"></input></td>                            
+			    </tr>                        
+		    </table>
+		   <input type="text" id="productid" name="productid" hidden="true" editable="false" value = "${product.id}">
+		   <label id="id" for="名称"  >名称&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label> <input class="easyui-textbox" id="name" value = "${product.name}" name="name"><br></br>
+		   <label for="一级分类">一级分类&nbsp;</label>
+		   <select id="productcategorysel" name="dept" style="width:150px;" onchange="checkField(this.value)">
+			   <option value="2">有偿用品</option>
+			   <option value="3">皮草</option>
+			   <option value="4">易耗品</option>
+		   </select>
+		   <br></br>
+		   <label for="二级分类">二级分类&nbsp;</label>
+		   <select id="producttypesel" style="width:150px;">
+		   </select>
+		   <br></br>
+		   <label for="价格">价格&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label><input class="easyui-textbox" id="price" name="price" value = "${product.price}" style="width:150px;"><br></br>
+		   <div>
+		      <label for="图片">图片</label><br></br>
+		      <tr>	
+			       <td>
+			      		<img alt="" id="productimg" src="${product.icon}" width="100px" height="100px">	            	 
+			       </td>
+			       <br />
+			       
+			   </tr>
+		   <div>	 
+		   <br></br>
+		   <label for="商品介绍">商品介绍&nbsp;</label><input class="easyui-textbox" id="remarks" name="remarks" value = "${product.remarks}" style="width:150px;"><br></br>
 		   
-		   </form>
-		    <div style="text-align:center;padding:5px">
-		    	<a href="javascript:void(0)" class="easyui-linkbutton" onclick="editRow()">确认</a>
-		    	<a href="javascript:void(0)" class="easyui-linkbutton" onclick="clearForm()">取消</a>
-		    </div>	   
 	  </div>
   </div>  	
 </body>

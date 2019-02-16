@@ -68,7 +68,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 <script type="text/javascript">
 
-
+var goodsCategoryDefault = 2; 
 $(document).ready(function () {
 	
 	$("#imgfileupsel").change(function() {
@@ -97,7 +97,7 @@ $(document).ready(function () {
 	      }
     });*/
     
-	initField(2); 
+	initField(goodsCategoryDefault); 
 });
 
 var getTypeList = function (val)
@@ -117,7 +117,7 @@ var getTypeList = function (val)
 				} 
 			    var obj2 = document.getElementById('productcategorysel' );
 				for(i=0;i<obj2.length;i++){
-				  if(obj2[i].value == 2)
+				  if(obj2[i].value == goodsCategoryDefault)
 					  obj2[i].selected = true;
 				}
 			    
@@ -223,10 +223,7 @@ function addRow()
 		return;
 	}
 	
-	alert("========");
 	var r = /^\d{1,18}(.\d{1,2})?$/gi;
-	
-	
 	alert(priceval);
 	if(!r.test(priceval)){
 		alert("输入的商品价格不是有效的数字");

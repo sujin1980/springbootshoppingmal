@@ -52,7 +52,7 @@ public class ProductTypeController2 {
 
     @RequestMapping(value ="/producttype/add2", method = { RequestMethod.POST })
     @ResponseBody
-	public String add(HttpServletRequest request, @RequestParam String name, 
+	public String add(HttpServletRequest request, @RequestParam String id, @RequestParam String name, 
     		@RequestParam String categoryid, @RequestParam String picture, @RequestParam String remarks){  
         //System.out.println(idlistJson);  
         
@@ -73,19 +73,46 @@ public class ProductTypeController2 {
         }
     } 
     
+    @RequestMapping("/producttype/show")
+    public String show(Model model,int id) {
+    	System.out.println("开始编辑");
+        ProductType producttype=productTypeService.findProductTypeById(id);
+        model.addAttribute("producttype", producttype);
+        return "producttype/show";
+    }
+    
     @RequestMapping("/producttype/toEdit2")
     public String toEdit(Model model,int id) {
     	System.out.println("开始编辑");
         ProductType producttype=productTypeService.findProductTypeById(id);
         model.addAttribute("producttype", producttype);
+        model.addAttribute("categoryid", producttype.getProductCategory().getId());
         return "producttype/Edit2";
     }
 
-    @RequestMapping("/producttype/edit2")
-    public String edit(ProductType productType) {
-        productTypeService.updateProductType(productType);
-        return "redirect:/producttype/list2";
-    }
+    @RequestMapping(value ="/producttype/edit2", method = { RequestMethod.POST })
+    @ResponseBody
+	public String edit(HttpServletRequest request, @RequestParam String id, @RequestParam String name, 
+    		@RequestParam String categoryid, @RequestParam String picture, @RequestParam String remarks){  
+        //System.out.println(idlistJson);  
+        
+		try {
+	        ProductType productType = new ProductType();
+	        productType.setId(Integer.valueOf(id));
+	        productType.setName(name);
+	        productType.setRemarks(remarks);
+	        productType.setPicture(picture + "");
+	       
+	        ProductCategory productCategory = new ProductCategory();
+	        productCategory.setId(Integer.valueOf(categoryid));
+	        productType.setProductCategory(productCategory);
+	        //productTypeService.addProductType(productType);
+	        productTypeService.updateProductType(productType);
+	        return "OK";
+        }catch(Exception e) {
+        	return "FAIL";
+        }
+    } 
 
     @RequestMapping("/producttype/toDelete2")
     public String delete(int id) {

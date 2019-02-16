@@ -32,7 +32,7 @@
 	</select>
 	
 	<select id="save" parameterType="com.shopping.mall.model.Product">
-        update product set name = #{name,jdbcType=VARCHAR}, typeid = #{typeid,jdbcType=INTEGER}, 
+        update product set name = #{name,jdbcType=VARCHAR}, typeid = #{productType.id,jdbcType=INTEGER}, 
                price = #{price,jdbcType=DECIMAL}, icon = #{icon,jdbcType=VARCHAR},
                remarks = #{remarks,jdbcType=VARCHAR}
          where id = #{id,jdbcType=INTEGER}

@@ -205,9 +205,9 @@ function addRow()
 </script>
   
 <body  class="easyui-layout" style="width:100%;height:100%;">	
-	<div data-options="region:'east',split:false" title="east" style="width:180px;"></div>
-	<div data-options="region:'west',split:false" title="west" style="width:100px;"></div>
-	<div data-options="region:'south',split:false" title="south" style="height:100px;"></div>
+	<div data-options="region:'east',split:false" title="" style="width:180px;"></div>
+	<div data-options="region:'west',split:false" title="" style="width:100px;"></div>
+	<div data-options="region:'south',split:false" title="" style="height:100px;"></div>
     <div data-options="region:'center',split:false,border:true" style="padding:5px;height:590px;z-index:1">
 	    
 			 <div class="place">
