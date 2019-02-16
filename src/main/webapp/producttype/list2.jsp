@@ -19,6 +19,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
      <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
 	<link rel="stylesheet" type="text/css" href="common/easyui/themes/default/easyui.css"/>
 	<link rel="stylesheet" type="text/css" href="common/easyui/themes/icon.css" />
+	<link rel="stylesheet" type="text/css" href="common/easyui/demo.css" />
 	<link rel="stylesheet" href="../plugins/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="../plugins/adminLTE/css/AdminLTE.css">
     <link rel="stylesheet" href="../plugins/adminLTE/css/skins/_all-skins.min.css">
@@ -94,6 +95,12 @@ function updateTyeList(data, categoryid){
 	updateTypeTable(typeList, 1, 10);
 }
 
+function test(){
+	alert("test==========");
+	$('#dlg').dialog({
+        height: "560"
+    }).dialog("open");
+}
 function updateTypeTable(typeList, pageNo, pageSize){
 	 if(typeList == null){
 		 return;
@@ -110,7 +117,8 @@ function updateTypeTable(typeList, pageNo, pageSize){
 		      + 'style="visibility: visible" onclick="typeclickcheck(this)"> </td>';
 		  tbodyhtmlod += '<td> ' + typeList[i].id   + '</td>';
 		  tbodyhtmlod += '<td> ' + typeList[i].name + '</td>';
-		  tbodyhtmlod += '<td> ' + typeList[i].picture   + '</td>';
+		  tbodyhtmlod += '<td> ' + '<a href="javascript:void(0);" onclick="test()" '
+		      + 'class="shopping-client-text" >查看图片</a>'  + '</td>';
 		  tbodyhtmlod += '<td> ' + typeList[i].remarks + '</td>';
 		  tbodyhtmlod += '<td ' + 'class="text-center">' +                                           
 		      '<a href="<%=basePath%>/producttype/toEdit2?id=' + typeList[i].id + '">查看</a> ';
@@ -290,6 +298,11 @@ function addRow(){
 		   </tbody>
 		</table>
 		<span><div class="easyui-pagination" id="pp" style="width:80%;margin-left:40px;"></div></span>
+	</div>
+	
+	
+	<div id="dlg" class="easyui-dialog" title="Basic Dialog" data-options="iconCls:'icon-save'" style="width:400px;height:200px;padding:10px">
+		The dialog content.
 	</div>
 
 </body>

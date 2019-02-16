@@ -7,6 +7,7 @@ import org.apache.tomcat.util.descriptor.web.SecurityConstraint;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.embedded.EmbeddedServletContainerFactory;
 import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainerFactory;
 import org.springframework.context.annotation.Bean;
@@ -25,8 +26,11 @@ public class ShoppingmallApplication {
 		SpringApplication.run(ShoppingmallApplication.class, args);
 	}
 
+	
 	@Bean
+	@ConditionalOnProperty(prefix = "server", name = "port", havingValue = "8443", matchIfMissing = true)
     public EmbeddedServletContainerFactory servletContainer(){
+		System.out.println("1==============================");
         TomcatEmbeddedServletContainerFactory tomcat=new TomcatEmbeddedServletContainerFactory(){
             @Override
             protected void postProcessContext(Context context) {
@@ -43,6 +47,7 @@ public class ShoppingmallApplication {
     }
 
     @Bean
+    @ConditionalOnProperty(prefix = "server", name = "port", havingValue = "8443", matchIfMissing = true)
     public Connector httpConnector(){
         Connector connector=new Connector("org.apache.coyote.http11.Http11NioProtocol");
         connector.setScheme("http");
