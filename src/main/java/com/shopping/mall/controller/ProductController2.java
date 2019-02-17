@@ -57,16 +57,16 @@ public class ProductController2 {
 
     @RequestMapping(value = "/product/deleteProducts", method = { RequestMethod.POST })
     @ResponseBody
-    public String deleteProducts(HttpServletRequest request, @RequestBody String idlistJson) throws Exception{  
-        System.out.println(idlistJson);  
-        List<String> jsonStrlist = Arrays.asList(idlistJson.split("&"));
-        List<String>  idlist = new ArrayList<String>();
+    public String deleteProducts(HttpServletRequest request, @RequestParam String idlist) throws Exception{  
+        System.out.println(idlist);  
+        List<String> jsonStrlist = Arrays.asList(idlist.split("&"));
+        List<String>  idlistjson = new ArrayList<String>();
         for(String jsonStr: jsonStrlist) {
         	Integer.valueOf(jsonStr.substring(jsonStr.indexOf("=") + 1, jsonStr.length()));
-        	idlist.add(jsonStr.substring(jsonStr.indexOf("=") + 1, jsonStr.length()));
+        	idlistjson.add(jsonStr.substring(jsonStr.indexOf("=") + 1, jsonStr.length()));
         }
-        System.out.println(idlist);
-        productService.deleteProducts(idlist);
+        System.out.println("idlist = " + idlist);
+        productService.deleteProducts(idlistjson);
         return "OK";
     }  
     

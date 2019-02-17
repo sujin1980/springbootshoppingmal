@@ -82,7 +82,7 @@ function updateGoodsTable(goodsList, pageNo, pageSize){
 		  
 		  
 		  tbodyhtmlod += '<tr class="odd gradeX">';
-		  tbodyhtmlod += '<td> <input id=' + goodsList[i].id + 'class="odd gradeX" type="checkbox" name="goodscheckbox" '
+		  tbodyhtmlod += '<td> <input id="' + goodsList[i].id + '" class="odd gradeX" type="checkbox" name="goodscheckbox" '
 		      + 'style="visibility: visible" onclick="goodsclickcheck(this)"> </td>';
 		  tbodyhtmlod += '<td> ' + goodsList[i].id   + '</td>';
 		  tbodyhtmlod += '<td> ' + goodsList[i].name + '</td>';
@@ -116,7 +116,7 @@ function getProductByName(){
 	}
 	
 	$.ajax({
-   	dataType: "json",  
+	   dataType: "json",  
        type: "POST",
 		data: {
 			"name": strid
@@ -158,9 +158,12 @@ function deleteRows(){
 		success : function(data) {
 			 if (data != null) {
 				 window.location.reload();
+			 }else{
+				 alert("ok");
 			 }
 		},
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
+			alert("fail");
 		}
 	});
     

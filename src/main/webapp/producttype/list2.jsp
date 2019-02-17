@@ -115,7 +115,7 @@ function updateTypeTable(typeList, pageNo, pageSize){
 		  
 		  
 		  tbodyhtmlod += '<tr class="odd gradeX">';
-		  tbodyhtmlod += '<td> <input id=' + typeList[i].id + 'class="odd gradeX" type="checkbox" name="typecheckbox" '
+		  tbodyhtmlod += '<td> <input id="' + typeList[i].id + '" class="odd gradeX" type="checkbox" name="typecheckbox" '
 		      + 'style="visibility: visible" onclick="typeclickcheck(this)"> </td>';
 		  tbodyhtmlod += '<td> ' + typeList[i].id   + '</td>';
 		  tbodyhtmlod += '<td> ' + typeList[i].name + '</td>';

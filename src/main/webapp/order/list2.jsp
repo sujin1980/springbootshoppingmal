@@ -79,7 +79,7 @@ function updateOrderTable(orderList, pageNo, pageSize){
 
 	 for(var i= (pageNo - 1)*pageSize; (i< pageNo*pageSize) && (i < orderList.length); i++){
 		 tbodyhtmlod += '<tr class="odd gradeX">';
-		  tbodyhtmlod += '<td> <input id=' + orderList[i].id + 'class="odd gradeX" type="checkbox" name="ordercheckbox" '
+		  tbodyhtmlod += '<td> <input id="' + orderList[i].id + '" class="odd gradeX" type="checkbox" name="ordercheckbox" '
 		      + 'style="visibility: visible" onclick="ordersclickcheck(this)"> </td>';
 		  tbodyhtmlod += '<td> ' + orderList[i].id   + '</td>';
 		  tbodyhtmlod += '<td> ' + orderList[i].payment + '</td>';

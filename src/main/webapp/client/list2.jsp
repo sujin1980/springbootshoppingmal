@@ -79,7 +79,7 @@ function updateClientTable(clientList, pageNo, pageSize){
 
 	 for(var i= (pageNo - 1)*pageSize; (i< pageNo*pageSize) && (i < clientList.length); i++){
 		 tbodyhtmlod += '<tr class="odd gradeX">';
-		  tbodyhtmlod += '<td> <input id=' + clientList[i].id + 'class="odd gradeX" type="checkbox" name="goodscheckbox" '
+		  tbodyhtmlod += '<td> <input id="' + clientList[i].id + '" class="odd gradeX" type="checkbox" name="goodscheckbox" '
 		      + 'style="visibility: visible" onclick="goodsclickcheck(this)"> </td>';
 		  tbodyhtmlod += '<td class="tdcenter" > ' + clientList[i].name + '</td>';
 		  tbodyhtmlod += '<td class="tdcenter"> ' + clientList[i].chineseName + '</td>';
