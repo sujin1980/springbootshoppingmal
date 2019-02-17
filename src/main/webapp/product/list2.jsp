@@ -156,14 +156,15 @@ function deleteRows(){
 		data: idlist,
 		url : '/product/deleteProducts.do',
 		success : function(data) {
-			 if (data != null) {
+			 if(data == "OK"){
 				 window.location.reload();
 			 }else{
 				 alert("ok");
 			 }
 		},
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
-			alert("fail");
+			//alert("fail");
+			window.location.reload();
 		}
 	});
     

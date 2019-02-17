@@ -108,6 +108,14 @@ function updateOrderTable(orderList, pageNo, pageSize){
 	});
 }
 
+function ordersclickcheck(obj) {
+	if(obj.checked==false){  
+        var allche = document.getElementById("selall");  
+        allche.checked = false;
+    }
+}
+
+
 function addRow(){
 	window.open("/order/toAdd2");
 }
@@ -155,7 +163,7 @@ function deleteRows(){
 			 window.location.reload();
 		},
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
-			 alert("fail");
+			 //alert("fail");
 			 window.location.reload();
 		}
 	});

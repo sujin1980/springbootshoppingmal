@@ -129,7 +129,7 @@ public class ProductTypeController2 {
     	return  productTypeList;
     }     
     
-    @RequestMapping(value = "/product/deleteProductTypes", method = { RequestMethod.POST })
+    @RequestMapping(value = "/producttype/deleteProductTypes", method = { RequestMethod.POST })
     @ResponseBody
     public String deleteProducts(HttpServletRequest request, @RequestBody String idlistJson) throws Exception{  
         System.out.println(idlistJson);  

@@ -79,8 +79,8 @@ function updateClientTable(clientList, pageNo, pageSize){
 
 	 for(var i= (pageNo - 1)*pageSize; (i< pageNo*pageSize) && (i < clientList.length); i++){
 		 tbodyhtmlod += '<tr class="odd gradeX">';
-		  tbodyhtmlod += '<td> <input id="' + clientList[i].id + '" class="odd gradeX" type="checkbox" name="goodscheckbox" '
-		      + 'style="visibility: visible" onclick="goodsclickcheck(this)"> </td>';
+		  tbodyhtmlod += '<td> <input id="' + clientList[i].id + '" class="odd gradeX" type="checkbox" name="clientcheckbox" '
+		      + 'style="visibility: visible" onclick="itemclickcheck(this)"> </td>';
 		  tbodyhtmlod += '<td class="tdcenter" > ' + clientList[i].name + '</td>';
 		  tbodyhtmlod += '<td class="tdcenter"> ' + clientList[i].chineseName + '</td>';
 		  tbodyhtmlod += '<td class="tdcenter"> ' + clientList[i].telephone + '</td>';
@@ -107,6 +107,13 @@ function addRow(){
 	window.location.href = "/client/toAdd2";
 }
 
+function itemclickcheck(obj) {
+	if(obj.checked==false){  
+        var allche = document.getElementById("selall");  
+        allche.checked = false;
+    }
+}
+
 function deleteRows(){
     var che = document.getElementsByName("clientcheckbox");  
     var idlist = {};
@@ -115,8 +122,8 @@ function deleteRows(){
         if(che[i].checked == true){
         	idlist[i] = che[i].id;
         }
-    }  
-    
+    }  			 
+			 
     $.ajax({
     	dataType: "json",  
         type: "POST",
@@ -124,9 +131,11 @@ function deleteRows(){
 		url : '/client/deleteClients.do',
 		success : function(data) {
 			 
+			 window.location.reload();
 		},
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
 			 alert("fail");
+			 window.location.reload();
 		}
 	});
 }
@@ -246,7 +255,7 @@ function client_confirm(obj)
 	<div class="tools">
 		<ul class="toolbar">
 			<button type="button" class="btn btn-default" title="新建"  onclick="addRow()"><i class="fa fa-file-o"></i> 新建</button>
-	        <button type="button" class="btn btn-default" title="删除"  onclick="client_confirm()"><i class="fa fa-trash-o"></i> 删除</button>
+	        <button type="button" class="btn btn-default" title="删除"  onclick="deleteRows()"><i class="fa fa-trash-o"></i> 删除</button>
 	        <button type="button" class="btn btn-default" title="刷新" onclick="window.location.reload();"><i class="fa fa-refresh"></i> 刷新</button>
 		</ul>
 	</div>

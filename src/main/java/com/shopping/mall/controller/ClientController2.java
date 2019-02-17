@@ -2,6 +2,7 @@ package com.shopping.mall.controller;
 
 
 import java.io.UnsupportedEncodingException;
+import java.lang.annotation.Repeatable;
 import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -74,20 +75,21 @@ public class ClientController2 {
     }
     
     @RequestMapping(value = "/client/deleteClients", method = { RequestMethod.POST })
+    @ResponseBody
     public String deleteClients(HttpServletRequest request, @RequestBody String idlistJson) throws Exception{  
         System.out.println(idlistJson);  
         List<String> jsonStrlist = Arrays.asList(idlistJson.split("&"));
         List<String>  idlist = new ArrayList<String>();
         for(String jsonStr: jsonStrlist) {
         	
-        	Integer.valueOf(jsonStr.substring(jsonStr.indexOf("=") + 1, jsonStr.length()));
+        	//Integer.valueOf(jsonStr.substring(jsonStr.indexOf("=") + 1, jsonStr.length()));
         	idlist.add(jsonStr.substring(jsonStr.indexOf("=") + 1, jsonStr.length()));
         	
         }
         System.out.println(idlist);
         clientService.deleteClients(idlist);
-        return "redirect:/client/list2";
-    }  
+        return "ok";
+    }
     
     
     
