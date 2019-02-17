@@ -136,7 +136,7 @@ function updateOrderTable(orderList, pageNo, pageSize){
 		  tbodyhtmlod += '<a href="javascript:void(0);" onclick="decGoodsNumber('+ orderList[i].goodsId + ');return false;">减少数量</a></td> </tr>';
 	 }
 
-	 console.log(tbodyhtmlod);
+	 //console.log(tbodyhtmlod);
 	 $("#orderlist").html(tbodyhtmlod);
 	 
 	 $('#pp').pagination({
