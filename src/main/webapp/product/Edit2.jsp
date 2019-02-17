@@ -67,6 +67,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 </style>
 <script type="text/javascript">
 
+var categorid 
 $(document).ready(function () {
 	$("#imgfileupsel").change(function() {
         var $file = $(this);
@@ -94,15 +95,16 @@ $(document).ready(function () {
 	      }
     });*/
     
-	initField(${categoryid}); 
+	initField( ${product.productType.productCategory.id}); 
 });
 
 var getTypeList = function (val)
 {	
+	//alert("categoryid = " + JSON.stringify(val));
 	$.ajax({
 		type: "POST",
 		data: {
-			"id" : JSON.stringify(val)
+			"id": JSON.stringify(val)
 		},
 		url : 'producttype/getTypeListByCategoryStrId.do',	
 		success : function(data) {			
@@ -114,7 +116,7 @@ var getTypeList = function (val)
 				} 
 			    var obj2 = document.getElementById('productcategorysel' );
 				for(i=0;i<obj2.length;i++){
-				  if(obj2[i].value == ${product.productType.productCategory.id})
+				  if(obj2[i].value == JSON.stringify(val))
 					  obj2[i].selected = true;
 				}
 			    
@@ -157,7 +159,7 @@ function uploadimage(fileData) {
 		success : function(data) {
 		    var $img = $("#productimg");
 		    $img.attr('src',data); 
-			alert(data);		
+			//alert(data);		
 		},
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
 			alert("checkField fail");
@@ -221,7 +223,7 @@ function editRow()
 	}
 	
 	var r = /^\d{1,18}(.\d{1,2})?$/gi;
-	alert(priceval);
+	//alert(priceval);
 	if(!r.test(priceval)){
 		alert("输入的商品价格不是有效的数字");
 		return;

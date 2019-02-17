@@ -41,7 +41,7 @@ $(document).ready(function(){
 		}
 	}
 	
-	alert("clientId = " + clientId);
+	//alert("clientId = " + clientId);
 	
 	if(clientId != null) {
 		initClientOrderInfoList(clientId);
@@ -95,7 +95,7 @@ function initClientOrderInfoList(clientId){
 		}
 	});
 	
-	alert("商家信息 clientID = " + clientId)
+	//alert("商家信息 clientID = " + clientId)
 	$.ajax({
     	dataType: "json",  
         type: "POST",
@@ -183,7 +183,7 @@ function updateOrderTable(orderList, pageNo, pageSize){
 		  tbodyhtmlod += '<td> ' + orderList[i].receiverMobile   + '</td>';
 		  tbodyhtmlod += '<td> ' + orderList[i].receiverAreaName + '</td>';
 		  tbodyhtmlod += '<td ' + 'class="text-center">' +                                           
-		      '<a href="<%=basePath%>/order/Edit2.jsp?id=' + orderList[i].id + '">查看订单</a>';
+		      '<a href="<%=basePath%>/order/Edit2.jsp?id=' + orderList[i].id + '">查看订单&nbsp;&nbsp;&nbsp;</a>';
 		  tbodyhtmlod += '<a href="<%=basePath%>/order/Edit2.jsp?id=' + orderList[i].id + '">修改订单</a> </td> </tr>';
 	 }
 
@@ -264,7 +264,6 @@ function  editRow(obj){
 		<ul class="seachform">
 		<li><label>商家名称</label><input id ="title" name="title" type="text" class="scinput" /> </li>
 		<li><label>&nbsp;</label><input name="" type="button" onclick="getOrderByClienteName();" class="scbtn" value="查询"/></li>
-		<li><label>&nbsp;</label><input name="" type="button" onclick="getOrderByClienteName();" class="scbtn" value="新增"/></li>
 		</ul>
 		<ul class="toolbar">
 		</ul>

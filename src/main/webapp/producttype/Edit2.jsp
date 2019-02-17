@@ -120,7 +120,7 @@ function uploadimage(fileData) {
 		success : function(data) {
 		    var $img = $("#typeimage");
 		    $img.attr('src',data); 
-			alert(data);		
+			//alert(data);		
 		},
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
 			alert("checkField fail");
@@ -177,7 +177,6 @@ function editRow()
 		return;
 	}
 
-	alert("categoryid = " + categoryid);
 	$.ajax({
 		type: "POST",
 		data: {

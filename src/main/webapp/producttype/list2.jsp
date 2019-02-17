@@ -123,7 +123,7 @@ function updateTypeTable(typeList, pageNo, pageSize){
 		      + 'class="shopping-client-text" >查看图片</a>'  + '</td>';
 		  tbodyhtmlod += '<td> ' + typeList[i].remarks + '</td>';
 		  tbodyhtmlod += '<td ' + 'class="text-center">' +                                           
-		      '<a href="<%=basePath%>/producttype/show?id=' + typeList[i].id + '">查看</a> ';
+		      '<a href="<%=basePath%>/producttype/show?id=' + typeList[i].id + '">查看&nbsp;&nbsp;</a>';
 		  tbodyhtmlod += '<a href="<%=basePath%>/producttype/toEdit2?id=' + typeList[i].id + '">修改</a></td> </tr>';
 	 }
 

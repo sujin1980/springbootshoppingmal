@@ -72,7 +72,7 @@ var getTypeList = function (val)
 				} 
 			    var obj2 = document.getElementById('productcategorysel' );
 				for(i=0;i<obj2.length;i++){
-				  if(obj2[i].value == ${product.productType.productCategory.id})
+				  if(obj2[i].value == JSON.stringify(val))
 					  obj2[i].selected = true;
 				}
 			    

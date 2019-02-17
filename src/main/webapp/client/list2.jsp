@@ -89,7 +89,7 @@ function updateClientTable(clientList, pageNo, pageSize){
 		  tbodyhtmlod += '<td class="tdcenter"> ' + clientList[i].qq   + '</td>';
 		  tbodyhtmlod += '<td class="tdcenter"> ' + clientList[i].remarks + '</td>';
 		  tbodyhtmlod += '<td ' + 'class="text-center">' +                                           
-		      '<a href="<%=basePath%>/client/order2.jsp?id=' + clientList[i].id + '">查看订单</a> ';
+		      '<a href="<%=basePath%>/client/order2.jsp?id=' + clientList[i].id + '">查看订单&nbsp;&nbsp;&nbsp;</a> ';
 		  tbodyhtmlod += ' <a href="javascript:void(0);"' + ' onclick="client_confirm(' + clientList[i].id + ')">创建订单</a> </td> </tr>';
 	 }
 

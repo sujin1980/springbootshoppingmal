@@ -131,8 +131,8 @@ function updateOrderTable(orderList, pageNo, pageSize){
 		  
 		  tbodyhtmlod += '<td> ' + orderList[i].remarks + '</td>';
 		  tbodyhtmlod += '<td ' + 'class="text-center">' +                                           
-		      '<a href="<%=basePath%>/product/toEdit2?id=' + orderList[i].goodsId + '">查看</a> ';
-		  tbodyhtmlod += '<a href="javascript:void(0);" onclick="addGoodsNumber('+ orderList[i].goodsId + ');return false;">增加数量</a>'; 	  
+		      '<a href="<%=basePath%>/product/toEdit2?id=' + orderList[i].goodsId + '">查看&nbsp;&nbsp;</a> ';
+		  tbodyhtmlod += '<a href="javascript:void(0);" onclick="addGoodsNumber('+ orderList[i].goodsId + ');return false;">增加数量&nbsp;&nbsp;</a>'; 	  
 		  tbodyhtmlod += '<a href="javascript:void(0);" onclick="decGoodsNumber('+ orderList[i].goodsId + ');return false;">减少数量</a></td> </tr>';
 	 }
 
