@@ -27,10 +27,27 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script type="text/javascript" src="common/js/jquery.min.js"></script>
 	<script type="text/javascript" src="common/easyui/jquery.easyui.min.js"></script>
     <script type="text/javascript" src="common/easyui/locale/easyui-lang-zh_CN.js"></script>
+    
+    <script charset="utf-8" src="common/kindeditor/kindeditor.js"></script>
+	<script charset="utf-8" src="common/kindeditor/lang/zh_CN.js"></script>
+	
     <script src="../static/jquery-3.3.1.min.js" type="text/javascript"></script>
 
 <script type="text/javascript">
 
+KindEditor.ready(function(K) {
+    window.editor = K.create('#remarks', {
+        uploadJson : 'common/kindeditor/jsp/upload_json.jsp',
+        fileManagerJson : 'common/kindeditor/jsp/file_manager_json.jsp',
+        allowFileManager : true,
+        items : [
+					'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline',
+					'removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist',
+					'insertunorderedlist', '|', 'emoticons']
+});
+});
+
+var remarksval = '${product.remarks}';
 $(document).ready(function () {
 	/*$("#imgfileupsel").change(function() {
         var $file = $(this);
@@ -50,7 +67,9 @@ $(document).ready(function () {
 	        imgObj.src = dataURL;
         }
     });*/
-
+    alert("remarksval = " + remarksval);
+    editor.html(remarksval);
+    
 	initField(${product.productType.productCategory.id});
 	
 });
@@ -161,6 +180,7 @@ function canceluploadimage(fileData) {
 			</div>
 			<br />
 		<div class="box-body" style="text-align:center; align-items:center; ">	
+			
 			<table cellpadding="0" cellspacing="1" border="0">
 			    <tr>    
 			        
@@ -192,7 +212,12 @@ function canceluploadimage(fileData) {
 			   </tr>
 		   <div>	 
 		   <br></br>
-		   <label for="商品介绍">商品介绍&nbsp;</label><input class="easyui-textbox" id="remarks" name="remarks" value = "${product.remarks}" style="width:150px;"><br></br>
+		   <label for="商品介绍">商品介绍&nbsp;</label>
+		   
+		   <textarea id="remarks"  name="remarks"  value = "${product.remarks}" style="left:200px;width:900px;height:300px;">
+				 
+		   </textarea>
+		   
 		   
 	  </div>
   </div>  	

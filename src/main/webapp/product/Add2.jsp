@@ -27,6 +27,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script type="text/javascript" src="common/js/jquery.min.js"></script>
 	<script type="text/javascript" src="common/easyui/jquery.easyui.min.js"></script>
     <script type="text/javascript" src="common/easyui/locale/easyui-lang-zh_CN.js"></script>
+    
+    <script charset="utf-8" src="common/kindeditor/kindeditor.js"></script>
+	<script charset="utf-8" src="common/kindeditor/lang/zh_CN.js"></script>
+	
     <script src="../static/jquery-3.3.1.min.js" type="text/javascript"></script>
 
     <style>
@@ -67,6 +71,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 </style>
 
 <script type="text/javascript">
+
+KindEditor.ready(function(K) {
+    window.editor = K.create('#remarks', {
+        uploadJson : 'common/kindeditor/jsp/upload_json.jsp',
+        fileManagerJson : 'common/kindeditor/jsp/file_manager_json.jsp',
+        allowFileManager : true,
+        items : [
+					'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline',
+					'removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist',
+					'insertunorderedlist', '|', 'emoticons']
+});
+});
 
 var goodsCategoryDefault = 2; 
 $(document).ready(function () {
@@ -117,7 +133,7 @@ var getTypeList = function (val)
 				} 
 			    var obj2 = document.getElementById('productcategorysel' );
 				for(i=0;i<obj2.length;i++){
-				  if(obj2[i].value == goodsCategoryDefault)
+				  if(obj2[i].value == JSON.stringify(val))
 					  obj2[i].selected = true;
 				}
 			    
@@ -224,12 +240,13 @@ function addRow()
 	}
 	
 	var r = /^\d{1,18}(.\d{1,2})?$/gi;
-	alert(priceval);
+	//alert(priceval);
 	if(!r.test(priceval)){
 		alert("输入的商品价格不是有效的数字");
 		return;
 	}
 	
+	editor.sync();
 	$.ajax({
 		type: "POST",
 		data: {
@@ -314,8 +331,11 @@ function clearForm(){
 				   </tr>
 			   <div>	 
 			   <br></br>
-			   <label for="商品介绍">商品介绍&nbsp;</label><input class="easyui-textbox" id="remarks" name="remarks" style="width:150px;"><br></br>
+			   <label for="商品介绍">商品介绍&nbsp;</label>
 			   
+			   <textarea id="remarks"  name="remarks"  style="width:900px;height:300px;">
+					
+			   </textarea>
 		   </form>
 		    <div style="text-align:center;padding:5px">
 		    	<a href="javascript:void(0)" class="easyui-linkbutton" onclick="addRow()">确认</a>
