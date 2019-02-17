@@ -3,6 +3,8 @@ package com.shopping.mall.service.impl;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.shopping.mall.config.FileUploadProperties;
 import com.shopping.mall.dao.ProductDao;
 import com.shopping.mall.model.Product;
 import com.shopping.mall.service.ProductService;

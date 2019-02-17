@@ -24,6 +24,17 @@ public class FileUploadProperties {
     @Value("${file.upload.filePath}")
     private String filePath;
 
+    @Value("${file.upload.type}")
+    private String type;
+    
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
 	public String getImagePath() {
 		return imagePath;
 	}

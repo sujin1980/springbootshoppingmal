@@ -15,19 +15,16 @@ import javax.validation.constraints.NotNull;
 @ConfigurationProperties(prefix = "file.upload")
 @Validated
 public class FileUploadComponent {
- 
-    /**
-     * 书名
-     */
+
 	@NotNull
     private String imagePath;
  
-    /**
-     * 作者
-     */
     @NotNull
     private String filePath;
 
+    @NotNull
+    private String type;
+    
 	public String getImagePath() {
 		return imagePath;
 	}
@@ -42,6 +39,14 @@ public class FileUploadComponent {
 
 	public void setFilePath(String filePath) {
 		this.filePath = filePath;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
  
     

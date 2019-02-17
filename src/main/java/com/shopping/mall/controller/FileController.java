@@ -45,15 +45,15 @@ public class FileController {
         if (StringUtils.isEmpty(ext)) {
             ext = "png";
         }
-        String filePath = fileUploadProperties.getImagePath() + "/" + fileName + "." + ext;
-        String uploadSessionPath = session.getServletContext().getRealPath("/");
         
+        String filePath = fileUploadProperties.getImagePath() + "/" + fileName + "." + ext;
         LOGGER.info("会话路径： " + session.getServletContext().getContextPath());
-        LOGGER.info("上传文件名称： " + uploadSessionPath);
         LOGGER.info("上传路径： " + fileUploadProperties.getImagePath());
-
+       // return "";
         try {
-			file.transferTo(new File(uploadSessionPath + filePath));
+    		String uploadSessionPath = session.getServletContext().getRealPath("/");
+    		LOGGER.info("上传文件路劲： "  + uploadSessionPath);
+    		file.transferTo(new File(uploadSessionPath + filePath));
 		} catch (IllegalStateException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
