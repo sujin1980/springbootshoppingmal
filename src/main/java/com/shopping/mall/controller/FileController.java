@@ -46,22 +46,21 @@ public class FileController {
             ext = "png";
         }
         
-        String filePath = fileUploadProperties.getImagePath() + "/" + fileName + "." + ext;
-        LOGGER.info("会话路径： " + session.getServletContext().getContextPath());
-        LOGGER.info("上传路径： " + fileUploadProperties.getImagePath());
-       // return "";
+        String filePath = "upload/" + fileName + "." + ext;
+        System.out.println("会话路径： " + session.getServletContext().getContextPath());
+        String uploadSessionPath = session.getServletContext().getRealPath("/");
+
+        LOGGER.info("上传路径： " + uploadSessionPath);
         try {
-    		String uploadSessionPath = session.getServletContext().getRealPath("/");
-    		LOGGER.info("上传文件路劲： "  + uploadSessionPath);
-    		file.transferTo(new File(uploadSessionPath + filePath));
+			file.transferTo(new File(uploadSessionPath + filePath));
 		} catch (IllegalStateException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			LOGGER.error("文件传输状态失败");
+			System.out.println("文件传输失败");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			LOGGER.error("文件传输失败");
+			System.out.println("文件传输失败");
 		}
        
         return filePath;
