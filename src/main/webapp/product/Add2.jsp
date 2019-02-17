@@ -176,7 +176,7 @@ function uploadimage(fileData) {
 		success : function(data) {
 		    var $img = $("#productimg");
 		    $img.attr('src',data); 
-			alert(data);		
+			//alert(data);		
 		},
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
 			alert("checkField fail");

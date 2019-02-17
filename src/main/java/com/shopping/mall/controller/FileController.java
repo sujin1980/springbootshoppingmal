@@ -1,11 +1,14 @@
 package com.shopping.mall.controller;
 
-import org.apache.tomcat.util.http.fileupload.FileUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import com.shopping.mall.config.FileUploadProperties;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,7 +23,11 @@ import java.util.UUID;
  */
 @Controller
 public class FileController {
-
+	private static Logger LOGGER = LoggerFactory.getLogger(FileController.class);
+	
+	@Autowired
+    FileUploadProperties fileUploadProperties;
+	
     /**
      * 上传图片
      *
@@ -38,22 +45,23 @@ public class FileController {
         if (StringUtils.isEmpty(ext)) {
             ext = "png";
         }
-        
-        String filePath = "upload/" + fileName + "." + ext;
-        System.out.println("会话路径： " + session.getServletContext().getContextPath());
+        String filePath = fileUploadProperties.getImagePath() + "/" + fileName + "." + ext;
         String uploadSessionPath = session.getServletContext().getRealPath("/");
+        
+        LOGGER.info("会话路径： " + session.getServletContext().getContextPath());
+        LOGGER.info("上传文件名称： " + uploadSessionPath);
+        LOGGER.info("上传路径： " + fileUploadProperties.getImagePath());
 
-        System.out.println("上传路径： " + uploadSessionPath);
         try {
 			file.transferTo(new File(uploadSessionPath + filePath));
 		} catch (IllegalStateException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			System.out.println("文件传输失败");
+			LOGGER.error("文件传输状态失败");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			System.out.println("文件传输失败");
+			LOGGER.error("文件传输失败");
 		}
        
         return filePath;

@@ -67,7 +67,7 @@ $(document).ready(function () {
 	        imgObj.src = dataURL;
         }
     });*/
-    alert("remarksval = " + remarksval);
+    
     editor.html(remarksval);
     
 	initField(${product.productType.productCategory.id});
