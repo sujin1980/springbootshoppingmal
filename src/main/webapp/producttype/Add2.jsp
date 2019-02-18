@@ -125,10 +125,10 @@ function uploadimage(fileData) {
 		success : function(data) {
 		    var $img = $("#typeimage");
 		    $img.attr('src',data); 
-			alert(data);		
+			console.log(data);		
 		},
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
-			alert("checkField fail");
+			console.log("checkField fail");
 		}
 	});
 }
@@ -172,13 +172,13 @@ function isDecimal(item) {
 function addRow()
 {
 	if($("#typeimage").attr('src').indexOf("upload") < 0){
-		//alert($("#typeimage").attr('src'));
-		alert("请先上传商品类型图片！");
+		//console.log($("#typeimage").attr('src'));
+		console.log("请先上传商品类型图片！");
 		return;
 	}
 
 	if($("#name").val().trim().length == 0){
-		alert("请输入商品类型名称！");
+		console.log("请输入商品类型名称！");
 		return;
 	}
 
@@ -192,11 +192,11 @@ function addRow()
 		},
 		url : '/producttype/add2.do',
 		success : function(data) {			
-			//alert("addRow success");
+			//console.log("addRow success");
 			window.location.href = "producttype/list2.jsp";
 		},
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
-			alert("addRow fail");
+			console.log("addRow fail");
 			//window.location.replace("https://www.runoob.com");
 		}
 	});

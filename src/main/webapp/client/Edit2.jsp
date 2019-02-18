@@ -76,7 +76,7 @@ var getTypeList = function (val)
 			}
 		},
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
-			alert("checkField fail");
+			console.log("checkField fail");
 		}
 	});
 	 
@@ -114,7 +114,7 @@ var uploadimage = function (fileData) {
 					
 		},
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
-			alert("checkField fail");
+			console.log("checkField fail");
 		}
 	});
 }
@@ -138,10 +138,10 @@ var addRow = function ()
 		},
 		url : '/product/edit2.do',
 		success : function(data) {			
-			alert("addRow success");
+			console.log("addRow success");
 		},
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
-			alert("addRow fail");
+			console.log("addRow fail");
 			//window.location.replace("https://www.runoob.com");
 		}
 	});

@@ -50,13 +50,13 @@ function initGoodsTable(){
 		url : '/product/list2.do',
 		success : function(data) {
 			 if (data == null) {  
-			     alert("没有商品数据！");
+			     console.log("没有商品数据！");
 			     return;
 		     }
 			 updateGoodsList(data); 
 		},
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
-			 alert("fail");
+			 console.log("fail");
 		}
 	});
 }
@@ -128,7 +128,7 @@ function getProductByName(){
 		   }
 		},
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
-			 alert("fail");
+			 console.log("fail");
 		}
 	});
 	
@@ -159,11 +159,11 @@ function deleteRows(){
 			 if(data == "OK"){
 				 window.location.reload();
 			 }else{
-				 alert("ok");
+				 console.log("ok");
 			 }
 		},
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
-			//alert("fail");
+			//console.log("fail");
 			window.location.reload();
 		}
 	});
@@ -196,12 +196,12 @@ function allcheck() {
 function addProducToOrder(productid){
 	if(('${sessionScope.clientorder.clientName}' == '') || ('${sessionScope.clientorder.id}' == '')
 	       	 && ('${sessionScope.clientorder.status}' == '')){
-		alert("商家名称或订单为空，不能添加商品到订单。请至先至商家处添加或修改订单！");
+		console.log("商家名称或订单为空，不能添加商品到订单。请至先至商家处添加或修改订单！");
 		return;
 	}
 	
 	
-	alert("prodcutid = " + productid);
+	console.log("prodcutid = " + productid);
 	$.ajax({
 		type: "POST",
 	    async: true,
@@ -213,7 +213,7 @@ function addProducToOrder(productid){
 			 
 		},
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
-			 alert("fail");
+			 console.log("fail");
 		}
 	});
 	

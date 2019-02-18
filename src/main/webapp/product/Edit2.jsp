@@ -116,7 +116,7 @@ $(document).ready(function () {
 
 var getTypeList = function (val)
 {	
-	//alert("categoryid = " + JSON.stringify(val));
+	//console.log("categoryid = " + JSON.stringify(val));
 	$.ajax({
 		type: "POST",
 		data: {
@@ -139,7 +139,7 @@ var getTypeList = function (val)
 			}
 		},
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
-			alert("checkField fail");
+			console.log("checkField fail");
 		}
 	});
 	 
@@ -175,10 +175,10 @@ function uploadimage(fileData) {
 		success : function(data) {
 		    var $img = $("#productimg");
 		    $img.attr('src',data); 
-			//alert(data);		
+			//console.log(data);		
 		},
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
-			alert("checkField fail");
+			console.log("checkField fail");
 		}
 	});
 }
@@ -222,26 +222,26 @@ function isDecimal(item) {
 function editRow()
 {
 	if($("#productimg").attr('src').indexOf("upload") < 0){
-		//alert($("#productimg").attr('src'));
-		alert("请先上传商品图片！");
+		//console.log($("#productimg").attr('src'));
+		console.log("请先上传商品图片！");
 		return;
 	}
 
 	if($("#name").val().trim().length == 0){
-		alert("请输入商品名称！");
+		console.log("请输入商品名称！");
 		return;
 	}
 	
 	var priceval = $("#price").val().trim();
 	if(priceval.length == 0){
-		alert("请输入商品价格！");
+		console.log("请输入商品价格！");
 		return;
 	}
 	
 	var r = /^\d{1,18}(.\d{1,2})?$/gi;
-	//alert(priceval);
+	//console.log(priceval);
 	if(!r.test(priceval)){
-		alert("输入的商品价格不是有效的数字");
+		console.log("输入的商品价格不是有效的数字");
 		return;
 	}
 	editor.sync();
@@ -257,11 +257,11 @@ function editRow()
 		},
 		url : '/product/edit2.do',
 		success : function(data) {			
-			//alert("editRow success");
+			//console.log("editRow success");
 			window.location.href = "product/list2.jsp"
 		},
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
-			alert("editRow fail");
+			console.log("editRow fail");
 			//window.location.replace("https://www.runoob.com");
 		}
 	});

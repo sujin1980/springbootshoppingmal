@@ -200,7 +200,7 @@ $(document).ready(function (){
         });
         $(this).parent().addClass('Select');
     });
-    //alert('${sessionScope.loginUser.name}');
+    //console.log('${sessionScope.loginUser.name}');
     
 
 

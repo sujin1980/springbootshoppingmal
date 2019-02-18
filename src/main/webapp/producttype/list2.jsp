@@ -57,13 +57,13 @@ function initTypeTable(id){
 		url : '/producttype/getTypeListByCategoryId.do',
 		success : function(data) {
 			 if (data == null) {  
-			     alert("没有类型数据！");
+			     console.log("没有类型数据！");
 			     return;
 		     }
 			 updateTyeList(data, categoryid); 
 		},
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
-			 alert("fail");
+			 console.log("fail");
 		}
 	});
 }
@@ -95,7 +95,7 @@ function updateTyeList(data, categoryid){
 }
 
 function showPicture(goodsPicture){
-	//alert("goodsPicture===============" + goodsPicture);
+	//console.log("goodsPicture===============" + goodsPicture);
 	 $('#dlg').dialog({
 	        height: "560"
 	    }).dialog("open");
@@ -178,7 +178,7 @@ function getTypeByName(){
 		   }
 		},
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
-			 alert("fail");
+			 console.log("fail");
 		}
 	});
 	

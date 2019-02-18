@@ -49,13 +49,13 @@ function initOrderTable(){
 		success : function(data) {
 			 //
 			 if (data == null) {  
-			     alert("没有商品数据！");
+			     console.log("没有商品数据！");
 			     return;
 		     }
 			 updateOrderList(data); 
 		},
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
-			 alert("fail");
+			 console.log("fail");
 		}
 	});
 }
@@ -121,7 +121,7 @@ function addRow(){
 }
 
 function getOrderById(){
-    alert("orderid = " + $("#orderid").val());
+    console.log("orderid = " + $("#orderid").val());
 	$.ajax({
     	dataType: "json",  
         type: "POST",
@@ -138,7 +138,7 @@ function getOrderById(){
 			 
 		},
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
-			 alert("fail");
+			 console.log("fail");
 			 window.location.reload();
 		}
 	});
@@ -163,7 +163,7 @@ function deleteRows(){
 			 window.location.reload();
 		},
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
-			 //alert("fail");
+			 //console.log("fail");
 			 window.location.reload();
 		}
 	});

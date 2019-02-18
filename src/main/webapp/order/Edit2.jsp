@@ -66,13 +66,13 @@ function initOrderTable(orderId){
 		url : '/ordergoods/getOrderGoodsListByOrderId.do',
 		success : function(data) {
 			 if (data == null) {  
-			     alert("没有商品数据！");
+			     console.log("没有商品数据！");
 			     return;
 		     }
 			 updateOrderList(data); 
 		},
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
-			 alert("fail");
+			 console.log("fail");
 		}
 	});
 	
@@ -85,13 +85,13 @@ function initOrderTable(orderId){
 		url : '/order/toEdit2.do',
 		success : function(data) {
 			 if (data == null) {  
-			     alert("没有商品数据！");
+			     console.log("没有商品数据！");
 			     return;
 		     }
 			 updateOrderInfo(data); 
 		},
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
-			 alert("fail");
+			 console.log("fail");
 		}
 	});
 }
@@ -106,7 +106,7 @@ function updateOrderList(data){
 }
 
 function showPicture(goodsPicture){
-	//alert("goodsPicture===============" + goodsPicture);
+	//console.log("goodsPicture===============" + goodsPicture);
 	 $('#dlg').dialog({
 	        height: "560"
 	    }).dialog("open");
@@ -227,7 +227,7 @@ function editRow(){
 	var tableNum = $("#orderlist tr").length;
 	
 	if($("#orderlist tr").length == 0){
-		alert("此订单下没有添加商品，请先添加商品");
+		console.log("此订单下没有添加商品，请先添加商品");
 		return;
 	}
 	
@@ -248,12 +248,12 @@ function editRow(){
 	    },
 		url : '/order/modify.do',
 		success : function(data) {
-			 alert("更改订单基本信息成功！");
+			 console.log("更改订单基本信息成功！");
 			 //window.reloation.ref = "order/Edit2.jsp";
 			 window.location.href = "client/list2.jsp";
 		},
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
-			 alert("fail");
+			 console.log("fail");
 		}
 	});
 	
@@ -261,7 +261,7 @@ function editRow(){
 }
 
 function decGoodsNumber(goodsId){
-	alert("goodsId = " + goodsId);
+	console.log("goodsId = " + goodsId);
 	$.ajax({
 		type: "POST",
 	    async: true,
@@ -278,14 +278,14 @@ function decGoodsNumber(goodsId){
 		   }
 		},
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
-			 alert("fail");
+			 console.log("fail");
 		}
 	});
 }
 
 
 function addGoodsNumber(goodsId){
-	alert("goodsId = " + goodsId);
+	console.log("goodsId = " + goodsId);
 	$.ajax({
 		type: "POST",
 	    async: true,
@@ -302,17 +302,17 @@ function addGoodsNumber(goodsId){
 		   }
 		},
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
-			 alert("fail");
+			 console.log("fail");
 		}
 	});
 }
 
 function checkOrderStatusField(obj){
-	//alert("value =" + obj);
+	//console.log("value =" + obj);
 }
 
 function checkPaymentTypeField(obj){
-	//alert("value =" + obj);
+	//console.log("value =" + obj);
 }
 </script>
   

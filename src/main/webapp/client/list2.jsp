@@ -49,13 +49,13 @@ function initClientTable(){
 		success : function(data) {
 			 //
 			 if ((data == null) || (data.length == 0)) {   
-			     alert("没有商家数据！");
+			     console.log("没有商家数据！");
 			     return;
 		     }
 			 updateClientList(data); 
 		},
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
-			 alert("fail");
+			 console.log("fail");
 		}
 	});
 }
@@ -134,7 +134,7 @@ function deleteRows(){
 			 window.location.reload();
 		},
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
-			 alert("fail");
+			 console.log("fail");
 			 window.location.reload();
 		}
 	});
@@ -163,13 +163,13 @@ function allcheck() {
      
 function  editRow(obj){
     var i = 1;
-	alert(i);
+	console.log(i);
 	return;	 
 }
 
 
 function getClientByName(){		
-	alert("client name = " + $("#name").val());
+	console.log("client name = " + $("#name").val());
 	$.ajax({
 		type: "POST",
 	    async: true,
@@ -181,13 +181,13 @@ function getClientByName(){
 		success : function(data) {
 			 
 			 if ((data == null) || (data.length == 0)) {  
-				 alert("未找到该商家");
+				 console.log("未找到该商家");
 				 return;
 		     }
 			 updateClientList(data);
 		},
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
-			alert("fail");
+			console.log("fail");
 		}
 	});
 	
@@ -214,14 +214,14 @@ function client_confirm(obj)
 		url : '/order/create2.do',
 		success : function(data) {
 			 if(data != "OK"){
-				 alert("create order failed!");
+				 console.log("create order failed!");
 			 }else{
-				 alert()
+				 console.log()
 				 window.location.href = "client/toOrder2?id=" + obj;
 			 }
 		},
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
-			alert("fail");
+			console.log("fail");
 		}
 	});	 
 }

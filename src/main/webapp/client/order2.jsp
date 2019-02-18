@@ -41,7 +41,7 @@ $(document).ready(function(){
 		}
 	}
 	
-	//alert("clientId = " + clientId);
+	//console.log("clientId = " + clientId);
 	
 	if(clientId != null) {
 		initClientOrderInfoList(clientId);
@@ -64,13 +64,13 @@ function initAllOrderTable(){
 		success : function(data) {
 		
 			 if ((data == null) || (data.length == 0)) { 
-			     alert("没有商品数据！");
+			     console.log("没有商品数据！");
 			     return;
 		     }
 			 updateOrderList(data); 
 		},
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
-			 alert("fail");
+			 console.log("fail");
 		}
 	});
 }
@@ -85,17 +85,17 @@ function initClientOrderInfoList(clientId){
 		url : '/order/getOrderListByClientId.do',
 		success : function(data) {
 			if ((data == null) || (data.length == 0)) { 
-				 alert("该商家没有订单");
+				 console.log("该商家没有订单");
 				 return;
 			 } 
 			 updateOrderList(data);
 		},
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
-			alert("fail");
+			console.log("fail");
 		}
 	});
 	
-	//alert("商家信息 clientID = " + clientId)
+	//console.log("商家信息 clientID = " + clientId)
 	$.ajax({
     	dataType: "json",  
         type: "POST",
@@ -105,7 +105,7 @@ function initClientOrderInfoList(clientId){
 		url : '/client/getClientById.do',
 		success : function(data) {
 			if (data == null){
-				alert("该商家没有信息");
+				console.log("该商家没有信息");
 				return;
 			}
 			client = data;
@@ -120,7 +120,7 @@ function initClientOrderInfoList(clientId){
 			document.getElementById("title").style.color = '#708090';
 		},
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
-			alert("fail");
+			console.log("fail");
 		}
 	});
 }
@@ -148,7 +148,7 @@ function deleteRows(){
 			 window.location.reload();
 		},
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
-			alert("fail");
+			console.log("fail");
 			 window.location.reload();
 		}
 	});
@@ -198,7 +198,7 @@ function updateOrderTable(orderList, pageNo, pageSize){
 }
 
 function getOrderByClienteName(){	
-	alert("clientName = " + $("#title").val());
+	console.log("clientName = " + $("#title").val());
 	$.ajax({
     	dataType: "json",  
         type: "POST",
@@ -208,13 +208,13 @@ function getOrderByClienteName(){
 		url : '/order/getOrderListByClientName.do',
 		success : function(data) {
 			 if (data == null){
-				 alert("该商家没有订单");
+				 console.log("该商家没有订单");
 				 return;
 			 } 
 			 updateOrderList(data);
 		},
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
-			alert("fail");
+			console.log("fail");
 		}
 	});
 }
@@ -242,7 +242,7 @@ function allcheck() {
      
 function  editRow(obj){
     var i = 1;
-	alert(i);
+	console.log(i);
 	return;	 
 }
 
